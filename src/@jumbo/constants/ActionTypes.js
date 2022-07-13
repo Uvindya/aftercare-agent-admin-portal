@@ -76,9 +76,9 @@ export const CREATE_POST = 'create_post';
 export const UPDATE_POST = 'update_post';
 
 // Users Module
-export const GET_USERS = 'GET_USERS';
-export const ADD_USER = 'ADD_USER';
-export const SET_USER_DETAILS = 'SET_USER_DETAILS';
-export const EDIT_USER = 'EDIT_USER';
-export const DELETE_USER = 'DELETE_USER';
-export const DELETE_BULK_USERS = 'DELETE_BULK_USERS';
+export const GET_CLIENTS = 'GET_CLIENTS';
+export const ADD_CLIENT = 'ADD_CLIENT';
+export const SET_CLIENT_DETAILS = 'SET_CLIENT_DETAILS';
+export const EDIT_CLIENT = 'EDIT_CLIENT';
+export const DELETE_CLIENT = 'DELETE_CLIENT';
+export const DELETE_BULK_CLIENTS = 'DELETE_BULK_CLIENTS';

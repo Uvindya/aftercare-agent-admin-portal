@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import BreakdownPage from './Pages/BreakdownPage';
 import DashboardPage from './Pages/DashboardPage';
-import ClientPage from './Pages/ClientPage';
+import ClientModule from './modules/Clients';
 import MaintainancePage from './Pages/MaintainancePage';
 import TechnicianPage from './Pages/TechnicianPage';
 import ReportsPage from './Pages/ReportPage';
@@ -50,7 +50,7 @@ const Routes = () => {
       <Switch>
         <RestrictedRoute path="/dashboard" component={DashboardPage} />
         <RestrictedRoute path="/breakdowns" component={BreakdownPage} />
-        <RestrictedRoute path="/clients" component={ClientPage} />
+        <RestrictedRoute path="/clients" component={ClientModule} />
         <RestrictedRoute path="/maintainances" component={MaintainancePage} />
         <RestrictedRoute path="/reports" component={ReportsPage} />
         <RestrictedRoute path="/technicians" component={TechnicianPage} />
