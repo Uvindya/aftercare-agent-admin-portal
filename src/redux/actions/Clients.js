@@ -9,12 +9,12 @@ import {
   SET_CLIENT_DETAILS,
 } from '../../@jumbo/constants/ActionTypes';
 
-export const getClients = (filterOptions = [], searchTerm = '', callbackFun) => {
+export const getClients = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
     //console.log(filterOptions)
     axios
-      .get('/users/clients', { params: { filterOptions, searchTerm } })
+      .get('/users/clients', { params: { page , size, searchTerm} })
       .then(response => {
         //console.log(data)
         if (response.status === 200) {

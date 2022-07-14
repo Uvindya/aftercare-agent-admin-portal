@@ -33,7 +33,7 @@ const ClientsModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,9 +42,9 @@ const ClientsModule = () => {
         setFilterApplied(!!filterOptions.length || !!debouncedSearchTerm);
         setClientsFetched(true);
         setTotalElements(data.totalElements);
-      }),
+      }, page, rowsPerPage),
     );
-  }, [dispatch, filterOptions, debouncedSearchTerm]);
+  }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
 
   const handleCloseClientDialog = () => {
     setOpenClientDialog(false);
@@ -148,8 +148,7 @@ const ClientsModule = () => {
             />
             <TableBody>
               {!!clients.length ? (
-                stableSort(clients, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                clients
                   .map((row, index) => (
                     <ClientListRow
                       key={index}
@@ -178,7 +177,7 @@ const ClientsModule = () => {
         <TablePagination
           rowsPerPageOptions={[10, 20, 50]}
           component="div"
-          count={clients.length}
+          count={totalElements}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handlePageChange}
