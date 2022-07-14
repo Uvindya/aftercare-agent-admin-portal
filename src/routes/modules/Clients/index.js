@@ -31,15 +31,17 @@ const ClientsModule = () => {
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(
-      getClients(filterOptions, debouncedSearchTerm, () => {
+      getClients(filterOptions, debouncedSearchTerm, (data) => {
         setFilterApplied(!!filterOptions.length || !!debouncedSearchTerm);
         setClientsFetched(true);
+        setTotalElements(data.totalElements);
       }),
     );
   }, [dispatch, filterOptions, debouncedSearchTerm]);

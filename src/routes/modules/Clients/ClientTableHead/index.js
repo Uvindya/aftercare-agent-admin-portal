@@ -47,7 +47,7 @@ function ClientTableHead({ classes, onSelectAllClick, order, orderBy, numSelecte
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align="center"
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}>
             <TableSortLabel

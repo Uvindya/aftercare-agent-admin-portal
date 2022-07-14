@@ -64,7 +64,7 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
   const labelId = `enhanced-table-checkbox-${row.id}`;
   const isItemSelected = isSelected(row.id);
   const clientActions = getClientActions(row);
-
+  
   return (
     <TableRow
       hover
@@ -77,24 +77,25 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
       <TableCell padding="checkbox">
         <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
       </TableCell>
-      <TableCell component="th" id={labelId} scope="row" padding="none">
+      {/*<TableCell component="th" id={labelId} scope="row" padding="none">
         <Box display="flex" alignItems="center">
           <Box mr={{ xs: 4, md: 5 }}>
             <CmtAvatar size={40} src={row.profile_pic} alt={row.name} />
           </Box>
           <div>
             <Typography className={classes.titleRoot} component="div" variant="h4">
-              {row.name}
+              {row.id}
             </Typography>
           </div>
         </Box>
+  </TableCell>*/}
+      <TableCell  align="center">{row.id}</TableCell>
+      <TableCell align="center">{row.name}</TableCell>
+      <TableCell align="center">
+        {row.email}
       </TableCell>
-      <TableCell>{row.email}</TableCell>
-      <TableCell>
-        {row.status === 'suspended' ? `Suspended by ${row.suspendedBy} (${timeFromNow(row.suspendedAt)})` : row.status}
-      </TableCell>
-      <TableCell>{timeFromNow(row.lastLoginAt)}</TableCell>
-      <TableCell align="right">{row.emailUsage} GB</TableCell>
+      <TableCell align="center">{row.primaryPhoneNo}</TableCell>
+      <TableCell align="center">{row.status ? 'Enable' : 'Disable'}</TableCell>
       <TableCell align="center" onClick={event => event.stopPropagation()}>
         <CmtDropdownMenu items={clientActions} onItemClick={onClientMenuClick} TriggerComponent={<MoreHoriz />} />
       </TableCell>

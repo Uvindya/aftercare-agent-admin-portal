@@ -1,5 +1,5 @@
 import { fetchError, fetchStart, fetchSuccess } from './Common';
-import axios from 'axios';
+import axios from '../../services/common/config';
 import {
   ADD_CLIENT,
   DELETE_BULK_CLIENTS,
@@ -12,13 +12,15 @@ import {
 export const getClients = (filterOptions = [], searchTerm = '', callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
+    //console.log(filterOptions)
     axios
-      .get('/clients', { params: { filterOptions, searchTerm } })
-      .then(data => {
-        if (data.status === 200) {
+      .get('/users/clients', { params: { filterOptions, searchTerm } })
+      .then(response => {
+        //console.log(data)
+        if (response.status === 200) {
           dispatch(fetchSuccess());
-          dispatch({ type: GET_CLIENTS, payload: data.data });
-          if (callbackFun) callbackFun(data.data);
+          dispatch({ type: GET_CLIENTS, payload: response.data.content });
+          if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

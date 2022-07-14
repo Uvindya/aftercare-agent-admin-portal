@@ -1,7 +1,7 @@
 import { fetchError, fetchStart, fetchSuccess } from '../../../redux/actions';
 import { setAuthUser, setForgetPassMailSent, updateLoadUser } from '../../../redux/actions/Auth';
 import React from 'react';
-import axios from './config';
+import axios from '../../common/config';
 
 const JWTAuth = {
   onRegister: ({ name, email, password }) => {
