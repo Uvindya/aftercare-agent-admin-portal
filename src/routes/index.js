@@ -11,7 +11,6 @@ import ReportsPage from './Pages/ReportPage';
 import ProductPage from './Pages/ProductsPage';
 import Error404 from './Pages/404';
 import Login from './Auth/Login';
-import Register from './Auth/Register';
 import ForgotPasswordPage from './Auth/ForgotPassword';
 
 const RestrictedRoute = ({ component: Component, ...rest }) => {

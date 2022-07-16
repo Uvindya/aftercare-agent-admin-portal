@@ -46,6 +46,11 @@ const ClientsModule = () => {
     );
   }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
 
+  const clientAddEditCallBack = (data) => {
+    console.log(data);
+    setTotalElements(data.totalElements);
+  }
+
   const handleCloseClientDialog = () => {
     setOpenClientDialog(false);
     dispatch(setCurrentClient(null));
@@ -185,7 +190,7 @@ const ClientsModule = () => {
         />
       </Paper>
 
-      {openClientDialog && <AddEditClient open={openClientDialog} onCloseDialog={handleCloseClientDialog} />}
+      {openClientDialog && <AddEditClient open={openClientDialog} onCloseDialog={handleCloseClientDialog} callbck={clientAddEditCallBack}/>}
       {openViewDialog && <ClientDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
 
       <ConfirmDialog

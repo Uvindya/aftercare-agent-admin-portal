@@ -38,15 +38,17 @@ export const setCurrentClient = client => {
 };
 
 export const addNewClient = (client, callbackFun) => {
+  //console.log(client)
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .post('/clients', client)
-      .then(data => {
-        if (data.status === 200) {
+      .post('/users/clients', client)
+      .then(response => {
+        if (response.status === 201) {
           dispatch(fetchSuccess('New client was added successfully.'));
-          dispatch({ type: ADD_CLIENT, payload: data.data });
-          if (callbackFun) callbackFun(data.data);
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getClients([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

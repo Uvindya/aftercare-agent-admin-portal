@@ -8,6 +8,10 @@ export const isValidEmail = value => {
   return value && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,8}$/i.test(value);
 };
 
+export const isValidPhoneNo = value => {
+  return value && /^[0-9]{10}$/i.test(value);
+};
+
 export const idGenerator = () => {
   return Math.floor(Math.random() * 100000);
 };

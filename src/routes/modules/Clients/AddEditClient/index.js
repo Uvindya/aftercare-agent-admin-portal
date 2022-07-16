@@ -4,22 +4,15 @@ import Box from '@material-ui/core/Box';
 import GridContainer from '../../../../@jumbo/components/GridContainer';
 import Grid from '@material-ui/core/Grid';
 import AppTextInput from '../../../../@jumbo/components/Common/formElements/AppTextInput';
-import CmtAvatar from '../../../../@coremat/CmtAvatar';
-import { useDropzone } from 'react-dropzone';
 import Button from '@material-ui/core/Button';
-import CmtList from '../../../../@coremat/CmtList';
-import IconButton from '@material-ui/core/IconButton';
 import AppSelectBox from '../../../../@jumbo/components/Common/formElements/AppSelectBox';
-import { emailNotValid, requiredMessage } from '../../../../@jumbo/constants/ErrorMessages';
+import { emailNotValid, requiredMessage, phoneNoNotValid } from '../../../../@jumbo/constants/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
-import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { isValidEmail } from '../../../../@jumbo/utils/commonHelper';
+import { isValidEmail, isValidPhoneNo } from '../../../../@jumbo/utils/commonHelper';
 import { addNewClient, updateClient } from '../../../../redux/actions/Clients';
 
 const useStyles = makeStyles(theme => ({
@@ -34,124 +27,106 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function PhoneNumberInput({ onChange, value, ...other }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  useEffect(() => {
-    if (!phoneNumber && value) {
-      setTimeout(() => {
-        setPhoneNumber(value);
-      }, 300);
-    }
-  }, [phoneNumber, value]);
-
-  const onNumberChange = number => {
-    setPhoneNumber(number.formattedValue);
-    onChange(number.formattedValue);
-  };
-
-  return <NumberFormat {...other} onValueChange={onNumberChange} value={phoneNumber} format="(###) ###-####" />;
-}
-
-const labels = [
-  { title: 'Home', slug: 'home' },
-  { title: 'Office', slug: 'office' },
-  { title: 'Other', slug: 'other' },
+const genders = [
+  { title: 'Male', slug: 'MALE' },
+  { title: 'Female', slug: 'FEMALE' },
 ];
 
-const splitName = client => {
-  if (client) {
-    const [fName, mName, lName] = client.name.split(' ');
-    return [fName, lName ? mName + ' ' + lName : mName];
-  }
-
-  return ['', ''];
-};
-
-const AddEditClient = ({ open, onCloseDialog }) => {
+const AddEditClient = ({ open, onCloseDialog, callbck}) => {
   const classes = useStyles();
   const currentClient = useSelector(({ clientsReducer }) => clientsReducer.currentClient);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [profile_pic, setProfile_pic] = useState('');
-  const [company, setCompany] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [phones, setPhones] = useState([{ phone: '', label: 'home' }]);
+  const [primaryPhoneNo, setPrimaryPhoneNo] = useState('');
+  const [secondaryPhoneNo, setSecondaryPhoneNo] = useState('');
+  const [gender, setGender] = useState('');
+  const [password, setPassword] = useState('');
+  const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [district, setDistrict] = useState('');
+  const [city, setCity] = useState('');
 
   const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [primaryPhoneNoError,setPrimaryPhoneNoError] = useState('');
+  const [secondaryPhoneNoError,setSecondaryPhoneNoError] = useState('');
+  const [passwordError,setPasswordError] = useState('');
+  const [genderError,setGenderError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [addressLine1Error, setAddressLine1Error] = useState('');
+  const [addressLine2Error, setAddressLine2Error] = useState('');
+  const [districtError, setDistrictError] = useState('');
+  const [cityError, setCityError] = useState('');
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    onDrop: acceptedFiles => {
-      setProfile_pic(URL.createObjectURL(acceptedFiles[0]));
-    },
-  });
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (currentClient) {
-      const [fName, lName] = splitName(currentClient);
-      setFirstName(fName);
-      setLastName(lName);
-      setProfile_pic(currentClient.profile_pic);
+      setFirstName(currentClient.firstName);
+      setLastName(currentClient.lastName);
       setEmail(currentClient.email);
-      setCompany(currentClient.company);
-      setDesignation(currentClient.designation);
-      setPhones(currentClient.phones);
+      setPrimaryPhoneNo(currentClient.primaryPhoneNo);
+      setSecondaryPhoneNo(currentClient.secondaryPhoneNo);
+      setGender(currentClient.gender);
+      setAddressLine1(currentClient.addressLine1);
+      setAddressLine2(currentClient.addressLine2);
+      setDistrict(currentClient.district);
+      setCity(currentClient.city);
+      // hide password
     }
   }, [currentClient]);
 
-  const onPhoneNoAdd = (number, index) => {
-    const updatedList = [...phones];
-    updatedList[index].phone = number;
-    setPhones(updatedList);
-    setPhoneError('');
-  };
-
-  const onPhoneRowRemove = index => {
-    const updatedList = [...phones];
-    updatedList.splice(index, 1);
-    setPhones(updatedList);
-  };
-
-  const onPhoneRowAdd = () => {
-    setPhones(phones.concat({ phone: '', label: 'home' }));
-  };
-
-  const onLabelChange = (value, index) => {
-    const updatedList = [...phones];
-    updatedList[index].label = value;
-    setPhones(updatedList);
+  const onGenderChange = (value) => {
+    setGender(value);
   };
 
   const onSubmitClick = () => {
-    const phoneNumbers = phones.filter(item => item.phone.trim());
     if (!firstName) {
       setFirstNameError(requiredMessage);
+    } else if (!lastName) {
+      setLastNameError(requiredMessage);
     } else if (!email) {
       setEmailError(requiredMessage);
     } else if (!isValidEmail(email)) {
       setEmailError(emailNotValid);
-    } else if (phoneNumbers.length === 0) {
-      setPhoneError(requiredMessage);
+    } else if(!primaryPhoneNo){
+      setPrimaryPhoneNoError(requiredMessage);
+    } else if(!isValidPhoneNo(primaryPhoneNo)){
+      setPrimaryPhoneNoError(phoneNoNotValid);
+    } else if(secondaryPhoneNo != '' && !isValidPhoneNo(secondaryPhoneNo)){
+      setSecondaryPhoneNoError(phoneNoNotValid);
+    } else if (!password) {
+      setPasswordError(requiredMessage);
+    }  else if (!gender) {
+      setGenderError(requiredMessage);
+    }else if (!addressLine1) {
+      setAddressLine1Error(requiredMessage);
+    }else if (!city) {
+      setCityError(requiredMessage);
+    }else if (!district) {
+      setDistrictError(requiredMessage);
     } else {
-      onClientSave(phoneNumbers);
+      onClientSave();
     }
   };
 
-  const onClientSave = phoneNumbers => {
+  const onClientSave = () => {
     const clientDetail = {
-      profile_pic,
-      name: `${firstName} ${lastName}`,
+      firstName,
+      lastName,
       email,
-      phones: phoneNumbers,
-      company,
-      designation,
+      primaryPhoneNo,
+      secondaryPhoneNo,
+      gender,
+      password,
+      addressLine1,
+      addressLine2,
+      city,
+      district,
     };
 
     if (currentClient) {
@@ -162,24 +137,19 @@ const AddEditClient = ({ open, onCloseDialog }) => {
       );
     } else {
       dispatch(
-        addNewClient(clientDetail, () => {
+        addNewClient(clientDetail, (data) => {
+          callbck(data);
           onCloseDialog();
         }),
       );
     }
   };
 
-  const isPhonesMultiple = phones.length > 1;
-
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
       <DialogTitle className={classes.dialogTitleRoot}>{currentClient ? 'Edit Client Details' : 'Create New Client'}</DialogTitle>
       <DialogContent dividers>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
-          <Box {...getRootProps()} mr={{ xs: 0, md: 5 }} mb={{ xs: 3, md: 0 }} className="pointer">
-            <input {...getInputProps()} />
-            <CmtAvatar size={70} src={profile_pic} />
-          </Box>
           <GridContainer>
             <Grid item xs={12} sm={6}>
               <AppTextInput
@@ -200,7 +170,12 @@ const AddEditClient = ({ open, onCloseDialog }) => {
                 variant="outlined"
                 label="Last name"
                 value={lastName}
-                onChange={e => setLastName(e.target.value)}
+                onChange={e => {
+                  setLastName(e.target.value);
+                  setLastNameError('')
+                }
+                }
+                helperText={lastNameError}
               />
             </Grid>
           </GridContainer>
@@ -218,70 +193,124 @@ const AddEditClient = ({ open, onCloseDialog }) => {
             helperText={emailError}
           />
         </Box>
-        <CmtList
-          data={phones}
-          renderRow={(item, index) => (
-            <GridContainer style={{ marginBottom: 2 }} key={index}>
-              <Grid item xs={12} sm={isPhonesMultiple ? 6 : 8}>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
+          <GridContainer>
+              <Grid item xs={12} sm={6}>
                 <AppTextInput
                   fullWidth
                   variant="outlined"
-                  label="Phone"
-                  onChange={number => onPhoneNoAdd(number, index)}
-                  helperText={phoneError}
-                  InputProps={{
-                    inputComponent: PhoneNumberInput,
-                    inputProps: { value: item.phone },
+                  label="Primary Phone No"
+                  value={primaryPhoneNo}
+                  onChange={e => {
+                    setPrimaryPhoneNo(e.target.value);
+                    setPrimaryPhoneNoError('');
                   }}
+                  helperText={primaryPhoneNoError}
                 />
               </Grid>
-              <Grid item xs={isPhonesMultiple ? 10 : 12} sm={4}>
-                <AppSelectBox
+              <Grid item xs={12} sm={6}>
+                  <AppTextInput
+                    fullWidth
+                    variant="outlined"
+                    label="Secondary Phone No"
+                    value={secondaryPhoneNo}
+                    onChange={e => {
+                      setSecondaryPhoneNo(e.target.value);
+                      setSecondaryPhoneNoError('');
+                    }}
+                    helperText={secondaryPhoneNoError}
+                  />
+              </Grid>
+          </GridContainer>
+        </Box>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
+          <GridContainer>
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  type="password"
                   fullWidth
-                  data={labels}
-                  label="Label"
+                  variant="outlined"
+                  label="Password"
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value);
+                    setPasswordError('');
+                  }}
+                  helperText={passwordError}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+              <AppSelectBox
+                  fullWidth
+                  data={genders}
+                  label="Gender"
                   valueKey="slug"
                   variant="outlined"
                   labelKey="title"
-                  value={item.label}
-                  onChange={e => onLabelChange(e.target.value, index)}
+                  value={gender}
+                  onChange={e => {
+                    onGenderChange(e.target.value);
+                    setGenderError('');
+                  }}
+                  helperText={genderError}
                 />
               </Grid>
-              {index > 0 && (
-                <Grid container item xs={2} sm={2} justifyContent="center" alignItems="center">
-                  <IconButton color="inherit" onClick={() => onPhoneRowRemove(index)} size="small">
-                    <CancelIcon />
-                  </IconButton>
-                </Grid>
-              )}
-            </GridContainer>
-          )}
-        />
-        <Box mb={{ xs: 6, md: 5 }} display="inline-flex" alignItems="center" className="pointer">
-          <Button color="primary" onClick={onPhoneRowAdd} startIcon={<AddCircleOutlineIcon />}>
-            Add More
-          </Button>
+          </GridContainer>
         </Box>
-        <GridContainer style={{ marginBottom: 12 }}>
-          <Grid item xs={12} sm={6}>
-            <AppTextInput
-              fullWidth
-              variant="outlined"
-              label="Company name"
-              value={company}
-              onChange={e => setCompany(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <AppTextInput
-              fullWidth
-              variant="outlined"
-              label="Job title"
-              value={designation}
-              onChange={e => setDesignation(e.target.value)}
-            />
-          </Grid>
-        </GridContainer>
+        <Box mb={{ xs: 6, md: 5 }}>
+          <AppTextInput
+            fullWidth
+            variant="outlined"
+            label="Address Line 1"
+            value={addressLine1}
+            onChange={e => {
+              setAddressLine1(e.target.value);
+              setAddressLine1Error('');
+            }}
+            helperText={addressLine1Error}
+          />
+        </Box>
+        <Box mb={{ xs: 6, md: 5 }}>
+          <AppTextInput
+            fullWidth
+            variant="outlined"
+            label="Address Line 2"
+            value={addressLine2}
+            onChange={e => {
+              setAddressLine2(e.target.value);
+            }}
+          />
+        </Box>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
+          <GridContainer>
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  fullWidth
+                  variant="outlined"
+                  label="City"
+                  value={city}
+                  onChange={e => {
+                    setCity(e.target.value);
+                    setCityError('');
+                  }}
+                  helperText={cityError}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                  <AppTextInput
+                    fullWidth
+                    variant="outlined"
+                    label="District"
+                    value={district}
+                    onChange={e => {
+                      setDistrict(e.target.value);
+                      setDistrictError('');
+                    }}
+                    helperText={districtError}
+                  />
+              </Grid>
+          </GridContainer>
+        </Box>
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>
@@ -300,4 +329,5 @@ export default AddEditClient;
 AddEditClient.prototype = {
   open: PropTypes.bool.isRequired,
   onCloseDialog: PropTypes.func,
+  callbck: PropTypes.func
 };
