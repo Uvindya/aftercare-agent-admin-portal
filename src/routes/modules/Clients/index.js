@@ -47,7 +47,6 @@ const ClientsModule = () => {
   }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
 
   const clientAddEditCallBack = (data) => {
-    console.log(data);
     setTotalElements(data.totalElements);
   }
 

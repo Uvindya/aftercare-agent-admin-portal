@@ -24,20 +24,12 @@ const getClientActions = client => {
   const actions = [
     { action: 'view', label: 'View', icon: <Visibility /> },
     { action: 'edit', label: 'Edit', icon: <Edit /> },
-    { action: 'email', label: 'Email', icon: <Mail /> },
   ];
-
-  if (client.status === 'active') {
+  if (client.status) {
     actions.push({ action: 'suspend', label: 'Suspend', icon: <Block /> });
   } else {
-    actions.push({
-      action: 'activate',
-      label: 'Reactivate',
-      icon: <CheckCircleOutline />,
-    });
+    actions.push({ action: 'activate', label: 'Reactivate', icon: <CheckCircleOutline />,});
   }
-
-  actions.push({ action: 'delete', label: 'Delete', icon: <Delete /> });
   return actions;
 };
 
@@ -50,15 +42,11 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
       onClientView(row);
     } else if (menu.action === 'edit') {
       onClientEdit(row);
-    } else if (menu.action === 'email') {
-      dispatch(sentMailToClient());
     } else if (menu.action === 'suspend') {
       dispatch(updateClientStatus({ id: row.id, status: 'suspended' }));
     } else if (menu.action === 'activate') {
       dispatch(updateClientStatus({ id: row.id, status: 'active' }));
-    } else if (menu.action === 'delete') {
-      onClientDelete(row);
-    }
+    } 
   };
 
   const labelId = `enhanced-table-checkbox-${row.id}`;
@@ -77,18 +65,6 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
       <TableCell padding="checkbox">
         <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
       </TableCell>
-      {/*<TableCell component="th" id={labelId} scope="row" padding="none">
-        <Box display="flex" alignItems="center">
-          <Box mr={{ xs: 4, md: 5 }}>
-            <CmtAvatar size={40} src={row.profile_pic} alt={row.name} />
-          </Box>
-          <div>
-            <Typography className={classes.titleRoot} component="div" variant="h4">
-              {row.id}
-            </Typography>
-          </div>
-        </Box>
-  </TableCell>*/}
       <TableCell  align="center">{row.id}</TableCell>
       <TableCell align="center">{row.name}</TableCell>
       <TableCell align="center">
