@@ -33,7 +33,7 @@ const getClientActions = client => {
   return actions;
 };
 
-const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDelete, onClientView }) => {
+const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDelete, onClientView, callbck }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -43,9 +43,9 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
     } else if (menu.action === 'edit') {
       onClientEdit(row);
     } else if (menu.action === 'suspend') {
-      dispatch(updateClientStatus({ id: row.id, status: 'suspended' }));
+      dispatch(updateClientStatus({ username: row.email, status: 'false' }, callbck));
     } else if (menu.action === 'activate') {
-      dispatch(updateClientStatus({ id: row.id, status: 'active' }));
+      dispatch(updateClientStatus({ username: row.email, status: 'true' }, callbck));
     } 
   };
 

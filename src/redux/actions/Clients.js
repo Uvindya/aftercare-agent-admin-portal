@@ -89,12 +89,13 @@ export const updateClientStatus = (data, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .put('/clients/update-status', data)
+      .put('/auth/change/status', data)
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('client status was updated successfully.'));
-          dispatch({ type: EDIT_CLIENT, payload: response.data });
-          if (callbackFun) callbackFun(response.data);
+          dispatch(getClients([], '', callbackFun, 0, 10));
+          //dispatch({ type: EDIT_CLIENT, payload: response.data });
+          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

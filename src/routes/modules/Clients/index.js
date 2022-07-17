@@ -46,7 +46,7 @@ const ClientsModule = () => {
     );
   }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
 
-  const clientAddEditCallBack = (data) => {
+  const updateClientTableInfoCallBack = (data) => {
     setTotalElements(data.totalElements);
   }
 
@@ -162,6 +162,7 @@ const ClientsModule = () => {
                       onClientDelete={handleClientDelete}
                       onClientView={handleClientView}
                       isSelected={isSelected}
+                      callbck={updateClientTableInfoCallBack}
                     />
                   ))
               ) : (
@@ -189,7 +190,7 @@ const ClientsModule = () => {
         />
       </Paper>
 
-      {openClientDialog && <AddEditClient open={openClientDialog} onCloseDialog={handleCloseClientDialog} callbck={clientAddEditCallBack}/>}
+      {openClientDialog && <AddEditClient open={openClientDialog} onCloseDialog={handleCloseClientDialog} callbck={updateClientTableInfoCallBack}/>}
       {openViewDialog && <ClientDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
 
       <ConfirmDialog
