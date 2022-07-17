@@ -7,6 +7,7 @@ import {
   EDIT_CLIENT,
   GET_CLIENTS,
   SET_CLIENT_DETAILS,
+  SET_FULL_CLIENT_DETAILS,
 } from '../../@jumbo/constants/ActionTypes';
 
 export const getClients = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
@@ -34,6 +35,32 @@ export const getClients = (filterOptions = [], searchTerm = '', callbackFun, pag
 export const setCurrentClient = client => {
   return dispatch => {
     dispatch({ type: SET_CLIENT_DETAILS, payload: client });
+  };
+};
+
+export const setDetailedCurrentClient = client => {
+  return dispatch => {
+    dispatch({ type: SET_FULL_CLIENT_DETAILS, payload: client });
+  };
+};
+
+export const getDetailedCurrentClient = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get(`/users/clients/${id}`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: SET_FULL_CLIENT_DETAILS, payload: response.data });
+          if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
   };
 };
 

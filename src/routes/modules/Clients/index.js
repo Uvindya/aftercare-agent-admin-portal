@@ -7,7 +7,7 @@ import ClientTableHead from './ClientTableHead';
 import ClientTableToolbar from './ClientsTableToolbar';
 import { getComparator, stableSort } from '../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteClient, getClients, setCurrentClient } from '../../../redux/actions/Clients';
+import { deleteClient, getClients, setCurrentClient, getDetailedCurrentClient, setDetailedCurrentClient } from '../../../redux/actions/Clients';
 import AddEditClient from './AddEditClient';
 import ConfirmDialog from '../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../@jumbo/utils/commonHelper';
@@ -97,13 +97,12 @@ const ClientsModule = () => {
   };
 
   const handleClientView = client => {
-    dispatch(setCurrentClient(client));
-    setOpenViewDialog(true);
+    dispatch(getDetailedCurrentClient(client.id, () => setOpenViewDialog(true)));
   };
 
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
-    dispatch(setCurrentClient(null));
+    dispatch(setDetailedCurrentClient(null));
   };
 
   const handleClientEdit = client => {

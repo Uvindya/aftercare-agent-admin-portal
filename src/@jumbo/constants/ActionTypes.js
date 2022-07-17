@@ -79,6 +79,7 @@ export const UPDATE_POST = 'update_post';
 export const GET_CLIENTS = 'GET_CLIENTS';
 export const ADD_CLIENT = 'ADD_CLIENT';
 export const SET_CLIENT_DETAILS = 'SET_CLIENT_DETAILS';
+export const SET_FULL_CLIENT_DETAILS = 'SET_FULL_CLIENT_DETAILS';
 export const EDIT_CLIENT = 'EDIT_CLIENT';
 export const DELETE_CLIENT = 'DELETE_CLIENT';
 export const DELETE_BULK_CLIENTS = 'DELETE_BULK_CLIENTS';

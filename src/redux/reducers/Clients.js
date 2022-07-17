@@ -5,11 +5,13 @@ import {
   EDIT_CLIENT,
   GET_CLIENTS,
   SET_CLIENT_DETAILS,
+  SET_FULL_CLIENT_DETAILS,
 } from '../../@jumbo/constants/ActionTypes';
 
 const INIT_STATE = {
   clients: [],
   currentClient: null,
+  detailedCurrentClient: null,
 };
 
 export default (state = INIT_STATE, action) => {
@@ -24,6 +26,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         currentClient: action.payload,
+      };
+    }
+    case SET_FULL_CLIENT_DETAILS: {
+      return {
+        ...state,
+        detailedCurrentClient: action.payload,
       };
     }
     case ADD_CLIENT: {

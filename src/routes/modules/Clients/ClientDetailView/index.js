@@ -13,52 +13,35 @@ import PropTypes from 'prop-types';
 import ClearIcon from '@material-ui/icons/Clear';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
+import LocationCity from '@material-ui/icons/LocationCity';
 import useStyles from './index.style';
 import { Block, CheckCircleOutline } from '@material-ui/icons';
 import { Tooltip } from '@material-ui/core';
 
 const ClientDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
-  const { currentClient } = useSelector(({ clientsReducer }) => clientsReducer);
+  const { detailedCurrentClient } = useSelector(({ clientsReducer }) => clientsReducer);
 
-  const { name, email, status, phones, company, designation, profile_pic, starred } = currentClient;
+  const { id, firstName, lastName, email, createdAt, modifiedAt, primaryPhoneNo, secondaryPhoneNo, addressLine1, addressLine2, city, district} = detailedCurrentClient;
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
       <Box className={classes.clientInfoRoot}>
         <Box mr={3} display="flex" alignItems="center">
-          <Box className={classes.avatarView} mr={{ xs: 4, md: 6 }}>
-            <CmtAvatar size={70} src={profile_pic} alt={name} />
-          </Box>
 
           <Box mt={-2}>
             <Box display="flex" alignItems="center">
-              <Typography className={classes.titleRoot}>{name}</Typography>
-              <Box ml={1}>
-                <Checkbox
-                  icon={<StarBorderIcon />}
-                  checkedIcon={<StarIcon style={{ color: '#FF8C00' }} />}
-                  checked={starred}
-                />
-              </Box>
+              <Typography className={classes.titleRoot}>{`${firstName} ${lastName}`}</Typography>
             </Box>
-            {(designation || company) && (
-              <Box mt={-1}>
-                {designation && <Typography className={classes.subTitleRoot}>{designation}</Typography>}
-                {company && <Typography className={classes.subTitleRoot}>@{company}</Typography>}
+            
+              <Box mt={1}>
+                <Typography className={classes.subTitleRoot}>{`Created At : ${createdAt}`}</Typography>
+                { modifiedAt && <Typography className={classes.subTitleRoot}>{`Modified At : ${modifiedAt}`}</Typography> }
               </Box>
-            )}
+            
           </Box>
         </Box>
         <Box ml="auto" mt={-2} display="flex" alignItems="center">
-          <Box ml={1}>
-            <Tooltip title={status}>
-              <IconButton aria-label="filter list">
-                {status === 'suspended' && <Block color="primary" />}
-                {status === 'active' && <CheckCircleOutline color="primary" />}
-              </IconButton>
-            </Tooltip>
-          </Box>
           <Box ml={1}>
             <IconButton onClick={onCloseDialog}>
               <ClearIcon />
@@ -79,17 +62,16 @@ const ClientDetailView = ({ open, onCloseDialog }) => {
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
           <PhoneIcon />
           <Box ml={5}>
-            <CmtList
-              data={phones}
-              renderRow={(item, index) => (
-                <Box key={index} display="flex" alignItems="center">
-                  <Box color="text.secondary">{item.phone}</Box>
-                  <Box ml={2} className={classes.labelRoot}>
-                    {item.label}
-                  </Box>
-                </Box>
-              )}
-            />
+            <Box color="text.secondary">{primaryPhoneNo}</Box>
+            <Box color="text.secondary">{secondaryPhoneNo}</Box>
+          </Box>
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
+          <LocationCity />
+          <Box ml={5}>
+            <Box color="text.secondary">{`${addressLine1},`}</Box>
+            <Box color="text.secondary">{`${addressLine2},`}</Box>
+            <Box color="text.secondary">{`${city}, ${district}`}</Box>
           </Box>
         </Box>
       </Box>
