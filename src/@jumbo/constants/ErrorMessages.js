@@ -1,5 +1,6 @@
 export const requiredMessage = 'This field is required!';
 export const emailNotValid = 'Email is not valid!';
+export const yearOfExpNotValid = 'Year of experience is not valid!';
 export const phoneNoNotValid = 'Incorrect Format XXXXXXXXXX!';
 export const passwordMisMatch = 'Password did not match!';
 export const passwordRulesMisMatch = 'Password does not follow under written rules!';

@@ -2,14 +2,11 @@ import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableRow from '@material-ui/core/TableRow';
-import { timeFromNow } from '../../../../@jumbo/utils/dateHelper';
 import { Block, CheckCircleOutline, Delete, Edit, Mail, MoreHoriz, Visibility } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../@coremat/CmtDropdownMenu';
-import CmtAvatar from '../../../../@coremat/CmtAvatar';
-import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
-import { sentMailToClient, updateClientStatus } from '../../../../redux/actions/Clients';
+import { updateTechnicianStatus } from '../../../../redux/actions/Technicians';
 
 const useStyles = makeStyles(theme => ({
   titleRoot: {
@@ -20,12 +17,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const getClientActions = client => {
+const getTechnicianActions = technician => {
   const actions = [
     { action: 'view', label: 'View', icon: <Visibility /> },
     { action: 'edit', label: 'Edit', icon: <Edit /> },
   ];
-  if (client.status) {
+  if (technician.status) {
     actions.push({ action: 'disable', label: 'Disable', icon: <Block /> });
   } else {
     actions.push({ action: 'enable', label: 'Enable', icon: <CheckCircleOutline />,});
@@ -33,25 +30,25 @@ const getClientActions = client => {
   return actions;
 };
 
-const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDelete, onClientView, callbck }) => {
+const TechnicianListRow = ({ row, isSelected, onRowClick, onTechnicianEdit, onTechnicianDelete, onTechnicianView, callbck }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const onClientMenuClick = menu => {
+  const onTechnicianMenuClick = menu => {
     if (menu.action === 'view') {
-      onClientView(row);
+      onTechnicianView(row);
     } else if (menu.action === 'edit') {
-      onClientEdit(row);
+      onTechnicianEdit(row);
     } else if (menu.action === 'disable') {
-      dispatch(updateClientStatus({ username: row.email, status: 'false' }, callbck));
+      dispatch(updateTechnicianStatus({ username: row.email, status: 'false' }, callbck));
     } else if (menu.action === 'enable') {
-      dispatch(updateClientStatus({ username: row.email, status: 'true' }, callbck));
+      dispatch(updateTechnicianStatus({ username: row.email, status: 'true' }, callbck));
     } 
   };
 
   const labelId = `enhanced-table-checkbox-${row.id}`;
   const isItemSelected = isSelected(row.id);
-  const clientActions = getClientActions(row);
+  const technicianActions = getTechnicianActions(row);
   
   return (
     <TableRow
@@ -73,10 +70,10 @@ const ClientListRow = ({ row, isSelected, onRowClick, onClientEdit, onClientDele
       <TableCell align="center">{row.primaryPhoneNo}</TableCell>
       <TableCell align="center">{row.status ? 'Enable' : 'Disable'}</TableCell>
       <TableCell align="center" onClick={event => event.stopPropagation()}>
-        <CmtDropdownMenu items={clientActions} onItemClick={onClientMenuClick} TriggerComponent={<MoreHoriz />} />
+        <CmtDropdownMenu items={technicianActions} onItemClick={onTechnicianMenuClick} TriggerComponent={<MoreHoriz />} />
       </TableCell>
     </TableRow>
   );
 };
 
-export default React.memo(ClientListRow);
+export default React.memo(TechnicianListRow);

@@ -12,6 +12,10 @@ export const isValidPhoneNo = value => {
   return value && /^[0-9]{10}$/i.test(value);
 };
 
+export const isValidNumber = value => {
+  return value && /^[0-9]+$/i.test(value);
+};
+
 export const idGenerator = () => {
   return Math.floor(Math.random() * 100000);
 };

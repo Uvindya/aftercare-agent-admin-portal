@@ -5,8 +5,8 @@ import { useLocation } from 'react-router-dom';
 import BreakdownPage from './Pages/BreakdownPage';
 import DashboardPage from './Pages/DashboardPage';
 import ClientModule from './modules/Clients';
+import TechnicianModule from './modules/Technicians';
 import MaintainancePage from './Pages/MaintainancePage';
-import TechnicianPage from './Pages/TechnicianPage';
 import ReportsPage from './Pages/ReportPage';
 import ProductPage from './Pages/ProductsPage';
 import Error404 from './Pages/404';
@@ -52,7 +52,7 @@ const Routes = () => {
         <RestrictedRoute path="/clients" component={ClientModule} />
         <RestrictedRoute path="/maintainances" component={MaintainancePage} />
         <RestrictedRoute path="/reports" component={ReportsPage} />
-        <RestrictedRoute path="/technicians" component={TechnicianPage} />
+        <RestrictedRoute path="/technicians" component={TechnicianModule} />
         <RestrictedRoute path="/products" component={ProductPage} />
         <Route path="/signin" component={Login} />
         <Route path="/forgot-password" component={ForgotPasswordPage} />

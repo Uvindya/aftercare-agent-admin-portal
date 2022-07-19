@@ -4,6 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import Common from './Common';
 import Auth from './Auth';
 import Clients from './Clients'
+import Technicians from './Technicians'
 
 export default history =>
   combineReducers({
@@ -11,4 +12,5 @@ export default history =>
     common: Common,
     auth: Auth,
     clientsReducer: Clients,
+    technicianReducer: Technicians,
   });
