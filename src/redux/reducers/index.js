@@ -5,6 +5,7 @@ import Common from './Common';
 import Auth from './Auth';
 import Clients from './Clients'
 import Technicians from './Technicians'
+import Products from './Products'
 
 export default history =>
   combineReducers({
@@ -13,4 +14,5 @@ export default history =>
     auth: Auth,
     clientsReducer: Clients,
     technicianReducer: Technicians,
+    productsReducer: Products,
   });
