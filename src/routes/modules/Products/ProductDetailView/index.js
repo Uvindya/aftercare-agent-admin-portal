@@ -59,13 +59,13 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <AssessmentIcon />
-          <Box ml={5} color="primary.main" component="p" className="pointer">
+          <Box ml={5} color="primary.main" component="p">
             {warrentyPeriod} months of warrenty
           </Box>
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <SettingsIcon />
-          <Box ml={5} color="primary.main" component="p" className="pointer">
+          <Box ml={5} color="primary.main" component="p">
             {maintainnanceInterval} months maintainnance interval
           </Box>
         </Box>
@@ -76,13 +76,13 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <PeopleIcon />
-          <Box ml={5} color="primary.main" component="p" className="pointer">
+          <Box ml={5} color="primary.main" component="p">
             {client.name}
           </Box>
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <EmailIcon />
-          <Box ml={5} color="primary.main" component="p" className="pointer">
+          <Box ml={5} color="primary.main" component="p">
             {client.email}
           </Box>
         </Box>

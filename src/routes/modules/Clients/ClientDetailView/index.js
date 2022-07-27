@@ -55,7 +55,7 @@ const ClientDetailView = ({ open, onCloseDialog }) => {
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <EmailIcon />
-          <Box ml={5} color="primary.main" component="p" className="pointer">
+          <Box ml={5} color="primary.main" component="p">
             {email}
           </Box>
         </Box>

@@ -9,7 +9,7 @@ export const isValidEmail = value => {
 };
 
 export const isValidPhoneNo = value => {
-  return value && /^[0-9]{10}$/i.test(value);
+  return value && /^0[0-9]{9}$/i.test(value);
 };
 
 export const isValidNumber = value => {

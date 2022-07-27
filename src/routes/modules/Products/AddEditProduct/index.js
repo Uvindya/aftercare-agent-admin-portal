@@ -146,12 +146,12 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <AppTextInput
                 fullWidth
                 type="number"
                 variant="outlined"
-                label="Warrenty Period"
+                label="Warrenty Period (Months)"
                 value={warrentyPeriod}
                 onChange={e => {
                   setWarrentyPeriod(e.target.value);
@@ -160,12 +160,12 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
                 helperText={warrentyPeriodError}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <AppTextInput
                 type="number"
                 fullWidth
                 variant="outlined"
-                label="Maintainnance Interval"
+                label="Maintainnance Interval (Months)"
                 value={maintainnanceInterval}
                 onChange={e => {
                   setMaintainnanceInterval(e.target.value);

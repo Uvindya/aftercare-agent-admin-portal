@@ -54,13 +54,17 @@ const useStyles = makeStyles(theme => ({
   alertRoot: {
     marginBottom: 10,
   },
+  logo:{
+    fontSize: '2em',
+    textAlign: 'center'
+  }
 }));
 
 //variant = 'default', 'standard', 'bgColor'
 const ForgotPassword = ({ method = CurrentAuthMethod, variant = 'default', wrapperVariant = 'default' }) => {
   const { send_forget_password_email } = useSelector(({ auth }) => auth);
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState('demo@example.com');
+  const [email, setEmail] = useState('');
   const dispatch = useDispatch();
   const classes = useStyles({ variant });
   const history = useHistory();
@@ -94,12 +98,12 @@ const ForgotPassword = ({ method = CurrentAuthMethod, variant = 'default', wrapp
         </div>
       ) : null}
       <div className={classes.authContent}>
-        <div className={'mb-7'}>
-          <CmtImage src={'/images/logo.png'} />
+        <div className={classes.logo}>
+        CB Aftercare Service Agent
         </div>
-        <Typography component="div" variant="h1" className={classes.titleRoot}>
+        {/*<Typography component="div" variant="h1" className={classes.titleRoot}>
           ForgotPassword
-        </Typography>
+      </Typography>*/}
         <Collapse in={open}>
           <Alert
             variant="outlined"
@@ -138,14 +142,14 @@ const ForgotPassword = ({ method = CurrentAuthMethod, variant = 'default', wrapp
           </div>
 
           <div>
-            <Typography>
+            {/*<Typography>
               Don't remember your email?
               <span className={'ml-2'}>
                 <Link href="#">
                   <IntlMessages id="appModule.contactSupport" />
                 </Link>
               </span>
-            </Typography>
+          </Typography>*/}
           </div>
         </form>
         <ContentLoader />

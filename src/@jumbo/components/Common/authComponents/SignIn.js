@@ -55,11 +55,15 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  logo:{
+    fontSize: '2em',
+    textAlign: 'center'
+  },
 }));
 //variant = 'default', 'standard'
 const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVariant = 'default' }) => {
-  const [email, setEmail] = useState('demo@example.com');
-  const [password, setPassword] = useState('demo#123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const classes = useStyles({ variant });
 
@@ -75,12 +79,12 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
         </Box>
       ) : null}
       <Box className={classes.authContent}>
-        <Box mb={7}>
-          <CmtImage src={'/images/logo.png'} />
+        <Box mb={7} className={classes.logo}>
+          CB Aftercare Service Agent
         </Box>
-        <Typography component="div" variant="h1" className={classes.titleRoot}>
+       {/*} <Typography component="div" variant="h1" className={classes.titleRoot}>
           Login
-        </Typography>
+      </Typography>*/}
         <form>
           <Box mb={2}>
             <TextField

@@ -7,7 +7,7 @@ import DashboardPage from './Pages/DashboardPage';
 import ClientModule from './modules/Clients';
 import ProductModule from './modules/Products';
 import TechnicianModule from './modules/Technicians';
-import MaintainancePage from './Pages/MaintainancePage';
+import MaintainanceModule from './modules/Maintainances';
 import ReportsPage from './Pages/ReportPage';
 import ProductPage from './Pages/ProductsPage';
 import Error404 from './Pages/404';
@@ -51,7 +51,7 @@ const Routes = () => {
         <RestrictedRoute path="/dashboard" component={DashboardPage} />
         <RestrictedRoute path="/breakdowns" component={BreakdownPage} />
         <RestrictedRoute path="/clients" component={ClientModule} />
-        <RestrictedRoute path="/maintainances" component={MaintainancePage} />
+        <RestrictedRoute path="/maintainances" component={MaintainanceModule} />
         <RestrictedRoute path="/reports" component={ReportsPage} />
         <RestrictedRoute path="/technicians" component={TechnicianModule} />
         <RestrictedRoute path="/products" component={ProductModule} />

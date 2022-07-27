@@ -13,7 +13,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { isValidEmail, isValidPhoneNo } from '../../../../@jumbo/utils/commonHelper';
-import { addNewClient, updateClient } from '../../../../redux/actions/Clients';
+import { addNewMaintainance, updateMaintainance } from '../../../../redux/actions/Maintainances';
 
 const useStyles = makeStyles(theme => ({
   dialogRoot: {
@@ -32,9 +32,9 @@ const genders = [
   { title: 'Female', slug: 'FEMALE' },
 ];
 
-const AddEditClient = ({ open, onCloseDialog, callbck}) => {
+const AddEditMaintainance = ({ open, onCloseDialog, callbck}) => {
   const classes = useStyles();
-  const currentClient = useSelector(({ clientsReducer }) => clientsReducer.currentClient);
+  const currentMaintainance = useSelector(({ maintainancesReducer }) => maintainancesReducer.currentMaintainance);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -65,20 +65,20 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currentClient) {
-      setFirstName(currentClient.firstName);
-      setLastName(currentClient.lastName);
-      setEmail(currentClient.email);
-      setPrimaryPhoneNo(currentClient.primaryPhoneNo);
-      setSecondaryPhoneNo(currentClient.secondaryPhoneNo);
-      setGender(currentClient.gender);
-      setAddressLine1(currentClient.addressLine1);
-      setAddressLine2(currentClient.addressLine2);
-      setDistrict(currentClient.district);
-      setCity(currentClient.city);
+    if (currentMaintainance) {
+      setFirstName(currentMaintainance.firstName);
+      setLastName(currentMaintainance.lastName);
+      setEmail(currentMaintainance.email);
+      setPrimaryPhoneNo(currentMaintainance.primaryPhoneNo);
+      setSecondaryPhoneNo(currentMaintainance.secondaryPhoneNo);
+      setGender(currentMaintainance.gender);
+      setAddressLine1(currentMaintainance.addressLine1);
+      setAddressLine2(currentMaintainance.addressLine2);
+      setDistrict(currentMaintainance.district);
+      setCity(currentMaintainance.city);
       // hide password
     }
-  }, [currentClient]);
+  }, [currentMaintainance]);
 
   const onGenderChange = (value) => {
     setGender(value);
@@ -110,12 +110,12 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
     }else if (!district) {
       setDistrictError(requiredMessage);
     } else {
-      onClientSave();
+      onMaintainanceSave();
     }
   };
 
-  const onClientSave = () => {
-    const clientDetail = {
+  const onMaintainanceSave = () => {
+    const maintainanceDetail = {
       firstName,
       lastName,
       email,
@@ -129,15 +129,15 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
       district,
     };
 
-    if (currentClient) {
+    if (currentMaintainance) {
       dispatch(
-        updateClient({ ...currentClient, ...clientDetail }, () => {
+        updateMaintainance({ ...currentMaintainance, ...maintainanceDetail }, () => {
           onCloseDialog();
         }),
       );
     } else {
       dispatch(
-        addNewClient(clientDetail, (data) => {
+        addNewMaintainance(maintainanceDetail, (data) => {
           callbck(data);
           onCloseDialog();
         }),
@@ -147,7 +147,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
-      <DialogTitle className={classes.dialogTitleRoot}>{currentClient ? 'Edit Client Details' : 'Create New Client'}</DialogTitle>
+      <DialogTitle className={classes.dialogTitleRoot}>{currentMaintainance ? 'Edit Maintainance Details' : 'Create New Maintainance'}</DialogTitle>
       <DialogContent dividers>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
@@ -213,7 +213,6 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
                     fullWidth
                     variant="outlined"
                     label="Secondary Phone No"
-                    autoComplete="nope" 
                     value={secondaryPhoneNo}
                     onChange={e => {
                       setSecondaryPhoneNo(e.target.value);
@@ -232,7 +231,6 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
                   fullWidth
                   variant="outlined"
                   label="Password"
-                  autoComplete="off" 
                   value={password}
                   onChange={e => {
                     setPassword(e.target.value);
@@ -326,9 +324,9 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
   );
 };
 
-export default AddEditClient;
+export default AddEditMaintainance;
 
-AddEditClient.prototype = {
+AddEditMaintainance.prototype = {
   open: PropTypes.bool.isRequired,
   onCloseDialog: PropTypes.func,
   callbck: PropTypes.func

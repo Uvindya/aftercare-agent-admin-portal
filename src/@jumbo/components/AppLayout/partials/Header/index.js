@@ -84,7 +84,7 @@ const Header = () => {
   return (
     <Toolbar className={classes.root}>
       <SidebarToggleHandler edge="start" color="inherit" aria-label="menu" />
-      <Logo ml={2} color="white" />
+      {/*<Logo ml={2} color="white" />*/}
       <Box flex={1} />
       {/*<Hidden smDown>
         <Box pr={3} className={classes.searchRoot}>
