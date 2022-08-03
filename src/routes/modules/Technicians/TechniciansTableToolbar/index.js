@@ -89,6 +89,9 @@ const TechnicianTableToolbar = ({
             <Button color="primary" onClick={() => onTechnicianAdd(true)}>
               Add New Technician
             </Button>
+            <Button color="primary" onClick={() => onTechnicianAdd(true)}>
+              Import Technicians
+            </Button>
           </Typography>
         )}
 

@@ -40,6 +40,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [primaryPhoneNo, setPrimaryPhoneNo] = useState('');
+  const [erpId, setErpId] = useState('');
   const [yearOfExperience, setYearOfExperience] = useState('');
   const [gender, setGender] = useState('');
   const [password, setPassword] = useState('');
@@ -50,6 +51,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
   const [primaryPhoneNoError, setPrimaryPhoneNoError] = useState('');
   const [yearOfExperienceError, setYearOfExperienceError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [erpIdError, setErpIdError] = useState('');
   const [genderError, setGenderError] = useState('');
 
 
@@ -63,6 +65,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
       setPrimaryPhoneNo(currentTechnician.primaryPhoneNo);
       setYearOfExperience(currentTechnician.yearOfExperience);
       setGender(currentTechnician.gender);
+      setErpId(currentTechnician.erpId);
       // hide password
     }
   }, [currentTechnician]);
@@ -76,6 +79,8 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
       setFirstNameError(requiredMessage);
     } else if (!lastName) {
       setLastNameError(requiredMessage);
+    } else if (!erpId) {
+      setErpIdError(requiredMessage);
     } else if (!email) {
       setEmailError(requiredMessage);
     } else if (!isValidEmail(email)) {
@@ -104,6 +109,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
       gender,
       password,
       yearOfExperience,
+      erpId,
     };
 
     if (currentTechnician) {
@@ -205,14 +211,13 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
           <GridContainer>
               <Grid item xs={12} sm={6}>
                 <AppTextInput
-                  type="password"
                   fullWidth
                   variant="outlined"
-                  label="Password"
-                  value={password}
+                  label="ERP ID"
+                  value={erpId}
                   onChange={e => {
-                    setPassword(e.target.value);
-                    setPasswordError('');
+                    setErpId(e.target.value);
+                    setErpIdError('');
                   }}
                   helperText={passwordError}
                 />
@@ -234,6 +239,20 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck}) => {
                 />
               </Grid>
           </GridContainer>
+        </Box>
+        <Box mb={{ xs: 6, md: 5 }}>
+        <AppTextInput
+                  type="password"
+                  fullWidth
+                  variant="outlined"
+                  label="Password"
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value);
+                    setPasswordError('');
+                  }}
+                  helperText={passwordError}
+                />
         </Box>
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>

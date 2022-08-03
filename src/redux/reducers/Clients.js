@@ -27,7 +27,9 @@ export default (state = INIT_STATE, action) => {
     case GET_ALL_CLIENTS: {
       return {
         ...state,
-        allClients: action.payload,
+        allClients: action.payload.map(client => {
+          return {id: client.id, key: `${client.name} - ${client.erpId}`};
+        }),
       };
     }
     case SET_CLIENT_DETAILS: {

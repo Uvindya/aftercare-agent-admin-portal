@@ -43,6 +43,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
   const [secondaryPhoneNo, setSecondaryPhoneNo] = useState('');
   const [gender, setGender] = useState('');
   const [password, setPassword] = useState('');
+  const [erpId, setErpId] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
   const [addressLine2, setAddressLine2] = useState('');
   const [district, setDistrict] = useState('');
@@ -55,7 +56,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
   const [secondaryPhoneNoError,setSecondaryPhoneNoError] = useState('');
   const [passwordError,setPasswordError] = useState('');
   const [genderError,setGenderError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
+  const [erpIdError, setErpIdError] = useState('');
   const [addressLine1Error, setAddressLine1Error] = useState('');
   const [addressLine2Error, setAddressLine2Error] = useState('');
   const [districtError, setDistrictError] = useState('');
@@ -76,6 +77,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
       setAddressLine2(currentClient.addressLine2);
       setDistrict(currentClient.district);
       setCity(currentClient.city);
+      setErpId(currentClient.erpId);
       // hide password
     }
   }, [currentClient]);
@@ -91,6 +93,8 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
       setLastNameError(requiredMessage);
     } else if (!email) {
       setEmailError(requiredMessage);
+    } else if (!erpId) {
+      setErpIdError(requiredMessage);
     } else if (!isValidEmail(email)) {
       setEmailError(emailNotValid);
     } else if(!primaryPhoneNo){
@@ -127,6 +131,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
       addressLine2,
       city,
       district,
+      erpId,
     };
 
     if (currentClient) {
@@ -228,17 +233,16 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
           <GridContainer>
               <Grid item xs={12} sm={6}>
                 <AppTextInput
-                  type="password"
                   fullWidth
                   variant="outlined"
-                  label="Password"
+                  label="ERP ID"
                   autoComplete="off" 
-                  value={password}
+                  value={erpId}
                   onChange={e => {
-                    setPassword(e.target.value);
-                    setPasswordError('');
+                    setErpId(e.target.value);
+                    setErpIdError('');
                   }}
-                  helperText={passwordError}
+                  helperText={erpIdError}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -258,6 +262,21 @@ const AddEditClient = ({ open, onCloseDialog, callbck}) => {
                 />
               </Grid>
           </GridContainer>
+        </Box>
+        <Box mb={{ xs: 6, md: 5 }}>
+            <AppTextInput
+                  type="password"
+                  fullWidth
+                  variant="outlined"
+                  label="Password"
+                  autoComplete="off" 
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value);
+                    setPasswordError('');
+                  }}
+                  helperText={passwordError}
+            />
         </Box>
         <Box mb={{ xs: 6, md: 5 }}>
           <AppTextInput

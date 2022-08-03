@@ -19,6 +19,7 @@ const headCells = [
     label: 'Name',
   },
   { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
   {
     id: 'primaryPhoneNo',
     numeric: false,

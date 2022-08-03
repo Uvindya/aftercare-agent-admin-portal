@@ -22,7 +22,7 @@ const ClientDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
   const { detailedCurrentClient } = useSelector(({ clientsReducer }) => clientsReducer);
 
-  const { id, firstName, lastName, email, createdAt, modifiedAt, primaryPhoneNo, secondaryPhoneNo, addressLine1, addressLine2, city, district} = detailedCurrentClient;
+  const { id, erpId, firstName, lastName, email, createdAt, modifiedAt, primaryPhoneNo, secondaryPhoneNo, addressLine1, addressLine2, city, district} = detailedCurrentClient;
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
@@ -31,7 +31,7 @@ const ClientDetailView = ({ open, onCloseDialog }) => {
 
           <Box mt={-2}>
             <Box display="flex" alignItems="center">
-              <Typography className={classes.titleRoot}>{`${firstName} ${lastName}`}</Typography>
+              <Typography className={classes.titleRoot}>{`${firstName} ${lastName} - ${erpId}`}</Typography>
             </Box>
             
               <Box mt={1}>

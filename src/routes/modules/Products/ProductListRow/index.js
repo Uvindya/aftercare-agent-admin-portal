@@ -70,7 +70,7 @@ const ProductListRow = ({ row, isSelected, onRowClick, onProductEdit, onProductD
       <TableCell align="center">{row.erpId}</TableCell>
       <TableCell align="center">{row.warrentyPeriod}</TableCell>
       <TableCell align="center">{row.clientName}</TableCell>
-      <TableCell align="center">{row.createdAt}</TableCell>
+      <TableCell align="center">{row.serialNumber}</TableCell>
       <TableCell align="center" onClick={event => event.stopPropagation()}>
         <CmtDropdownMenu items={productActions} onItemClick={onProductMenuClick} TriggerComponent={<MoreHoriz />} />
       </TableCell>

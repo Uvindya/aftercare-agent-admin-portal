@@ -25,7 +25,7 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
   const { detailedCurrentProduct } = useSelector(({ productsReducer }) => productsReducer);
 
-  const { id, name, client, createdAt, modifiedAt, erpId, warrentyPeriod, maintainnanceInterval} = detailedCurrentProduct;
+  const { id, name, description, make, model, manufactureYear, countryOfOrigin, serialNumber, client, createdAt, modifiedAt, erpId, warrentyPeriod, maintainnanceInterval} = detailedCurrentProduct;
 
   //const { cId, pName, email, primaryPhoneNo } = client;
   return (
@@ -55,7 +55,25 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
       </Box>
       <Box px={6} py={5}>
         <Box mb={5} component="p" color="common.dark">
-          Product Detail
+          Product Detail - {serialNumber}
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+          <AssessmentIcon />
+          <Box ml={5} color="primary.main" component="p">
+            {description}
+          </Box>
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+          <AssessmentIcon />
+          <Box ml={5} color="primary.main" component="p">
+            {`${make} - ${model}`}
+          </Box>
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+          <AssessmentIcon />
+          <Box ml={5} color="primary.main" component="p">
+            {`${countryOfOrigin} - ${manufactureYear}`}
+          </Box>
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <AssessmentIcon />
@@ -72,13 +90,7 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
       </Box>
       <Box px={6} py={5}>
         <Box mb={5} component="p" color="common.dark">
-          Contact Detail
-        </Box>
-        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
-          <PeopleIcon />
-          <Box ml={5} color="primary.main" component="p">
-            {client.name}
-          </Box>
+          Contact Detail - {client.name}
         </Box>
         <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
           <EmailIcon />

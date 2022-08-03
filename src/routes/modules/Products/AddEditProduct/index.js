@@ -6,13 +6,13 @@ import Grid from '@material-ui/core/Grid';
 import AppTextInput from '../../../../@jumbo/components/Common/formElements/AppTextInput';
 import Button from '@material-ui/core/Button';
 import AppSelectBox from '../../../../@jumbo/components/Common/formElements/AppSelectBox';
-import { warrentyNotValid, requiredMessage, phoneNoNotValid, intervalNotValid } from '../../../../@jumbo/constants/ErrorMessages';
+import { warrentyNotValid, requiredMessage, manufactureYearNotValid, intervalNotValid } from '../../../../@jumbo/constants/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { isValidNumber, isValidPhoneNo } from '../../../../@jumbo/utils/commonHelper';
+import { isValidNumber, isValidYear } from '../../../../@jumbo/utils/commonHelper';
 import { addNewProduct, updateProduct } from '../../../../redux/actions/Products';
 import { getAllClients } from '../../../../redux/actions/Clients';
 
@@ -39,11 +39,25 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   const [maintainnanceInterval, setMaintainnanceInterval] = useState('');
   const [clientId, setClientId] = useState('');
 
+  const [description, setDescription] = useState('');
+  const [countryOfOrigin, setCountryOfOrigin] = useState('');
+  const [make, setMake] = useState('');
+  const [model, setModel] = useState('');
+  const [manufactureYear, setManufactureYear] = useState('');
+  const [serialNumber, setSerialNumber] = useState('');
+
   const [nameError, setNameError] = useState('');
   const [erpIdError, setErpIdError] = useState('');
   const [warrentyPeriodError, setWarrentyPeriodError] = useState('');
   const [maintainnanceIntervalError, setMaintainnanceIntervalError] = useState('');
   const [clientIdError, setClientIdError] = useState('');
+
+  const [descriptionError, setDescriptionError] = useState('');
+  const [countryOfOriginError, setCountryOfOriginError] = useState('');
+  const [makeError, setMakeError] = useState('');
+  const [modelError, setModelError] = useState('');
+  const [manufactureYearError, setManufactureYearError] = useState('');
+  const [serialNumberError, setSerialNumberError] = useState('');
 
 
   const dispatch = useDispatch();
@@ -60,6 +74,12 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setWarrentyPeriod(currentProduct.warrentyPeriod);
       setMaintainnanceInterval(currentProduct.maintainnanceInterval);
       setClientId(currentProduct.clientId);
+      setDescription(currentProduct.description);
+      setMake(currentProduct.make);
+      setModel(currentProduct.model);
+      setManufactureYear(currentProduct.manufactureYear);
+      setCountryOfOrigin(currentProduct.countryOfOrigin);
+      setSerialNumber(currentProduct.serialNumber);
       // hide password
     }
   }, [currentProduct, dispatch]);
@@ -73,6 +93,16 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setNameError(requiredMessage);
     } else if (!erpId) {
       setErpIdError(requiredMessage);
+    }else if (!make) {
+      setMakeError(requiredMessage);
+    }else if (!model) {
+      setModelError(requiredMessage);
+    }else if (!countryOfOrigin) {
+      setCountryOfOriginError(requiredMessage);
+    }else if (!serialNumber) {
+      setSerialNumberError(requiredMessage);
+    }else if (!manufactureYear && isValidYear(manufactureYear)) {
+      setManufactureYearError(manufactureYearNotValid);
     } else if (!warrentyPeriod && isValidNumber(warrentyPeriod)) {
       setWarrentyPeriodError(warrentyNotValid);
     } else if (!maintainnanceInterval && isValidNumber(maintainnanceInterval)) {
@@ -91,6 +121,12 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       warrentyPeriod,
       maintainnanceInterval,
       clientId,
+      description,
+      manufactureYear,
+      make,
+      model,
+      countryOfOrigin,
+      serialNumber
     };
 
     if (currentProduct) {
@@ -115,11 +151,11 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       <DialogContent dividers>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <AppTextInput
                 fullWidth
                 variant="outlined"
-                label="Name"
+                label="Title"
                 value={name}
                 onChange={e => {
                   setName(e.target.value);
@@ -142,7 +178,38 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
                 helperText={erpIdError}
               />
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <AppTextInput
+                fullWidth
+                variant="outlined"
+                label="Serial Number"
+                value={serialNumber}
+                onChange={e => {
+                  setSerialNumber(e.target.value);
+                  setSerialNumberError('')
+                }
+                }
+                helperText={serialNumberError}
+              />
+            </Grid>
           </GridContainer>
+        </Box>
+        <Box mb={{ xs: 6, md: 5 }}>
+          <AppTextInput
+                fullWidth
+                multiline
+                maxRows={4}
+                rows={4}
+                variant="outlined"
+                label="Description"
+                value={description}
+                onChange={e => {
+                  setDescription(e.target.value);
+                  setDescriptionError('')
+                }
+                }
+                helperText={descriptionError}
+              />
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
@@ -176,6 +243,67 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
+          <GridContainer>
+            <Grid item xs={12} sm={6}>
+              <AppTextInput
+                fullWidth
+                variant="outlined"
+                label="Country of Origin"
+                value={countryOfOrigin}
+                onChange={e => {
+                  setCountryOfOrigin(e.target.value);
+                  setCountryOfOriginError('');
+                }}
+                helperText={countryOfOriginError}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <AppTextInput
+                type="number"
+                fullWidth
+                variant="outlined"
+                label="Manufacture Year"
+                value={manufactureYear}
+                onChange={e => {
+                  setManufactureYear(e.target.value);
+                  setManufactureYearError('');
+                }}
+                helperText={manufactureYearError}
+              />
+            </Grid>
+          </GridContainer>
+        </Box>
+        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
+          <GridContainer>
+            <Grid item xs={12} sm={6}>
+              <AppTextInput
+                fullWidth
+                variant="outlined"
+                label="Make"
+                value={make}
+                onChange={e => {
+                  setMake(e.target.value);
+                  setMakeError('');
+                }}
+                helperText={makeError}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <AppTextInput
+                fullWidth
+                variant="outlined"
+                label="Model"
+                value={model}
+                onChange={e => {
+                  setModel(e.target.value);
+                  setModelError('');
+                }}
+                helperText={modelError}
+              />
+            </Grid>
+          </GridContainer>
+        </Box>
         <Box mb={{ xs: 6, md: 5 }}>
           <AppSelectBox
             fullWidth
@@ -183,7 +311,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
             label="Client"
             valueKey="id"
             variant="outlined"
-            labelKey="name"
+            labelKey="key"
             value={clientId}
             onChange={e => {
               onClientChange(e.target.value);

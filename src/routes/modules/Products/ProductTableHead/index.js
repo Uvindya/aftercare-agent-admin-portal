@@ -27,7 +27,7 @@ const headCells = [
     disablePadding: false,
     label: 'Client Name',
   },
-  { id: 'createdAt', numeric: false, disablePadding: false, label: 'Created At' },
+  { id: 'serialNumber', numeric: false, disablePadding: false, label: 'Serial Number' },
 ];
 
 function ProductTableHead({ classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {

@@ -67,6 +67,9 @@ const TechnicianListRow = ({ row, isSelected, onRowClick, onTechnicianEdit, onTe
       <TableCell align="center">
         {row.email}
       </TableCell>
+      <TableCell align="center">
+        {row.erpId}
+      </TableCell>
       <TableCell align="center">{row.primaryPhoneNo}</TableCell>
       <TableCell align="center">{row.status ? 'Enable' : 'Disable'}</TableCell>
       <TableCell align="center" onClick={event => event.stopPropagation()}>

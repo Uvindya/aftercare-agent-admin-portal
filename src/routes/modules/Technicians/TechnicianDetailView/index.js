@@ -14,7 +14,7 @@ const TechnicianDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
   const { detailedCurrentTechnician } = useSelector(({ technicianReducer }) => technicianReducer);
 
-  const { id, firstName, lastName, email, createdAt, modifiedAt, primaryPhoneNo, yearOfExperience} = detailedCurrentTechnician;
+  const { id, erpId, firstName, lastName, email, createdAt, modifiedAt, primaryPhoneNo, yearOfExperience} = detailedCurrentTechnician;
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
@@ -27,6 +27,7 @@ const TechnicianDetailView = ({ open, onCloseDialog }) => {
             </Box>
             
               <Box mt={1}>
+              <Typography className={classes.subTitleRoot}>{`ERP ID : ${erpId}`}</Typography>
                 <Typography className={classes.subTitleRoot}>{`Created At : ${createdAt}`}</Typography>
                 { modifiedAt && <Typography className={classes.subTitleRoot}>{`Modified At : ${modifiedAt}`}</Typography> }
               </Box>

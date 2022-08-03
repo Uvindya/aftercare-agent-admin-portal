@@ -23,6 +23,7 @@ const ClientTableToolbar = ({
   selected,
   setSelected,
   onClientAdd,
+  onClientImport,
   filterOptions,
   setFilterOptions,
   searchTerm,
@@ -88,6 +89,9 @@ const ClientTableToolbar = ({
             Clients{' '}
             <Button color="primary" onClick={() => onClientAdd(true)}>
               Add New Client
+            </Button>
+            <Button color="primary" onClick={() => onClientImport(true)}>
+               Import Clients
             </Button>
           </Typography>
         )}
@@ -156,6 +160,7 @@ ClientTableToolbar.propTypes = {
   searchTerm: PropTypes.string,
   setSearchTerm: PropTypes.func,
   onClientAdd: PropTypes.func,
+  onClientImport: PropTypes.func,
 };
 
 export default React.memo(ClientTableToolbar);

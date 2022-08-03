@@ -89,6 +89,9 @@ const ProductTableToolbar = ({
             <Button color="primary" onClick={() => onProductAdd(true)}>
               Add New Product
             </Button>
+            <Button color="primary" onClick={() => onProductAdd(true)}>
+              Import Products
+            </Button>
           </Typography>
         )}
 

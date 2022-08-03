@@ -9,6 +9,7 @@ import { getComparator, stableSort } from '../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteClient, getClients, setCurrentClient, getDetailedCurrentClient, setDetailedCurrentClient } from '../../../redux/actions/Clients';
 import AddEditClient from './AddEditClient';
+import ImportClient from './ImportClient';
 import ConfirmDialog from '../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
@@ -25,6 +26,7 @@ const ClientsModule = () => {
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openClientDialog, setOpenClientDialog] = useState(false);
+  const [openImportClientDialog, setOpenImportClientDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [selectedClient, setSelectedClient] = useState({ name: '' });
   const [clientsFetched, setClientsFetched] = useState(false);
@@ -53,6 +55,11 @@ const ClientsModule = () => {
   const handleCloseClientDialog = () => {
     setOpenClientDialog(false);
     dispatch(setCurrentClient(null));
+  };
+
+  const handleCloseImportClientDialog = () => {
+    setOpenImportClientDialog(false);
+    //dispatch(setCurrentClient(null));
   };
 
   const handleRequestSort = (event, property) => {
@@ -133,6 +140,7 @@ const ClientsModule = () => {
           selected={selected}
           setSelected={setSelected}
           onClientAdd={setOpenClientDialog}
+          onClientImport={setOpenImportClientDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
@@ -190,6 +198,7 @@ const ClientsModule = () => {
       </Paper>
 
       {openClientDialog && <AddEditClient open={openClientDialog} onCloseDialog={handleCloseClientDialog} callbck={updateClientTableInfoCallBack}/>}
+      {openImportClientDialog && <ImportClient open={openImportClientDialog} onCloseDialog={handleCloseImportClientDialog} callbck={updateClientTableInfoCallBack}/>}
       {openViewDialog && <ClientDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
 
       <ConfirmDialog

@@ -16,6 +16,10 @@ export const isValidNumber = value => {
   return value && /^[0-9]+$/i.test(value);
 };
 
+export const isValidYear = value => {
+  return value && /^[0-9]{4}$/i.test(value);
+};
+
 export const idGenerator = () => {
   return Math.floor(Math.random() * 100000);
 };
