@@ -20,7 +20,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { isValidEmail } from '../../../../@jumbo/utils/commonHelper';
-import { addNewClient, updateClient } from '../../../../redux/actions/Clients';
+import { importClients, updateClient } from '../../../../redux/actions/Clients';
 
 const useStyles = makeStyles(theme => ({
   dialogRoot: {
@@ -34,142 +34,37 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function PhoneNumberInput({ onChange, value, ...other }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  useEffect(() => {
-    if (!phoneNumber && value) {
-      setTimeout(() => {
-        setPhoneNumber(value);
-      }, 300);
-    }
-  }, [phoneNumber, value]);
-
-  const onNumberChange = number => {
-    setPhoneNumber(number.formattedValue);
-    onChange(number.formattedValue);
-  };
-
-  return <NumberFormat {...other} onValueChange={onNumberChange} value={phoneNumber} format="(###) ###-####" />;
-}
-
-const labels = [
-  { title: 'Home', slug: 'home' },
-  { title: 'Office', slug: 'office' },
-  { title: 'Other', slug: 'other' },
-];
-
-const splitName = user => {
-  if (user) {
-    const [fName, mName, lName] = user.name.split(' ');
-    return [fName, lName ? mName + ' ' + lName : mName];
-  }
-
-  return ['', ''];
-};
-
 const ImportClients = ({ open, onCloseDialog }) => {
   const classes = useStyles();
-  const currentUser = useSelector(({ clientsReducer }) => clientsReducer.currentClient);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [profile_pic, setProfile_pic] = useState('');
-  const [company, setCompany] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [phones, setPhones] = useState([{ phone: '', label: 'home' }]);
+  const [clientFile, setClientFile] = useState('');
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
+  const [clientFileError, setClientFileError] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: 'text/csv',
     onDrop: acceptedFiles => {
-      setProfile_pic(URL.createObjectURL(acceptedFiles[0]));
+      setClientFile(acceptedFiles[0]);
     },
   });
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (currentUser) {
-      const [fName, lName] = splitName(currentUser);
-      setFirstName(fName);
-      setLastName(lName);
-      setProfile_pic(currentUser.profile_pic);
-      setEmail(currentUser.email);
-      setCompany(currentUser.company);
-      setDesignation(currentUser.designation);
-      setPhones(currentUser.phones);
-    }
-  }, [currentUser]);
-
-  const onPhoneNoAdd = (number, index) => {
-    const updatedList = [...phones];
-    updatedList[index].phone = number;
-    setPhones(updatedList);
-    setPhoneError('');
-  };
-
-  const onPhoneRowRemove = index => {
-    const updatedList = [...phones];
-    updatedList.splice(index, 1);
-    setPhones(updatedList);
-  };
-
-  const onPhoneRowAdd = () => {
-    setPhones(phones.concat({ phone: '', label: 'home' }));
-  };
-
-  const onLabelChange = (value, index) => {
-    const updatedList = [...phones];
-    updatedList[index].label = value;
-    setPhones(updatedList);
-  };
-
   const onSubmitClick = () => {
-    const phoneNumbers = phones.filter(item => item.phone.trim());
-    if (!firstName) {
-      setFirstNameError(requiredMessage);
-    } else if (!email) {
-      setEmailError(requiredMessage);
-    } else if (!isValidEmail(email)) {
-      setEmailError(emailNotValid);
-    } else if (phoneNumbers.length === 0) {
-      setPhoneError(requiredMessage);
+    if (!clientFile) {
+      setClientFileError(requiredMessage);
     } else {
-      onUserSave(phoneNumbers);
+      onUserSave();
     }
   };
 
-  const onUserSave = phoneNumbers => {
-    const userDetail = {
-      profile_pic,
-      name: `${firstName} ${lastName}`,
-      email,
-      phones: phoneNumbers,
-      company,
-      designation,
+  const onUserSave = () => {
+      dispatch(
+        importClients(clientFile, () => {
+          onCloseDialog();
+        }),
+      );
     };
-
-    if (currentUser) {
-      dispatch(
-        updateClient({ ...currentUser, ...userDetail }, () => {
-          onCloseDialog();
-        }),
-      );
-    } else {
-      dispatch(
-        addNewClient(userDetail, () => {
-          onCloseDialog();
-        }),
-      );
-    }
-  };
-
-  const isPhonesMultiple = phones.length > 1;
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
@@ -178,7 +73,7 @@ const ImportClients = ({ open, onCloseDialog }) => {
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <Box {...getRootProps()} mr={{ xs: 0, md: 5 }} mb={{ xs: 3, md: 0 }} className="pointer">
             <input {...getInputProps()} />
-            <CmtAvatar size={70} src={profile_pic} />
+            <CmtAvatar size={70} src={clientFile} />
           </Box>
         </Box>
         <Box display="flex" justifyContent="flex-end" mb={4}>

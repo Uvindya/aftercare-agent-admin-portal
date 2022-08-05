@@ -105,6 +105,34 @@ export const addNewClient = (client, callbackFun) => {
   };
 };
 
+export const importClients = (clientFile, callbackFun) => {
+  var formData = new FormData();
+  formData.append('file', clientFile);
+  //console.log(formData);
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .post('/users/clients/import', formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    })
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(fetchSuccess('Imported clients were added successfully.'));
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getClients([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const sentMailToClient = () => {
   return dispatch => {
     dispatch(fetchSuccess('Email has been sent to client successfully'));
