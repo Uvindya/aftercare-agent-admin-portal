@@ -172,3 +172,31 @@ export const deleteProduct = (productId, callbackFun) => {
       });
   };
 };
+
+export const importProducts = (productFile, callbackFun) => {
+  var formData = new FormData();
+  formData.append('file', productFile);
+  //console.log(formData);
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .post('/products/import', formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    })
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(fetchSuccess('Imported products were added successfully.'));
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getProducts([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};

@@ -20,7 +20,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { isValidEmail } from '../../../../@jumbo/utils/commonHelper';
-import { importClients, updateClient } from '../../../../redux/actions/Clients';
+import { importTechnicians, updateClient } from '../../../../redux/actions/Technicians';
 
 const useStyles = makeStyles(theme => ({
   dialogRoot: {
@@ -38,12 +38,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ImportClients = ({ open, onCloseDialog }) => {
+const ImportTechnicians = ({ open, onCloseDialog }) => {
   const classes = useStyles();
 
-  const [clientFile, setClientFile] = useState('');
+  const [technicianFile, setClientFile] = useState('');
 
-  const [clientFileError, setClientFileError] = useState('');
+  const [technicianFileError, setClientFileError] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'text/csv',
@@ -55,7 +55,7 @@ const ImportClients = ({ open, onCloseDialog }) => {
   const dispatch = useDispatch();
 
   const onSubmitClick = () => {
-    if (!clientFile) {
+    if (!technicianFile) {
       setClientFileError(requiredMessage);
     } else {
       onUserSave();
@@ -64,7 +64,7 @@ const ImportClients = ({ open, onCloseDialog }) => {
 
   const onUserSave = () => {
       dispatch(
-        importClients(clientFile, () => {
+        importTechnicians(technicianFile, () => {
           onCloseDialog();
         }),
       );
@@ -72,7 +72,7 @@ const ImportClients = ({ open, onCloseDialog }) => {
 
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
-      <DialogTitle className={classes.dialogTitleRoot}>Import Clients</DialogTitle>
+      <DialogTitle className={classes.dialogTitleRoot}>Import Technicians</DialogTitle>
       <DialogContent dividers>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <Box {...getRootProps()} mr={{ xs: 0, md: 5 }} mb={{ xs: 3, md: 0 }} className="pointer">
@@ -83,7 +83,7 @@ const ImportClients = ({ open, onCloseDialog }) => {
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>
-          { clientFile && <Button variant="contained" color="primary" onClick={onSubmitClick}>
+          { technicianFile && <Button variant="contained" color="primary" onClick={onSubmitClick}>
               Import
             </Button> }
           </Box>
@@ -93,9 +93,9 @@ const ImportClients = ({ open, onCloseDialog }) => {
   );
 };
 
-export default ImportClients;
+export default ImportTechnicians;
 
-ImportClients.prototype = {
+ImportTechnicians.prototype = {
   open: PropTypes.bool.isRequired,
   onCloseDialog: PropTypes.func,
 };

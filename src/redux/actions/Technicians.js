@@ -61,6 +61,34 @@ export const getDetailedCurrentTechnician = (id, callbackFun) => {
   };
 };
 
+export const importTechnicians = (technicianFile, callbackFun) => {
+  var formData = new FormData();
+  formData.append('file', technicianFile);
+  //console.log(formData);
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .post('/users/technicians/import', formData, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    })
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(fetchSuccess('Imported technicians were added successfully.'));
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getTechnicians([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const addNewTechnician = (technician, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());

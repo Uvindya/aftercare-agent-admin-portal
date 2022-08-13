@@ -14,6 +14,8 @@ import { useDebounce } from '../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import ProductDetailView from './ProductDetailView';
 import NoRecordFound from './NoRecordFound';
+import ImportProducts from './ImportProducts';
+
 
 const ProductsModule = () => {
   const classes = useStyles();
@@ -33,6 +35,7 @@ const ProductsModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [openImportProductDialog, setOpenImportProductDialog] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -124,6 +127,11 @@ const ProductsModule = () => {
     setOpenConfirmDialog(false);
   };
 
+  const handleCloseImportProductDialog = () => {
+    setOpenImportProductDialog(false);
+    //dispatch(setCurrentProduct(null));
+  };
+
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -135,6 +143,7 @@ const ProductsModule = () => {
           onProductAdd={setOpenProductDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
+          onProductImport={setOpenImportProductDialog}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
@@ -191,7 +200,8 @@ const ProductsModule = () => {
 
       {openProductDialog && <AddEditProduct open={openProductDialog} onCloseDialog={handleCloseProductDialog} callbck={updateProductTableInfoCallBack}/>}
       {openViewDialog && <ProductDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
-
+      {openImportProductDialog && <ImportProducts open={openImportProductDialog} onCloseDialog={handleCloseImportProductDialog} callbck={updateProductTableInfoCallBack}/>}
+      
       <ConfirmDialog
         open={openConfirmDialog}
         title={`Confirm delete ${selectedProduct.name}`}

@@ -14,6 +14,7 @@ import { useDebounce } from '../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import TechnicianDetailView from './TechnicianDetailView';
 import NoRecordFound from './NoRecordFound';
+import ImportTechnician from './ImportTechnician';
 
 const TechniciansModule = () => {
   const classes = useStyles();
@@ -33,6 +34,8 @@ const TechniciansModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  
+  const [openImportTechnicianDialog, setOpenImportTechnicianDialog] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -124,6 +127,11 @@ const TechniciansModule = () => {
     setOpenConfirmDialog(false);
   };
 
+  const handleCloseImportTechnicianDialog = () => {
+    setOpenImportTechnicianDialog(false);
+    //dispatch(setCurrentClient(null));
+  };
+
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -133,6 +141,7 @@ const TechniciansModule = () => {
           selected={selected}
           setSelected={setSelected}
           onTechnicianAdd={setOpenTechnicianDialog}
+          onTechnicianImport={setOpenImportTechnicianDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
@@ -191,7 +200,8 @@ const TechniciansModule = () => {
 
       {openTechnicianDialog && <AddEditTechnician open={openTechnicianDialog} onCloseDialog={handleCloseTechnicianDialog} callbck={updateTechnicianTableInfoCallBack}/>}
       {openViewDialog && <TechnicianDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
-
+      {openImportTechnicianDialog && <ImportTechnician open={openImportTechnicianDialog} onCloseDialog={handleCloseImportTechnicianDialog} callbck={updateTechnicianTableInfoCallBack}/>}
+      
       <ConfirmDialog
         open={openConfirmDialog}
         title={`Confirm delete ${selectedTechnician.name}`}

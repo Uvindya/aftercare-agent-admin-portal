@@ -27,6 +27,7 @@ const TechnicianTableToolbar = ({
   setFilterOptions,
   searchTerm,
   setSearchTerm,
+  onTechnicianImport,
 }) => {
   const classes = useStyles();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -89,7 +90,7 @@ const TechnicianTableToolbar = ({
             <Button color="primary" onClick={() => onTechnicianAdd(true)}>
               Add New Technician
             </Button>
-            <Button color="primary" onClick={() => onTechnicianAdd(true)}>
+            <Button color="primary" onClick={() => onTechnicianImport(true)}>
               Import Technicians
             </Button>
           </Typography>
@@ -159,6 +160,7 @@ TechnicianTableToolbar.propTypes = {
   searchTerm: PropTypes.string,
   setSearchTerm: PropTypes.func,
   onTechnicianAdd: PropTypes.func,
+  onTechnicianImport: PropTypes.func,
 };
 
 export default React.memo(TechnicianTableToolbar);

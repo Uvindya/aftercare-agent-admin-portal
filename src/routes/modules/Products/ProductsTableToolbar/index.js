@@ -27,6 +27,7 @@ const ProductTableToolbar = ({
   setFilterOptions,
   searchTerm,
   setSearchTerm,
+  onProductImport,
 }) => {
   const classes = useStyles();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -89,7 +90,7 @@ const ProductTableToolbar = ({
             <Button color="primary" onClick={() => onProductAdd(true)}>
               Add New Product
             </Button>
-            <Button color="primary" onClick={() => onProductAdd(true)}>
+            <Button color="primary" onClick={() => onProductImport(true)}>
               Import Products
             </Button>
           </Typography>
@@ -159,6 +160,7 @@ ProductTableToolbar.propTypes = {
   searchTerm: PropTypes.string,
   setSearchTerm: PropTypes.func,
   onProductAdd: PropTypes.func,
+  onProductImport: PropTypes.func,
 };
 
 export default React.memo(ProductTableToolbar);
