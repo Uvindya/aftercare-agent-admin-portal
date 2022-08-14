@@ -15,7 +15,7 @@ export const getProducts = (filterOptions = [], searchTerm = '', callbackFun, pa
     dispatch(fetchStart());
     //console.log(filterOptions)
     axios
-      .get('/products', { params: { page , size, searchTerm} })
+      .get('/products', { params: { page , size, searchTerm, sort : 'modified_at,desc'} })
       .then(response => {
         //console.log(data)
         if (response.status === 200) {

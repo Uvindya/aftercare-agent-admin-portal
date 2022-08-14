@@ -15,7 +15,7 @@ export const getClients = (filterOptions = [], searchTerm = '', callbackFun, pag
     dispatch(fetchStart());
     //console.log(filterOptions)
     axios
-      .get('/users/clients', { params: { page , size, searchTerm} })
+      .get('/users/clients', { params: { page , size, searchTerm, sort : 'modifiedAt,desc'} })
       .then(response => {
         //console.log(data)
         if (response.status === 200) {

@@ -13,7 +13,7 @@ export const getTechnicians = (filterOptions = [], searchTerm = '', callbackFun,
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .get('/users/technicians', { params: { page , size, searchTerm} })
+      .get('/users/technicians', { params: { page , size, searchTerm, sort : 'modifiedAt,desc'} })
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
