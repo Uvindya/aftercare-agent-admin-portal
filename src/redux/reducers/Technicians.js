@@ -6,10 +6,12 @@ import {
     GET_TECHNICIANS,
     SET_TECHNICIAN_DETAILS,
     SET_FULL_TECHNICIAN_DETAILS,
+    GET_ALL_TECHNICIANS,
   } from '../../@jumbo/constants/ActionTypes';
   
   const INIT_STATE = {
     technicians: [],
+    allTechnicians: [],
     currentTechnician: null,
     detailedCurrentTechnician: null,
   };
@@ -20,6 +22,14 @@ import {
         return {
           ...state,
           technicians: action.payload,
+        };
+      }
+      case GET_ALL_TECHNICIANS: {
+        return {
+          ...state,
+          allTechnicians: action.payload.map(technician => {
+            return {id: technician.id, key: `${technician.name} - ${technician.erpId}`};
+          }),
         };
       }
       case SET_TECHNICIAN_DETAILS: {

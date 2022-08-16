@@ -105,6 +105,28 @@ export const addNewMaintainance = (maintainance, callbackFun) => {
   };
 };
 
+export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => {
+  //console.log(maintainance)
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put('/tasks/maintainances/assign', assignTechInfo)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess('Assign technician to maintainance was successfull.'));
+          //dispatch({ type: ADD_MAINTAINANCE, payload: data.data });
+          dispatch(getMaintainances([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const sentMailToMaintainance = () => {
   return dispatch => {
     dispatch(fetchSuccess('Email has been sent to maintainance successfully'));

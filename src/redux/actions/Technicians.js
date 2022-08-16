@@ -7,6 +7,7 @@ import {
   GET_TECHNICIANS,
   SET_TECHNICIAN_DETAILS,
   SET_FULL_TECHNICIAN_DETAILS,
+  GET_ALL_TECHNICIANS,
 } from '../../@jumbo/constants/ActionTypes';
 
 export const getTechnicians = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
@@ -28,6 +29,26 @@ export const getTechnicians = (filterOptions = [], searchTerm = '', callbackFun,
       });
   };
 };
+
+export const getAllTechnicians = () => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/users/technicians/all')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: GET_ALL_TECHNICIANS, payload: response.data });
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 
 export const setCurrentTechnician = technician => {
   return dispatch => {

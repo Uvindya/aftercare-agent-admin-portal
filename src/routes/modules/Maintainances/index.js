@@ -9,6 +9,7 @@ import { getComparator, stableSort } from '../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteMaintainance, getMaintainances, setCurrentMaintainance, getDetailedCurrentMaintainance, setDetailedCurrentMaintainance } from '../../../redux/actions/Maintainances';
 import AddEditMaintainance from './AddEditMaintainance';
+import AssignTechnician from './AssignTechnician';
 import ConfirmDialog from '../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
@@ -25,6 +26,7 @@ const MaintainancesModule = () => {
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openMaintainanceDialog, setOpenMaintainanceDialog] = useState(false);
+  const [openAssignTechnicianDialog, setOpenAssignTechnicianDialog] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [selectedMaintainance, setSelectedMaintainance] = useState({ name: '' });
   const [maintainancesFetched, setMaintainancesFetched] = useState(false);
@@ -52,6 +54,11 @@ const MaintainancesModule = () => {
 
   const handleCloseMaintainanceDialog = () => {
     setOpenMaintainanceDialog(false);
+    dispatch(setCurrentMaintainance(null));
+  };
+
+  const handleCloseAssignTechnicianDialog = () => {
+    setOpenAssignTechnicianDialog(false);
     dispatch(setCurrentMaintainance(null));
   };
 
@@ -98,6 +105,10 @@ const MaintainancesModule = () => {
 
   const handleMaintainanceView = maintainance => {
     dispatch(getDetailedCurrentMaintainance(maintainance.id, () => setOpenViewDialog(true)));
+  };
+
+  const handleAssignTechnician = maintainance => {
+    dispatch(getDetailedCurrentMaintainance(maintainance.id, () => setOpenAssignTechnicianDialog(true)));
   };
 
   const handleCloseViewDialog = () => {
@@ -160,6 +171,7 @@ const MaintainancesModule = () => {
                       onMaintainanceEdit={handleMaintainanceEdit}
                       onMaintainanceDelete={handleMaintainanceDelete}
                       onMaintainanceView={handleMaintainanceView}
+                      onAssignTechnician={handleAssignTechnician}
                       isSelected={isSelected}
                       callbck={updateMaintainanceTableInfoCallBack}
                     />
@@ -190,6 +202,7 @@ const MaintainancesModule = () => {
       </Paper>
 
       {openMaintainanceDialog && <AddEditMaintainance open={openMaintainanceDialog} onCloseDialog={handleCloseMaintainanceDialog} callbck={updateMaintainanceTableInfoCallBack}/>}
+      {openAssignTechnicianDialog && <AssignTechnician open={openAssignTechnicianDialog} onCloseDialog={handleCloseAssignTechnicianDialog} callbck={updateMaintainanceTableInfoCallBack}/>}
       {openViewDialog && <MaintainanceDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
 
       <ConfirmDialog

@@ -40,7 +40,7 @@ const getMaintainanceActions = maintainance => {
   return actions;
 };
 
-const MaintainanceListRow = ({ row, isSelected, onRowClick, onMaintainanceEdit, onMaintainanceDelete, onMaintainanceView, callbck }) => {
+const MaintainanceListRow = ({ row, isSelected, onRowClick, onMaintainanceEdit, onMaintainanceDelete, onAssignTechnician, onMaintainanceView, callbck }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ const MaintainanceListRow = ({ row, isSelected, onRowClick, onMaintainanceEdit, 
     if (menu.action === 'view') {
       onMaintainanceView(row);
     } else if (menu.action === 'technician') {
-      //onMaintainanceEdit(row);
+      onAssignTechnician(row);
     } else if (menu.action === 'disable') {
       dispatch(updateMaintainanceStatus({ username: row.email, status: 'false' }, callbck));
     } else if (menu.action === 'enable') {
