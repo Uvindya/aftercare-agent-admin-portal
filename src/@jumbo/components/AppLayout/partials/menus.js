@@ -2,7 +2,7 @@ import React from 'react';
 import { PostAdd, Widgets} from '@material-ui/icons';
 import IntlMessages from '../../../utils/IntlMessages';
 
-export const sidebarNavs = [
+export const sidebarNavs = {"ADMIN" : [
   {
     name: <IntlMessages id={'sidebar.dashboard.main'} />,
     type: 'section',
@@ -75,7 +75,33 @@ export const sidebarNavs = [
       },
     ],
   },
-];
+],
+"TECHNICIAN" : [
+  {
+    name: <IntlMessages id={'sidebar.maintainance.main'} />,
+    type: 'section',
+    children: [
+      {
+        name: <IntlMessages id={'sidebar.maintainance.sub'} />,
+        type: 'item',
+        icon: <PostAdd />,
+        link: '/technician/maintainances',
+      },
+    ],
+  },{
+    name: <IntlMessages id={'sidebar.breakdown.main'} />,
+    type: 'section',
+    children: [
+      {
+        name: <IntlMessages id={'sidebar.breakdown.sub'} />,
+        type: 'item',
+        icon: <PostAdd />,
+        link: '/technician/breakdowns',
+      },
+    ],
+  },
+]
+};
 
 export const horizontalDefaultNavs = [
   {

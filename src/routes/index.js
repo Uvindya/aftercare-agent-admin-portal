@@ -9,18 +9,18 @@ import ProductModule from './modules/Products';
 import TechnicianModule from './modules/Technicians';
 import MaintainanceModule from './modules/Maintainances';
 import ReportsPage from './Pages/ReportPage';
-import ProductPage from './Pages/ProductsPage';
+import MaintainancePage from './Pages/MaintainancePage';
 import Error404 from './Pages/404';
 import Login from './Auth/Login';
 import ForgotPasswordPage from './Auth/ForgotPassword';
 
-const RestrictedRoute = ({ component: Component, ...rest }) => {
+const RestrictedRoute = ({ component: Component, permission, ...rest }) => {
   const { authUser } = useSelector(({ auth }) => auth);
   return (
     <Route
       {...rest}
       render={props =>
-        authUser ? (
+        (authUser && permission === authUser.role) ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -35,27 +35,38 @@ const RestrictedRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+const getLandingPage = (role) => {
+  switch(role){
+    case "TECHNICIAN":
+      return <Redirect to={'/technician/maintainances'} />;
+    default:
+      return <Redirect to={'/dashboard'} />;
+  }
+}
+
 const Routes = () => {
   const { authUser } = useSelector(({ auth }) => auth);
   const location = useLocation();
 
   if (location.pathname === '' || location.pathname === '/') {
-    return <Redirect to={'/dashboard'} />;
+    return getLandingPage(authUser.role);
   } else if (authUser && (location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/forgot-password')) {
-    return <Redirect to={'/dashboard'} />;
+    return getLandingPage(authUser.role);
   }
 
   return (
     <React.Fragment>
       <Switch>
-        <RestrictedRoute path="/dashboard" component={DashboardPage} />
-        <RestrictedRoute path="/breakdowns" component={BreakdownPage} />
-        <RestrictedRoute path="/clients" component={ClientModule} />
-        <RestrictedRoute path="/maintainances" component={MaintainanceModule} />
-        <RestrictedRoute path="/reports" component={ReportsPage} />
-        <RestrictedRoute path="/technicians" component={TechnicianModule} />
-        <RestrictedRoute path="/products" component={ProductModule} />
-        <Route path="/signin" component={Login} />
+        <RestrictedRoute path="/dashboard" component={DashboardPage}  permission="ADMIN"/>
+        <RestrictedRoute path="/breakdowns" component={BreakdownPage}   permission="ADMIN"/>
+        <RestrictedRoute path="/clients" component={ClientModule}   permission="ADMIN"/>
+        <RestrictedRoute path="/maintainances" component={MaintainanceModule} permission="ADMIN"/>
+        <RestrictedRoute path="/reports" component={ReportsPage}   permission="ADMIN"/>
+        <RestrictedRoute path="/technicians" component={TechnicianModule}   permission="ADMIN"/>
+        <RestrictedRoute path="/products" component={ProductModule}   permission="ADMIN"/>
+        <RestrictedRoute path="/technician/maintainances" component={MaintainancePage} permission="TECHNICIAN"/>
+        <RestrictedRoute path="/technician/breakdowns" component={BreakdownPage} permission="TECHNICIAN"/>
+        <Route path="/signin" component={Login}/>
         <Route path="/forgot-password" component={ForgotPasswordPage} />
         <Route component={Error404} />
       </Switch>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -27,10 +28,10 @@ const useStyles = makeStyles(() => ({
 
 const SideBar = () => {
   const classes = useStyles();
-
+  const { authUser } = useSelector(({ auth }) => auth);
   return (
     <PerfectScrollbar className={classes.perfectScrollbarSidebar}>
-      <CmtVertical menuItems={sidebarNavs} />
+      {authUser && <CmtVertical menuItems={sidebarNavs[authUser.role]} />}
     </PerfectScrollbar>
   );
 };
