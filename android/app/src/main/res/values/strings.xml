@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">cb-aftercare-service-agent</string>
+    <string name="title_activity_main">cb-aftercare-service-agent</string>
+    <string name="package_name">com.cbmachinery.aftercareserviceagent</string>
+    <string name="custom_url_scheme">com.cbmachinery.aftercareserviceagent</string>
+</resources>

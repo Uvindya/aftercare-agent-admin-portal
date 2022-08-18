@@ -1,0 +1,8 @@
+{
+    "appId": "com.cbmachinery.aftercareserviceagent",
+    "appName": "cb-aftercare-service-agent",
+    "bundledWebRuntime": false,
+    "npmClient": "npm",
+    "webDir": "build",
+    "cordova": {}
+  }

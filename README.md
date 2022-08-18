@@ -1,4 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Android app setup
+
+https://dev.to/jamalroger/how-to-transform-any-spa-pwa-web-application-into-mobile-app-with-capacitorjs-kaj
+
+https://medium.com/how-to-react/convert-your-existing-react-js-app-to-android-or-ios-app-using-the-ionic-capacitor-a127deda75bd (Alternative if needed)
 
 ## Available Scripts
 

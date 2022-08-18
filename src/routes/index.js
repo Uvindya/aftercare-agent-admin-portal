@@ -49,9 +49,9 @@ const Routes = () => {
   const location = useLocation();
 
   if (location.pathname === '' || location.pathname === '/') {
-    return getLandingPage(authUser.role);
+    return getLandingPage(authUser?authUser.role:null);
   } else if (authUser && (location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/forgot-password')) {
-    return getLandingPage(authUser.role);
+    return getLandingPage(authUser?authUser.role:null);
   }
 
   return (
