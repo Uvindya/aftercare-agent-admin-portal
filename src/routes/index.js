@@ -10,6 +10,7 @@ import TechnicianModule from './modules/Admin/Technicians';
 import MaintainanceModule from './modules/Admin/Maintainances';
 import ReportsPage from './Pages/ReportPage';
 import MaintainancePage from './Pages/MaintainancePage';
+import TechMaintainanceModule from './modules/Technician/Maintainances';
 import Error404 from './Pages/404';
 import Login from './Auth/Login';
 import ForgotPasswordPage from './Auth/ForgotPassword';
@@ -67,7 +68,7 @@ const Routes = () => {
         <RestrictedRoute path="/reports" component={ReportsPage} permission="ADMIN" />
         <RestrictedRoute path="/technicians" component={TechnicianModule} permission="ADMIN" />
         <RestrictedRoute path="/products" component={ProductModule} permission="ADMIN" />
-        <RestrictedRoute path="/technician/maintainances" component={MaintainancePage} permission="TECHNICIAN" />
+        <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/breakdowns" component={BreakdownPage} permission="TECHNICIAN" />
         <Route path="/signin" component={Login} />
         <Route path="/forgot-password" component={ForgotPasswordPage} />
