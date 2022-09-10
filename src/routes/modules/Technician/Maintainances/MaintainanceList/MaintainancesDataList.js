@@ -1,6 +1,6 @@
 import React from 'react';
 import CmtList from '../../../../../@coremat/CmtList';
-import PropertyItem from './PropertyItem';
+import MaintainanceItem from './MaintainanceItem';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListEmptyResult from '../../../../../@coremat/CmtList/ListEmptyResult';
@@ -28,14 +28,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PropertiesDataList = ({ data, onPropertyClick }) => {
+const MaintainancesDataList = ({ data, onMaintainanceClick }) => {
   const classes = useStyles();
   return (
     <CmtList
       data={data}
       renderRow={(item, index) => (
         <ListItem component="div" className={classes.newsListRoot} key={index}>
-          <PropertyItem item={item} onPropertyClick={onPropertyClick} />
+          <MaintainanceItem item={item} onMaintainanceClick={onMaintainanceClick} />
         </ListItem>
       )}
       ListEmptyComponent={<ListEmptyResult title="No Result" content="No result found with your search" />}
@@ -43,4 +43,4 @@ const PropertiesDataList = ({ data, onPropertyClick }) => {
   );
 };
 
-export default PropertiesDataList;
+export default MaintainancesDataList;

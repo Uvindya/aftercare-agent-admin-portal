@@ -31,11 +31,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PropertyTabs = ({ tabValue, onChangeTab }) => {
-  const propertyTabCategories = [
-    { name: 'New Jersey', slug: 'new_jersey' },
-    { name: 'Colorado', slug: 'colorado' },
-    { name: 'Albama', slug: 'albama' },
+const MaintainanceTabs = ({ tabValue, onChangeTab }) => {
+  const maintainanceTabCategories = [
+    { name: 'Backlog', slug: 'BACKLOG' },
+    { name: 'In Progress', slug: 'IN_PROGRESS' },
+    { name: 'Completed', slug: 'COMPLETED' },
   ];
   const classes = useStyles();
   const a11yProps = index => {
@@ -54,11 +54,11 @@ const PropertyTabs = ({ tabValue, onChangeTab }) => {
       aria-label="scrollable auto tabs example"
       className={classes.tabsRoot}>
       <Tab key={0} label="All" value="" />
-      {propertyTabCategories.map((tab, index) => {
+      {maintainanceTabCategories.map((tab, index) => {
         return <Tab key={index} label={tab.name} value={tab.slug} {...a11yProps(index)} />;
       })}
     </Tabs>
   );
 };
 
-export default PropertyTabs;
+export default MaintainanceTabs;

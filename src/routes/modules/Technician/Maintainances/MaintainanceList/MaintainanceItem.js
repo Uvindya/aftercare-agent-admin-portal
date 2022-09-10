@@ -109,15 +109,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PropertyItem = ({ item, onPropertyClick }) => {
+const MaintainanceItem = ({ item, onMaintainanceClick }) => {
   const classes = useStyles();
   const getTitle = () => (
     <React.Fragment>
-      <Box className={classes.badgeRoot} component="span" bgcolor={item.availability === 'sale' ? '#FF8C00' : '#8DCD03'}>
-        {item.availability === 'sale' ? 'For Sale' : 'For Rent'}
+      <Box className={classes.badgeRoot} component="span" bgcolor={item.status === 'COMPLETED' ? '#FF8C00' : '#8DCD03'}>
+        {item.status.replaceAll('_', ' ')}
       </Box>
       <Typography component="div" variant="h4" mb={1} className={classes.titleRoot}>
-        {item.title}
+        {`${item.productName} (${item.productId}) - ${item.description}`}
       </Typography>
     </React.Fragment>
   );
@@ -126,21 +126,21 @@ const PropertyItem = ({ item, onPropertyClick }) => {
     <Box component="p" display="flex" flexDirection="row" mb={4} fontSize={12}>
       <Box component="span" mr={{ xs: 3, md: 4 }}>
         <Box component="span" color="text.secondary" mr={1}>
-          Bedrooms:
+          Task ID:
         </Box>
-        {item.bedrooms}
+        {item.id}
       </Box>
       <Box component="span" mr={{ xs: 3, md: 4 }}>
         <Box component="span" color="text.secondary" mr={1}>
-          Baths:
+          Reported Date:
         </Box>
-        {item.bathrooms}
+        {item.reportedAt}
       </Box>
       <Box component="span" mr={{ xs: 3, md: 4 }}>
         <Box component="span" color="text.secondary" mr={1}>
-          Area:
+          Scheduled Date:
         </Box>
-        {item.area}
+        {item.scheduledDate}
       </Box>
     </Box>
   );
@@ -182,17 +182,31 @@ const PropertyItem = ({ item, onPropertyClick }) => {
       footerComponentProps={{ className: classes.footerComponentRoot }}>
       <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={4}>
         <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-          <PermIdentityIcon className={classes.iconRoot} /> {item.owner.name}
-        </Box>
-        <Box display="flex" flexDirection="row" alignItems="center">
-          <ScheduleIcon className={classes.iconRoot} /> {timeFromNow(item.publishedDate)}
+          <PermIdentityIcon className={classes.iconRoot} /> {`${item.clientName} (${item.clientId})`}
         </Box>
       </Box>
-      <Button color="primary" onClick={() => onPropertyClick(item)}>
+      <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
         More Detail
       </Button>
+      {item.status === 'CLIENT_ACKNOWLEDGED' && (
+        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+          Start
+        </Button>
+      )}
+
+      {item.status === 'IN_PROGRESS' && (
+        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+          Add Notes
+        </Button>
+      )}
+
+      {item.status === 'IN_PROGRESS' && (
+        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+          Complete
+        </Button>
+      )}
     </CmtMediaObject>
   );
 };
 
-export default PropertyItem;
+export default MaintainanceItem;

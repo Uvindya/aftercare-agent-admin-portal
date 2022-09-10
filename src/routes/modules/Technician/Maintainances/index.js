@@ -1,373 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import PropertyDetail from './MaintainanceDetailView';
+import MaintainanceDetail from './MaintainanceDetailView';
 import PropertiesList from './MaintainanceList';
 import Collapse from '@material-ui/core/Collapse';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyMaintainances, getDetailedCurrentMaintainance } from '../../../../redux/actions/Maintainances';
 
 const MaintainanceListing = () => {
-  const propertiesList = [
-    {
-      id: 1,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Luxury family home at beach side',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 26, 2020',
-      availability: 'sale',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'new_jersey',
-    },
-    {
-      id: 2,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Sunset view Apartment in Colarado',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 25, 2020',
-      availability: 'rent',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'colorado',
-    },
-    {
-      id: 3,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Best property in Albama',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 23, 2020',
-      availability: 'rent',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'albama',
-    },
-    {
-      id: 4,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Best house deal in New jersey',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 24, 2020',
-      availability: 'sale',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'new_jersey',
-    },
-    {
-      id: 5,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Luxury apartment in Colarado',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 28, 2020',
-      availability: 'rent',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'colorado',
-    },
-    {
-      id: 6,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Plot in Albama',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 29, 2020',
-      availability: 'sale',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'albama',
-    },
-    {
-      id: 7,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'House in New jersey',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 24, 2020',
-      availability: 'sale',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'new_jersey',
-    },
-    {
-      id: 8,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Flat in Colarado',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 20, 2020',
-      availability: 'rent',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'colorado',
-    },
-    {
-      id: 9,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: '3 BHK house in Albama',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 28, 2020',
-      availability: 'sale',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'albama',
-    },
-    {
-      id: 10,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Best house for family in New Jersey',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 26, 2020',
-      availability: 'rent',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'new_jersey',
-    },
-    {
-      id: 11,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Villa in Colarado',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 16, 2020',
-      availability: 'rent',
-      isTrending: true,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'colorado',
-    },
-    {
-      id: 12,
-      images: [
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 1',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 2',
-        },
-        {
-          image: 'https://via.placeholder.com/640x420',
-          title: 'image 3',
-        },
-      ],
-      title: 'Sunrise view apartment in Albama',
-      address: '2972, Washington Road, New Jersey',
-      bedrooms: 3,
-      bathrooms: 3,
-      area: '1400 m2',
-      owner: { id: 1, name: 'John Nash' },
-      publishedDate: 'June 28, 2020',
-      availability: 'sale',
-      isTrending: false,
-      price: '$670,500',
-      pricePerSqFt: '$587/sqft',
-      category: 'albama',
-    },
-  ];
-
-  const [selectedProperty, setSelectedProperty] = useState(null);
+  const { myMaintainances, detailedCurrentMaintainance } = useSelector(({ maintainancesReducer }) => maintainancesReducer);
+  const [selectedMaintainance, setSelectedMaintainance] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
   const [page, setPage] = useState(1);
   const [categoryData, setCategoryData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [tabValue, setTabValue] = useState('');
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setCategoryData(
-      tabValue
-        ? propertiesList.filter(item => item.category === tabValue).slice(0, page * 5)
-        : propertiesList.slice(0, page * 5),
-    );
-  }, [tabValue, page]);
+    if (myMaintainances.length === 0) {
+      dispatch(getMyMaintainances(() => filterMaintainnances()));
+    }
+    filterMaintainnances(tabValue);
+  }, [dispatch, tabValue, page, myMaintainances]);
+
+  const filterMaintainnances = tabValue => {
+    if (!tabValue) {
+      setCategoryData(myMaintainances.slice(0, page * 5));
+      return;
+    }
+
+    if (tabValue === 'COMPLETED') {
+      setCategoryData(myMaintainances.filter(item => item.status === tabValue).slice(0, page * 5));
+      return;
+    }
+    if (tabValue === 'BACKLOG') {
+      setCategoryData(
+        myMaintainances
+          .filter(item => item.status === 'TECH_ASSIGNED' || item.status === 'CLIENT_ACKNOWLEDGED')
+          .slice(0, page * 5),
+      );
+      return;
+    } else if (tabValue === 'IN_PROGRESS') {
+      setCategoryData(
+        myMaintainances
+          .filter(item => item.status === 'IN_PROGRESS' || item.status === 'NEEDS_CLIENTS_APPROVAL')
+          .slice(0, page * 5),
+      );
+      return;
+    }
+  };
 
   const handlePageChange = () => {
     setPage(page + 1);
@@ -389,21 +70,35 @@ const MaintainanceListing = () => {
     } else return categoryData;
   };
 
-  const handlePropertyClick = property => setSelectedProperty(property);
+  const handleMaintainanceClick = (type, maintainance) => {
+    if (type == 'MORE_DETAILS') {
+      dispatch(
+        getDetailedCurrentMaintainance(maintainance.id, () => {
+          setSelectedMaintainance(true);
+          setSelectedType(type);
+        }),
+      );
+    }
+  };
 
-  const showPropertyList = () => setSelectedProperty(null);
+  const showMaintainanceList = () => setSelectedMaintainance(null);
 
   const data = getFilteredData();
 
   return (
     <React.Fragment>
-      <Collapse in={selectedProperty} timeout="auto" unmountOnExit>
-        {selectedProperty && <PropertyDetail selectedProperty={selectedProperty} showPropertyList={showPropertyList} />}
+      <Collapse in={selectedMaintainance} timeout="auto" unmountOnExit>
+        {selectedType == 'MORE_DETAILS' && (
+          <MaintainanceDetail
+            selectedMaintainance={detailedCurrentMaintainance}
+            showMaintainanceList={showMaintainanceList}
+          />
+        )}
       </Collapse>
 
-      <Collapse in={!selectedProperty} timeout="auto" unmountOnExit>
+      <Collapse in={!selectedMaintainance} timeout="auto" unmountOnExit>
         <PropertiesList
-          onPropertyClick={handlePropertyClick}
+          onMaintainanceClick={handleMaintainanceClick}
           tabValue={tabValue}
           onChangeTab={onChangeTab}
           data={data}
@@ -413,11 +108,11 @@ const MaintainanceListing = () => {
         />
       </Collapse>
 
-      {/*{selectedProperty ? (
-        <PropertyDetail selectedProperty={selectedProperty} showPropertyList={showPropertyList} />
+      {/*{selectedMaintainance ? (
+        <MaintainanceDetail selectedMaintainance={selectedMaintainance} showMaintainanceList={showMaintainanceList} />
       ) : (
         <PropertiesList
-          onPropertyClick={handlePropertyClick}
+          onMaintainanceClick={handleMaintainanceClick}
           tabValue={tabValue}
           onChangeTab={onChangeTab}
           data={data}

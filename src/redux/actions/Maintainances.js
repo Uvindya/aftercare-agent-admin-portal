@@ -8,6 +8,7 @@ import {
   GET_MAINTAINANCES,
   SET_MAINTAINANCE_DETAILS,
   SET_FULL_MAINTAINANCE_DETAILS,
+  GET_MY_MAINTAINANCES,
 } from '../../@jumbo/constants/ActionTypes';
 
 export const getMaintainances = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
@@ -15,7 +16,9 @@ export const getMaintainances = (filterOptions = [], searchTerm = '', callbackFu
     dispatch(fetchStart());
     //console.log(filterOptions)
     axios
-      .get('/tasks/maintainances', { params: { page , size, searchTerm, sort : 'modifiedAt,desc'} })
+      .get('/tasks/maintainances', {
+        params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
+      })
       .then(response => {
         //console.log(data)
         if (response.status === 200) {
@@ -51,6 +54,26 @@ export const getAllMaintainances = () => {
   };
 };
 
+export const getMyMaintainances = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/tasks/maintainances/my-assigns')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: GET_MY_MAINTAINANCES, payload: response.data });
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const setCurrentMaintainance = maintainance => {
   return dispatch => {
     dispatch({ type: SET_MAINTAINANCE_DETAILS, payload: maintainance });
@@ -71,7 +94,10 @@ export const getDetailedCurrentMaintainance = (id, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
-          dispatch({ type: SET_FULL_MAINTAINANCE_DETAILS, payload: response.data });
+          dispatch({
+            type: SET_FULL_MAINTAINANCE_DETAILS,
+            payload: response.data,
+          });
           if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));

@@ -4,8 +4,8 @@ import CmtCard from '../../../../../@coremat/CmtCard';
 import CmtCardHeader from '../../../../../@coremat/CmtCard/CmtCardHeader';
 import CmtSearch from '../../../../../@coremat/CmtSearch';
 import CmtCardContent from '../../../../../@coremat/CmtCard/CmtCardContent';
-import PropertyTabs from './PropertyTabs';
-import PropertiesDataList from './PropertiesDataList';
+import MaintainanceTabs from './MaintainanceTabs';
+import MaintainancesDataList from './MaintainancesDataList';
 import Button from '@material-ui/core/Button';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
@@ -77,8 +77,8 @@ const actions = [
   },
 ];
 
-const PropertiesList = ({
-  onPropertyClick,
+const MaintainancesList = ({
+  onMaintainanceClick,
   tabValue,
   onChangeTab,
   data,
@@ -94,9 +94,9 @@ const PropertiesList = ({
         title={
           <Box display="flex" alignItems={{ md: 'center' }} flexDirection={{ xs: 'column', md: 'row' }}>
             <Typography component="div" variant="h4" className={classes.titleRoot}>
-              Properties
+              Maintainances
             </Typography>
-            <PropertyTabs tabValue={tabValue} onChangeTab={onChangeTab} />
+            <MaintainanceTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>
         }
         actionsPos="top-corner"
@@ -109,7 +109,7 @@ const PropertiesList = ({
       </CmtCardHeader>
       <CmtCardContent className={classes.cardContentRoot}>
         <PerfectScrollbar className={classes.scrollbarRoot}>
-          <PropertiesDataList data={data} onPropertyClick={onPropertyClick} />
+          <MaintainancesDataList data={data} onMaintainanceClick={onMaintainanceClick} />
           {data.length > 0 && (
             <Box p={6} textAlign="center">
               <Button className={classes.btnRoot} onClick={handlePageChange}>
@@ -123,4 +123,4 @@ const PropertiesList = ({
   );
 };
 
-export default PropertiesList;
+export default MaintainancesList;

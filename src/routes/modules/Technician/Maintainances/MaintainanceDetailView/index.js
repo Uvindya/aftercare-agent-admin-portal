@@ -9,6 +9,7 @@ import CmtCard from '../../../../../@coremat/CmtCard';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import CmtCardMedia from '../../../../../@coremat/CmtCard/CmtCardMedia';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import { timeFromNow } from '../../../../../@jumbo/utils/dateHelper';
 import Chip from '@material-ui/core/Chip';
@@ -68,7 +69,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PropertyDetail = ({ selectedProperty, showPropertyList }) => {
+const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
   const classes = useStyles();
   return (
     <CmtCard>
@@ -76,80 +77,261 @@ const PropertyDetail = ({ selectedProperty, showPropertyList }) => {
         <Box display="flex" alignItems="center" mb={{ xs: 2, sm: 0 }}>
           <Tooltip title="close">
             <Box ml={-3} clone>
-              <IconButton onClick={showPropertyList}>
+              <IconButton onClick={showMaintainanceList}>
                 <Close />
               </IconButton>
             </Box>
           </Tooltip>
           <Typography component="div" variant="h4" className={classes.titleRoot}>
-            {selectedProperty.title}
+            {`${selectedMaintainance.product.name} (${selectedMaintainance.product.id}) - ${selectedMaintainance.description}`}
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" ml="auto">
-          <Chip
-            className={classes.badge}
-            style={{
-              backgroundColor: selectedProperty.availability === 'sale' ? '#FF8C00' : '#8DCD03',
-            }}
-            label={selectedProperty.availability === 'sale' ? 'For Sale' : 'For Rent'}
-          />
+          <Box
+            className={classes.badgeRoot}
+            component="span"
+            bgcolor={selectedMaintainance.status === 'COMPLETED' ? '#FF8C00' : '#8DCD03'}>
+            {selectedMaintainance.status.replaceAll('_', ' ')}
+          </Box>
         </Box>
-      </Box>
-      <Box className={classes.carouselRoot}>
-        <CmtCarousel
-          data={selectedProperty.images}
-          dotPosition="bottom-left"
-          settings={{
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          }}
-          renderRow={(item, index) => (
-            <CmtCardMedia className={classes.imageRoot} key={index} image={item.image} title={item.title} />
-          )}
-        />
       </Box>
       <Box p={6}>
         <Box display="flex" justifyContent="space-between">
           <Box>
             <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
               <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-                <PermIdentityIcon className={classes.iconRoot} /> {selectedProperty.owner.name}
-              </Box>
-              <Box display="flex" flexDirection="row" alignItems="center">
-                <ScheduleIcon className={classes.iconRoot} /> {timeFromNow(selectedProperty.publishedDate)}
+                <InfoRoundedIcon className={classes.iconRoot} /> Task Info
               </Box>
             </Box>
 
             <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
               <Box component="span" mr={{ xs: 3, md: 4 }}>
                 <Box component="span" color="text.secondary" mr={1}>
-                  Bedrooms:
+                  Task ID:
                 </Box>
-                {selectedProperty.bedrooms}
+                {selectedMaintainance.id}
               </Box>
               <Box component="span" mr={{ xs: 3, md: 4 }}>
                 <Box component="span" color="text.secondary" mr={1}>
-                  Baths:
+                  Created Date:
                 </Box>
-                {selectedProperty.bathrooms}
+                {selectedMaintainance.createdAt}
               </Box>
               <Box component="span" mr={{ xs: 3, md: 4 }}>
                 <Box component="span" color="text.secondary" mr={1}>
-                  Area:
+                  Modified Date:
                 </Box>
-                {selectedProperty.area}
+                {selectedMaintainance.modifiedAt}
               </Box>
             </Box>
 
-            <Box color="text.disabled">{selectedProperty.address}</Box>
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Reported Date:
+                </Box>
+                {selectedMaintainance.reportedAt}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Scheduled Date:
+                </Box>
+                {selectedMaintainance.scheduledDate}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Target Completion Date:
+                </Box>
+                {selectedMaintainance.targetCompletionDate}
+              </Box>
+            </Box>
           </Box>
+        </Box>
+      </Box>
 
-          <Box className={classes.priceWrapper}>
-            <Typography component="div" variant="h6" className={classes.priceRoot}>
-              {selectedProperty.price}
-            </Typography>
-            <Box component="span" fontSize={12} color="text.secondary">
-              {selectedProperty.pricePerSqFt}
+      <Box p={6}>
+        <Box display="flex" justifyContent="space-between">
+          <Box>
+            <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
+                <InfoRoundedIcon className={classes.iconRoot} /> Task Notes
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Completion Note:
+                </Box>
+                <br />
+                {selectedMaintainance.completionNote}
+              </Box>
+            </Box>
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Additional Note:
+                </Box>
+                <br />
+                {selectedMaintainance.additionalNote}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box p={6}>
+        <Box display="flex" justifyContent="space-between">
+          <Box>
+            <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
+                <InfoRoundedIcon className={classes.iconRoot} /> Product Info
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Product ID:
+                </Box>
+                {selectedMaintainance.product.id}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Created Date:
+                </Box>
+                {selectedMaintainance.product.createdAt}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Modified Date:
+                </Box>
+                {selectedMaintainance.product.modifiedAt}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Name:
+                </Box>
+                {selectedMaintainance.product.name}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1} mb={2}>
+                  Description:
+                </Box>
+                <br />
+                {selectedMaintainance.product.description}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  ERP ID:
+                </Box>
+                {selectedMaintainance.product.erpId}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Warrenty Period:
+                </Box>
+                {selectedMaintainance.product.warrentyPeriod}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Maintainnance Interval:
+                </Box>
+                {selectedMaintainance.product.maintainnanceInterval}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Country Of Origin:
+                </Box>
+                {selectedMaintainance.product.countryOfOrigin}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Make:
+                </Box>
+                {selectedMaintainance.product.make}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Model:
+                </Box>
+                {selectedMaintainance.product.model}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Manufacture Year:
+                </Box>
+                {selectedMaintainance.product.manufactureYear}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Serial Number:
+                </Box>
+                {selectedMaintainance.product.serialNumber}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box p={6}>
+        <Box display="flex" justifyContent="space-between">
+          <Box>
+            <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
+                <InfoRoundedIcon className={classes.iconRoot} /> Client Info
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Client ID:
+                </Box>
+                {selectedMaintainance.product.client.id}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Name:
+                </Box>
+                {selectedMaintainance.product.client.name}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Email:
+                </Box>
+                {selectedMaintainance.product.client.email}
+              </Box>
+            </Box>
+
+            <Box component="p" display="flex" flexDirection="row" mb={2} fontSize={12}>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  Phone:
+                </Box>
+                {selectedMaintainance.product.client.primaryPhoneNo}
+              </Box>
+              <Box component="span" mr={{ xs: 3, md: 4 }}>
+                <Box component="span" color="text.secondary" mr={1}>
+                  ERP ID:
+                </Box>
+                {selectedMaintainance.product.client.erpId}
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -158,4 +340,4 @@ const PropertyDetail = ({ selectedProperty, showPropertyList }) => {
   );
 };
 
-export default PropertyDetail;
+export default MaintainanceDetail;
