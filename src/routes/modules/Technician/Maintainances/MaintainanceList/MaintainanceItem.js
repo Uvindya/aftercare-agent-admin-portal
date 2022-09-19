@@ -189,7 +189,7 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
         More Detail
       </Button>
       {item.status === 'CLIENT_ACKNOWLEDGED' && (
-        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+        <Button color="primary" onClick={() => onMaintainanceClick('START_M', item)}>
           Start
         </Button>
       )}
@@ -201,7 +201,7 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
       )}
 
       {item.status === 'IN_PROGRESS' && (
-        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+        <Button color="primary" onClick={() => onMaintainanceClick('COMPLETE_M', item)}>
           Complete
         </Button>
       )}

@@ -109,6 +109,44 @@ export const getDetailedCurrentMaintainance = (id, callbackFun) => {
   };
 };
 
+export const startMaintainance = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/start`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const completeMaintainance = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/complete`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const addNewMaintainance = (maintainance, callbackFun) => {
   //console.log(maintainance)
   return dispatch => {

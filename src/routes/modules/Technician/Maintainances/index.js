@@ -3,7 +3,13 @@ import MaintainanceDetail from './MaintainanceDetailView';
 import PropertiesList from './MaintainanceList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyMaintainances, getDetailedCurrentMaintainance } from '../../../../redux/actions/Maintainances';
+import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
+import {
+  getMyMaintainances,
+  getDetailedCurrentMaintainance,
+  startMaintainance,
+  completeMaintainance,
+} from '../../../../redux/actions/Maintainances';
 
 const MaintainanceListing = () => {
   const { myMaintainances, detailedCurrentMaintainance } = useSelector(({ maintainancesReducer }) => maintainancesReducer);
@@ -13,6 +19,11 @@ const MaintainanceListing = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [tabValue, setTabValue] = useState('');
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [confirmationTitle, setConfirmationTitle] = useState('');
+  const [confirmationBody, setConfirmationBody] = useState('');
+  const [selectedMaintainanceId, setSelectedMaintainanceId] = useState('');
+  const [type, setType] = useState('');
 
   const dispatch = useDispatch();
 
@@ -30,7 +41,11 @@ const MaintainanceListing = () => {
     }
 
     if (tabValue === 'COMPLETED') {
-      setCategoryData(myMaintainances.filter(item => item.status === tabValue).slice(0, page * 5));
+      setCategoryData(
+        myMaintainances
+          .filter(item => item.status === 'COMPLETED' || item.status === 'NEEDS_CLIENTS_ACCEPTENCE')
+          .slice(0, page * 5),
+      );
       return;
     }
     if (tabValue === 'BACKLOG') {
@@ -48,6 +63,29 @@ const MaintainanceListing = () => {
       );
       return;
     }
+  };
+
+  const handleConfirm = () => {
+    setOpenConfirmDialog(false);
+    if (type == 'START_M') {
+      dispatch(
+        startMaintainance(selectedMaintainanceId, () => {
+          dispatch(getMyMaintainances(() => filterMaintainnances()));
+          setTabValue('IN_PROGRESS');
+        }),
+      );
+    } else if (type == 'COMPLETE_M') {
+      dispatch(
+        completeMaintainance(selectedMaintainanceId, () => {
+          dispatch(getMyMaintainances(() => filterMaintainnances()));
+          setTabValue('COMPLETED');
+        }),
+      );
+    }
+  };
+
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
   };
 
   const handlePageChange = () => {
@@ -78,6 +116,18 @@ const MaintainanceListing = () => {
           setSelectedType(type);
         }),
       );
+    } else if (type == 'START_M') {
+      setConfirmationTitle('Confirm Maintainance Start');
+      setConfirmationBody('Are you sure you want to start this Maintainance ? ');
+      setOpenConfirmDialog(true);
+      setSelectedMaintainanceId(maintainance.id);
+      setType(type);
+    } else if (type == 'COMPLETE_M') {
+      setConfirmationTitle('Confirm Maintainance Completion');
+      setConfirmationBody('Are you sure you want to complete this Maintainance ? ');
+      setOpenConfirmDialog(true);
+      setSelectedMaintainanceId(maintainance.id);
+      setType(type);
     }
   };
 
@@ -107,6 +157,13 @@ const MaintainanceListing = () => {
           handlePageChange={handlePageChange}
         />
       </Collapse>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title={confirmationTitle}
+        content={confirmationBody}
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+      />
 
       {/*{selectedMaintainance ? (
         <MaintainanceDetail selectedMaintainance={selectedMaintainance} showMaintainanceList={showMaintainanceList} />
