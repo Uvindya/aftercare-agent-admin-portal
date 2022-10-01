@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MaintainanceDetail from './MaintainanceDetailView';
+import AddEditMaintainanceNotes from './MaintainanceNotes';
 import PropertiesList from './MaintainanceList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
@@ -116,6 +117,13 @@ const MaintainanceListing = () => {
           setSelectedType(type);
         }),
       );
+    } else if (type == 'NOTES') {
+      dispatch(
+        getDetailedCurrentMaintainance(maintainance.id, () => {
+          setSelectedMaintainance(true);
+          setSelectedType(type);
+        }),
+      );
     } else if (type == 'START_M') {
       setConfirmationTitle('Confirm Maintainance Start');
       setConfirmationBody('Are you sure you want to start this Maintainance ? ');
@@ -140,6 +148,12 @@ const MaintainanceListing = () => {
       <Collapse in={selectedMaintainance} timeout="auto" unmountOnExit>
         {selectedType == 'MORE_DETAILS' && (
           <MaintainanceDetail
+            selectedMaintainance={detailedCurrentMaintainance}
+            showMaintainanceList={showMaintainanceList}
+          />
+        )}
+        {selectedType == 'NOTES' && (
+          <AddEditMaintainanceNotes
             selectedMaintainance={detailedCurrentMaintainance}
             showMaintainanceList={showMaintainanceList}
           />

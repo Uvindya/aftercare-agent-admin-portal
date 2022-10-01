@@ -67,6 +67,20 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  greenIcon: {
+    color: 'green',
+  },
+  orangeIcon: {
+    color: 'orange',
+  },
+  purpleIcon: {
+    color: 'purple',
+    fontSize: 18,
+    marginRight: 6,
+  },
+  purpleText: {
+    color: 'purple',
+  },
 }));
 
 const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
@@ -99,8 +113,8 @@ const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
         <Box display="flex" justifyContent="space-between">
           <Box>
             <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
-              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-                <InfoRoundedIcon className={classes.iconRoot} /> Task Info
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4} className={classes.purpleText}>
+                <InfoRoundedIcon className={classes.purpleIcon} /> Task Info
               </Box>
             </Box>
 
@@ -153,8 +167,8 @@ const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
         <Box display="flex" justifyContent="space-between">
           <Box>
             <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
-              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-                <InfoRoundedIcon className={classes.iconRoot} /> Task Notes
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4} className={classes.purpleText}>
+                <InfoRoundedIcon className={classes.purpleIcon} /> Task Notes
               </Box>
             </Box>
 
@@ -184,8 +198,8 @@ const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
         <Box display="flex" justifyContent="space-between">
           <Box>
             <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
-              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-                <InfoRoundedIcon className={classes.iconRoot} /> Product Info
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4} className={classes.purpleText}>
+                <InfoRoundedIcon className={classes.purpleIcon} /> Product Info
               </Box>
             </Box>
 
@@ -293,8 +307,8 @@ const MaintainanceDetail = ({ selectedMaintainance, showMaintainanceList }) => {
         <Box display="flex" justifyContent="space-between">
           <Box>
             <Box fontSize={12} color="text.disabled" display="flex" flexDirection="row" alignItems="center" mb={2}>
-              <Box display="flex" flexDirection="row" alignItems="center" mr={4}>
-                <InfoRoundedIcon className={classes.iconRoot} /> Client Info
+              <Box display="flex" flexDirection="row" alignItems="center" mr={4} className={classes.purpleText}>
+                <InfoRoundedIcon className={classes.purpleIcon} /> Client Info
               </Box>
             </Box>
 

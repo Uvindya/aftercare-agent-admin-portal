@@ -9,6 +9,11 @@ import CmtCarousel from '../../../../../@coremat/CmtCarousel';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import NoteIcon from '@material-ui/icons/NoteAdd';
+import StartIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
 
 const useStyles = makeStyles(theme => ({
   mediaObjectRoot: {
@@ -107,6 +112,15 @@ const useStyles = makeStyles(theme => ({
       display: 'block !important',
     },
   },
+  greenIcon: {
+    color: 'green',
+  },
+  orangeIcon: {
+    color: 'orange',
+  },
+  purpleIcon: {
+    color: 'purple',
+  },
 }));
 
 const MaintainanceItem = ({ item, onMaintainanceClick }) => {
@@ -185,25 +199,28 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
           <PermIdentityIcon className={classes.iconRoot} /> {`${item.clientName} (${item.clientId})`}
         </Box>
       </Box>
-      <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
-        More Detail
-      </Button>
+      <IconButton
+        aria-label="More Details"
+        className={classes.purpleIcon}
+        onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
+        <InfoIcon />
+      </IconButton>
       {item.status === 'CLIENT_ACKNOWLEDGED' && (
-        <Button color="primary" onClick={() => onMaintainanceClick('START_M', item)}>
-          Start
-        </Button>
+        <IconButton aria-label="Start" className={classes.greenIcon} onClick={() => onMaintainanceClick('START_M', item)}>
+          <StartIcon />
+        </IconButton>
       )}
 
       {item.status === 'IN_PROGRESS' && (
-        <Button color="primary" onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
-          Add Notes
-        </Button>
+        <IconButton aria-label="Add Notes" className={classes.orangeIcon} onClick={() => onMaintainanceClick('NOTES', item)}>
+          <NoteIcon />
+        </IconButton>
       )}
 
       {item.status === 'IN_PROGRESS' && (
-        <Button color="primary" onClick={() => onMaintainanceClick('COMPLETE_M', item)}>
-          Complete
-        </Button>
+        <IconButton aria-label="Start" color="secondary" onClick={() => onMaintainanceClick('COMPLETE_M', item)}>
+          <StopIcon />
+        </IconButton>
       )}
     </CmtMediaObject>
   );
