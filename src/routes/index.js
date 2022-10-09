@@ -8,8 +8,8 @@ import ClientModule from './modules/Admin/Clients';
 import ProductModule from './modules/Admin/Products';
 import TechnicianModule from './modules/Admin/Technicians';
 import MaintainanceModule from './modules/Admin/Maintainances';
+import BreakdownModule from './modules/Admin/Breakdowns';
 import ReportsPage from './Pages/ReportPage';
-import MaintainancePage from './Pages/MaintainancePage';
 import TechMaintainanceModule from './modules/Technician/Maintainances';
 import ClientMaintainanceModule from './modules/Client/Maintainances';
 import Error404 from './Pages/404';
@@ -65,7 +65,7 @@ const Routes = () => {
     <React.Fragment>
       <Switch>
         <RestrictedRoute path="/dashboard" component={DashboardPage} permission="ADMIN" />
-        <RestrictedRoute path="/breakdowns" component={BreakdownPage} permission="ADMIN" />
+        <RestrictedRoute path="/breakdowns" component={BreakdownModule} permission="ADMIN" />
         <RestrictedRoute path="/clients" component={ClientModule} permission="ADMIN" />
         <RestrictedRoute path="/maintainances" component={MaintainanceModule} permission="ADMIN" />
         <RestrictedRoute path="/reports" component={ReportsPage} permission="ADMIN" />
