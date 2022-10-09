@@ -6,10 +6,10 @@ import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
 import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import {
-  getMyMaintainances,
+  getMyOwnsMaintainances,
   getDetailedCurrentMaintainance,
-  startMaintainance,
-  completeMaintainance,
+  appoveMaintainance,
+  acceptMaintainance,
 } from '../../../../redux/actions/Maintainances';
 
 const MaintainanceListing = () => {
@@ -30,7 +30,7 @@ const MaintainanceListing = () => {
 
   useEffect(() => {
     if (myMaintainances.length === 0) {
-      dispatch(getMyMaintainances(() => filterMaintainnances()));
+      dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
     }
     filterMaintainnances(tabValue);
   }, [dispatch, tabValue, page, myMaintainances]);
@@ -42,24 +42,22 @@ const MaintainanceListing = () => {
     }
 
     if (tabValue === 'COMPLETED') {
-      setCategoryData(
-        myMaintainances
-          .filter(item => item.status === 'COMPLETED' || item.status === 'NEEDS_CLIENTS_ACCEPTENCE')
-          .slice(0, page * 5),
-      );
+      setCategoryData(myMaintainances.filter(item => item.status === 'COMPLETED').slice(0, page * 5));
       return;
-    }
-    if (tabValue === 'BACKLOG') {
+    } else if (tabValue === 'UP_COMMING') {
       setCategoryData(
         myMaintainances
-          .filter(item => item.status === 'TECH_ASSIGNED' || item.status === 'CLIENT_ACKNOWLEDGED')
+          .filter(item => item.status === 'SCHEDULED' || item.status === 'CLIENT_ACKNOWLEDGED')
           .slice(0, page * 5),
       );
       return;
     } else if (tabValue === 'IN_PROGRESS') {
+      setCategoryData(myMaintainances.filter(item => item.status === 'IN_PROGRESS').slice(0, page * 5));
+      return;
+    } else if (tabValue === 'NEED_MY_APPROVAL') {
       setCategoryData(
         myMaintainances
-          .filter(item => item.status === 'IN_PROGRESS' || item.status === 'NEEDS_CLIENTS_APPROVAL')
+          .filter(item => item.status === 'NEEDS_CLIENTS_ACCEPTENCE' || item.status === 'TECH_ASSIGNED')
           .slice(0, page * 5),
       );
       return;
@@ -68,17 +66,17 @@ const MaintainanceListing = () => {
 
   const handleConfirm = () => {
     setOpenConfirmDialog(false);
-    if (type == 'START_M') {
+    if (type == 'APPROVE_M') {
       dispatch(
-        startMaintainance(selectedMaintainanceId, () => {
-          dispatch(getMyMaintainances(() => filterMaintainnances()));
-          setTabValue('IN_PROGRESS');
+        appoveMaintainance(selectedMaintainanceId, () => {
+          dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
+          setTabValue('UP_COMMING');
         }),
       );
-    } else if (type == 'COMPLETE_M') {
+    } else if (type == 'ACCEPT_M') {
       dispatch(
-        completeMaintainance(selectedMaintainanceId, () => {
-          dispatch(getMyMaintainances(() => filterMaintainnances()));
+        acceptMaintainance(selectedMaintainanceId, () => {
+          dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
           setTabValue('COMPLETED');
         }),
       );
@@ -128,15 +126,15 @@ const MaintainanceListing = () => {
           setSelectedType(type);
         }),
       );
-    } else if (type == 'START_M') {
-      setConfirmationTitle('Confirm Maintainance Start');
-      setConfirmationBody('Are you sure you want to start this Maintainance ? ');
+    } else if (type == 'APPROVE_M') {
+      setConfirmationTitle('Confirm Maintainance Approval');
+      setConfirmationBody('Are you sure you want to approve this Maintainance ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);
-    } else if (type == 'COMPLETE_M') {
-      setConfirmationTitle('Confirm Maintainance Completion');
-      setConfirmationBody('Are you sure you want to complete this Maintainance ? ');
+    } else if (type == 'ACCEPT_M') {
+      setConfirmationTitle('Confirm Maintainance Acceptance');
+      setConfirmationBody('Are you sure you want to accept this Maintainance as a completed ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);

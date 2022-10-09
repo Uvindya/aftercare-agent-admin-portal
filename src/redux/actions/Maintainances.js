@@ -74,6 +74,26 @@ export const getMyMaintainances = callbackFun => {
   };
 };
 
+export const getMyOwnsMaintainances = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/tasks/maintainances/my-ownerships')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: GET_MY_MAINTAINANCES, payload: response.data });
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const setCurrentMaintainance = maintainance => {
   return dispatch => {
     dispatch({ type: SET_MAINTAINANCE_DETAILS, payload: maintainance });
@@ -128,11 +148,49 @@ export const startMaintainance = (id, callbackFun) => {
   };
 };
 
+export const appoveMaintainance = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/approve`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const completeMaintainance = (id, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
     axios
       .put(`/tasks/maintainances/${id}/complete`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const acceptMaintainance = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/accept`)
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());

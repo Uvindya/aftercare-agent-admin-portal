@@ -12,8 +12,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import NoteIcon from '@material-ui/icons/NoteAdd';
-import StartIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
+import AcceptenceIcon from '@material-ui/icons/CheckCircle';
+import ApproveIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles(theme => ({
   mediaObjectRoot: {
@@ -219,24 +219,24 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
         onClick={() => onMaintainanceClick('MORE_DETAILS', item)}>
         <InfoIcon />
       </IconButton>
-      {item.status === 'CLIENT_ACKNOWLEDGED' && (
-        <IconButton aria-label="Start" className={classes.greenIcon} onClick={() => onMaintainanceClick('START_M', item)}>
-          <StartIcon />
+      {item.status === 'TECH_ASSIGNED' && (
+        <IconButton
+          aria-label="Approve"
+          className={classes.greenIcon}
+          onClick={() => onMaintainanceClick('APPROVE_M', item)}>
+          <ApproveIcon />
         </IconButton>
       )}
 
-      {item.status === 'IN_PROGRESS' && (
+      {/*item.status === 'IN_PROGRESS' && (
         <IconButton aria-label="Add Notes" className={classes.orangeIcon} onClick={() => onMaintainanceClick('NOTES', item)}>
           <NoteIcon />
         </IconButton>
-      )}
+      )*/}
 
-      {item.status === 'IN_PROGRESS' && (
-        <IconButton
-          aria-label="Complete"
-          className={classes.redIcon}
-          onClick={() => onMaintainanceClick('COMPLETE_M', item)}>
-          <StopIcon />
+      {item.status === 'NEEDS_CLIENTS_ACCEPTENCE' && (
+        <IconButton aria-label="Accept" className={classes.greenIcon} onClick={() => onMaintainanceClick('ACCEPT_M', item)}>
+          <AcceptenceIcon />
         </IconButton>
       )}
     </CmtMediaObject>

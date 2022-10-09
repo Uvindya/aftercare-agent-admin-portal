@@ -111,7 +111,7 @@ const AddEditMaintainanceNotes = ({ selectedMaintainance, showMaintainanceList }
 
   return (
     <CmtCard>
-      <Box display="flex" flexDirection="row" alignItems={{ sm: 'center' }} px={6} py={3}>
+      <Box display="block" flexDirection="row" alignItems={{ sm: 'center' }} px={6} py={3}>
         <Box display="flex" alignItems="center" mb={{ xs: 2, sm: 0 }}>
           <Tooltip title="close">
             <Box ml={-3} clone>
@@ -124,10 +124,11 @@ const AddEditMaintainanceNotes = ({ selectedMaintainance, showMaintainanceList }
             {`${selectedMaintainance.product.name} (${selectedMaintainance.product.id}) - ${selectedMaintainance.description}`}
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center" ml="auto">
+        <Box display="block" alignItems="center" ml="auto">
           <Box
             className={classes.badgeRoot}
             component="span"
+            ml={12}
             bgcolor={selectedMaintainance.status === 'COMPLETED' ? '#FF8C00' : '#8DCD03'}>
             {selectedMaintainance.status.replaceAll('_', ' ')}
           </Box>

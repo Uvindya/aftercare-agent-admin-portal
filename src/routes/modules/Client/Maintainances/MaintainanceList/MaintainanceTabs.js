@@ -33,8 +33,9 @@ const useStyles = makeStyles(theme => ({
 
 const MaintainanceTabs = ({ tabValue, onChangeTab }) => {
   const maintainanceTabCategories = [
-    { name: 'Backlog', slug: 'BACKLOG' },
+    { name: 'Up Comming', slug: 'UP_COMMING' },
     { name: 'In Progress', slug: 'IN_PROGRESS' },
+    { name: 'Need my Approval', slug: 'NEED_MY_APPROVAL' },
     { name: 'Completed', slug: 'COMPLETED' },
   ];
   const classes = useStyles();

@@ -11,6 +11,7 @@ import MaintainanceModule from './modules/Admin/Maintainances';
 import ReportsPage from './Pages/ReportPage';
 import MaintainancePage from './Pages/MaintainancePage';
 import TechMaintainanceModule from './modules/Technician/Maintainances';
+import ClientMaintainanceModule from './modules/Client/Maintainances';
 import Error404 from './Pages/404';
 import Login from './Auth/Login';
 import ForgotPasswordPage from './Auth/ForgotPassword';
@@ -40,6 +41,8 @@ const getLandingPage = role => {
   switch (role) {
     case 'TECHNICIAN':
       return <Redirect to={'/technician/maintainances'} />;
+    case 'CLIENT':
+      return <Redirect to={'/client/maintainances'} />;
     default:
       return <Redirect to={'/dashboard'} />;
   }
@@ -70,6 +73,8 @@ const Routes = () => {
         <RestrictedRoute path="/products" component={ProductModule} permission="ADMIN" />
         <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/breakdowns" component={BreakdownPage} permission="TECHNICIAN" />
+        <RestrictedRoute path="/client/maintainances" component={ClientMaintainanceModule} permission="CLIENT" />
+        <RestrictedRoute path="/client/breakdowns" component={BreakdownPage} permission="CLIENT" />
         <Route path="/signin" component={Login} />
         <Route path="/forgot-password" component={ForgotPasswordPage} />
         <Route component={Error404} />
