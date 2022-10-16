@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
     },
   },
-  maintainanceInfoRoot: {
+  breakdownInfoRoot: {
     borderBottom: `1px solid ${theme.palette.borderColor.main}`,
     padding: '20px 24px',
     display: 'flex',

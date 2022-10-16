@@ -91,9 +91,10 @@ const BreakdownListRow = ({
       </TableCell>
       <TableCell align="center">{row.id}</TableCell>
       <TableCell align="center">{row.productName}</TableCell>
-      <TableCell align="center">{row.scheduledDate}</TableCell>
       <TableCell align="center">{row.clientName}</TableCell>
       <TableCell align="center">{row.technicianId == 0 ? 'No' : 'Yes'}</TableCell>
+      <TableCell align="center">{row.breakdownType}</TableCell>
+      <TableCell align="center">{row.riskLevel}</TableCell>
       <TableCell align="center">{row.status}</TableCell>
       <TableCell align="center" onClick={event => event.stopPropagation()}>
         <CmtDropdownMenu items={breakdownActions} onItemClick={onBreakdownMenuClick} TriggerComponent={<MoreHoriz />} />

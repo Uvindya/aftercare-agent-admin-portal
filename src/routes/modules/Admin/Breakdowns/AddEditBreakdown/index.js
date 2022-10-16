@@ -14,6 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import { isValidEmail, isValidPhoneNo } from '../../../../../@jumbo/utils/commonHelper';
 import { addNewBreakdown, updateBreakdown } from '../../../../../redux/actions/Breakdowns';
+import { getAllProducts } from '../../../../../redux/actions/Products';
+import { getAllClients } from '../../../../../redux/actions/Clients';
 
 const useStyles = makeStyles(theme => ({
   dialogRoot: {
@@ -25,107 +27,121 @@ const useStyles = makeStyles(theme => ({
       color: theme.palette.common.dark,
     },
   },
+  dialogContent: {
+    width: '450px',
+  },
 }));
 
-const genders = [
-  { title: 'Male', slug: 'MALE' },
-  { title: 'Female', slug: 'FEMALE' },
+const breakdownTypes = [
+  { title: 'Factory Fault', slug: 'FACTORY_FAULT' },
+  { title: 'Engine Fault', slug: 'ENGINE_FAULT' },
+];
+
+const risks = [
+  { title: 'Low', slug: 'LOW' },
+  { title: 'Medium', slug: 'MEDIUM' },
+  { title: 'High', slug: 'HIGH' },
+];
+
+const priorities = [
+  { title: 'Low', slug: 'LOW' },
+  { title: 'Medium', slug: 'MEDIUM' },
+  { title: 'High', slug: 'HIGH' },
 ];
 
 const AddEditBreakdown = ({ open, onCloseDialog, callbck }) => {
   const classes = useStyles();
   const currentBreakdown = useSelector(({ breakdownsReducer }) => breakdownsReducer.currentBreakdown);
+  const allProducts = useSelector(({ productsReducer }) => productsReducer.allProducts);
+  const allClients = useSelector(({ clientsReducer }) => clientsReducer.allClients);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [primaryPhoneNo, setPrimaryPhoneNo] = useState('');
-  const [secondaryPhoneNo, setSecondaryPhoneNo] = useState('');
-  const [gender, setGender] = useState('');
-  const [password, setPassword] = useState('');
-  const [addressLine1, setAddressLine1] = useState('');
-  const [addressLine2, setAddressLine2] = useState('');
-  const [district, setDistrict] = useState('');
-  const [city, setCity] = useState('');
+  const [clientProducts, setClientProducts] = useState([]);
+  const [clientId, setClientId] = useState('');
+  const [productId, setProductId] = useState('');
+  const [risk, setRisk] = useState('');
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('');
+  const [breakdownType, setBreakdownType] = useState('');
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [primaryPhoneNoError, setPrimaryPhoneNoError] = useState('');
-  const [secondaryPhoneNoError, setSecondaryPhoneNoError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [genderError, setGenderError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [addressLine1Error, setAddressLine1Error] = useState('');
-  const [addressLine2Error, setAddressLine2Error] = useState('');
-  const [districtError, setDistrictError] = useState('');
-  const [cityError, setCityError] = useState('');
+  const [clientIdError, setClientIdError] = useState('');
+  const [productIdError, setProductIdError] = useState('');
+  const [riskError, setRiskError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const [priorityError, setPriorityError] = useState('');
+  const [breakdownTypeError, setBreakdownTypeError] = useState('');
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currentBreakdown) {
-      setFirstName(currentBreakdown.firstName);
-      setLastName(currentBreakdown.lastName);
-      setEmail(currentBreakdown.email);
-      setPrimaryPhoneNo(currentBreakdown.primaryPhoneNo);
-      setSecondaryPhoneNo(currentBreakdown.secondaryPhoneNo);
-      setGender(currentBreakdown.gender);
-      setAddressLine1(currentBreakdown.addressLine1);
-      setAddressLine2(currentBreakdown.addressLine2);
-      setDistrict(currentBreakdown.district);
-      setCity(currentBreakdown.city);
-      // hide password
+    if (allProducts.length == 0) {
+      dispatch(getAllProducts());
     }
-  }, [currentBreakdown]);
 
-  const onGenderChange = value => {
-    setGender(value);
-  };
+    if (allClients.length == 0) {
+      dispatch(getAllClients());
+    }
+
+    if (currentBreakdown) {
+      // add later
+    }
+  }, [currentBreakdown, dispatch]);
 
   const onSubmitClick = () => {
-    if (!firstName) {
-      setFirstNameError(requiredMessage);
-    } else if (!lastName) {
-      setLastNameError(requiredMessage);
-    } else if (!email) {
-      setEmailError(requiredMessage);
-    } else if (!isValidEmail(email)) {
-      setEmailError(emailNotValid);
-    } else if (!primaryPhoneNo) {
-      setPrimaryPhoneNoError(requiredMessage);
-    } else if (!isValidPhoneNo(primaryPhoneNo)) {
-      setPrimaryPhoneNoError(phoneNoNotValid);
-    } else if (secondaryPhoneNo != '' && !isValidPhoneNo(secondaryPhoneNo)) {
-      setSecondaryPhoneNoError(phoneNoNotValid);
-    } else if (!password) {
-      setPasswordError(requiredMessage);
-    } else if (!gender) {
-      setGenderError(requiredMessage);
-    } else if (!addressLine1) {
-      setAddressLine1Error(requiredMessage);
-    } else if (!city) {
-      setCityError(requiredMessage);
-    } else if (!district) {
-      setDistrictError(requiredMessage);
+    if (!clientId) {
+      setClientIdError(requiredMessage);
+    } else if (!productId) {
+      setProductIdError(requiredMessage);
+    } else if (!breakdownType) {
+      setBreakdownTypeError(requiredMessage);
+    } else if (!risk) {
+      setRiskError(requiredMessage);
+    } else if (!priority) {
+      setPriorityError(requiredMessage);
+    } else if (!description) {
+      setDescriptionError(requiredMessage);
     } else {
       onBreakdownSave();
     }
   };
 
+  const onClientChange = value => {
+    setClientId(value);
+    var clientProducts = allProducts
+      .filter(p => p.clientId === value)
+      .map(p => {
+        return { id: p.id, key: `${p.name} - ${p.serialNumber}` };
+      });
+    //console.log(clientProducts)
+    setClientProducts(clientProducts);
+  };
+
+  const onProductChange = value => {
+    setProductId(value);
+  };
+
+  const onBreakdownTypeChange = value => {
+    setBreakdownType(value);
+  };
+
+  const onRiskChange = value => {
+    setRisk(value);
+  };
+
+  const onDescriptionChange = value => {
+    setDescription(value);
+  };
+
+  const onPriorityChange = value => {
+    setPriority(value);
+  };
+
   const onBreakdownSave = () => {
     const breakdownDetail = {
-      firstName,
-      lastName,
-      email,
-      primaryPhoneNo,
-      secondaryPhoneNo,
-      gender,
-      password,
-      addressLine1,
-      addressLine2,
-      city,
-      district,
+      productId,
+      description,
+      breakdownType,
+      riskLevel: risk,
+      priorityLevel: priority,
     };
 
     if (currentBreakdown) {
@@ -149,168 +165,109 @@ const AddEditBreakdown = ({ open, onCloseDialog, callbck }) => {
       <DialogTitle className={classes.dialogTitleRoot}>
         {currentBreakdown ? 'Edit Breakdown Details' : 'Create New Breakdown'}
       </DialogTitle>
-      <DialogContent dividers>
-        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
-          <GridContainer>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="First name"
-                value={firstName}
-                onChange={e => {
-                  setFirstName(e.target.value);
-                  setFirstNameError('');
-                }}
-                helperText={firstNameError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="Last name"
-                value={lastName}
-                onChange={e => {
-                  setLastName(e.target.value);
-                  setLastNameError('');
-                }}
-                helperText={lastNameError}
-              />
-            </Grid>
-          </GridContainer>
+      <DialogContent dividers className={classes.dialogContent}>
+        <Box mb={{ xs: 6, md: 5 }}>
+          <AppSelectBox
+            fullWidth
+            data={allClients}
+            label="Client"
+            valueKey="id"
+            variant="outlined"
+            labelKey="key"
+            value={clientId}
+            onChange={e => {
+              onClientChange(e.target.value);
+              setClientIdError('');
+            }}
+            helperText={clientIdError}
+          />
         </Box>
         <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
+          <AppSelectBox
             fullWidth
+            data={clientProducts}
+            label="Product"
+            valueKey="id"
             variant="outlined"
-            label="Email Address"
-            value={email}
+            labelKey="key"
+            value={productId}
             onChange={e => {
-              setEmail(e.target.value);
-              setEmailError('');
+              onProductChange(e.target.value);
+              setProductIdError('');
             }}
-            helperText={emailError}
+            helperText={productIdError}
+          />
+        </Box>
+        <Box mb={{ xs: 6, md: 5 }}>
+          <AppSelectBox
+            fullWidth
+            data={breakdownTypes}
+            label="Breakdown Type"
+            valueKey="slug"
+            variant="outlined"
+            labelKey="title"
+            value={breakdownType}
+            onChange={e => {
+              onBreakdownTypeChange(e.target.value);
+              setBreakdownTypeError('');
+            }}
+            helperText={breakdownTypeError}
           />
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
             <Grid item xs={12} sm={6}>
-              <AppTextInput
+              <AppSelectBox
                 fullWidth
+                data={risks}
+                label="Risk"
+                valueKey="slug"
                 variant="outlined"
-                label="Primary Phone No"
-                value={primaryPhoneNo}
+                labelKey="title"
+                value={risk}
                 onChange={e => {
-                  setPrimaryPhoneNo(e.target.value);
-                  setPrimaryPhoneNoError('');
+                  onRiskChange(e.target.value);
+                  setRiskError('');
                 }}
-                helperText={primaryPhoneNoError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="Secondary Phone No"
-                value={secondaryPhoneNo}
-                onChange={e => {
-                  setSecondaryPhoneNo(e.target.value);
-                  setSecondaryPhoneNoError('');
-                }}
-                helperText={secondaryPhoneNoError}
-              />
-            </Grid>
-          </GridContainer>
-        </Box>
-        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
-          <GridContainer>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                type="password"
-                fullWidth
-                variant="outlined"
-                label="Password"
-                value={password}
-                onChange={e => {
-                  setPassword(e.target.value);
-                  setPasswordError('');
-                }}
-                helperText={passwordError}
+                helperText={riskError}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <AppSelectBox
                 fullWidth
-                data={genders}
-                label="Gender"
+                data={priorities}
+                label="Priority"
                 valueKey="slug"
                 variant="outlined"
                 labelKey="title"
-                value={gender}
+                value={priority}
                 onChange={e => {
-                  onGenderChange(e.target.value);
-                  setGenderError('');
+                  onPriorityChange(e.target.value);
+                  setPriorityError('');
                 }}
-                helperText={genderError}
+                helperText={priorityError}
               />
             </Grid>
           </GridContainer>
         </Box>
+
         <Box mb={{ xs: 6, md: 5 }}>
           <AppTextInput
             fullWidth
+            multiline
+            maxRows={4}
+            rows={4}
             variant="outlined"
-            label="Address Line 1"
-            value={addressLine1}
+            label="Description"
+            value={description}
             onChange={e => {
-              setAddressLine1(e.target.value);
-              setAddressLine1Error('');
+              onDescriptionChange(e.target.value);
+              setDescriptionError('');
             }}
-            helperText={addressLine1Error}
+            helperText={descriptionError}
           />
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
-            fullWidth
-            variant="outlined"
-            label="Address Line 2"
-            value={addressLine2}
-            onChange={e => {
-              setAddressLine2(e.target.value);
-            }}
-          />
-        </Box>
-        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
-          <GridContainer>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="City"
-                value={city}
-                onChange={e => {
-                  setCity(e.target.value);
-                  setCityError('');
-                }}
-                helperText={cityError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="District"
-                value={district}
-                onChange={e => {
-                  setDistrict(e.target.value);
-                  setDistrictError('');
-                }}
-                helperText={districtError}
-              />
-            </Grid>
-          </GridContainer>
-        </Box>
+
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>

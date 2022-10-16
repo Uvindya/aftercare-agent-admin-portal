@@ -84,7 +84,7 @@ const BreakdownTableToolbar = ({
         ) : (
           <Typography className={classes.title} variant="h4" id="tableTitle" component="div">
             Breakdowns{' '}
-            <Button color="primary" onClick={() => onBreakdownAdd(true)} disabled>
+            <Button color="primary" onClick={() => onBreakdownAdd(true)}>
               Add New Breakdown
             </Button>
           </Typography>

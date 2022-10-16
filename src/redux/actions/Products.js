@@ -1,7 +1,7 @@
 import { fetchError, fetchStart, fetchSuccess } from './Common';
 import axios from '../../services/common/config';
 import {
-  ADD_PRODUCT,
+  GET_ALL_PRODUCTS,
   DELETE_BULK_PRODUCTS,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
@@ -15,13 +15,34 @@ export const getProducts = (filterOptions = [], searchTerm = '', callbackFun, pa
     dispatch(fetchStart());
     //console.log(filterOptions)
     axios
-      .get('/products', { params: { page , size, searchTerm, sort : 'modified_at,desc'} })
+      .get('/products', {
+        params: { page, size, searchTerm, sort: 'modified_at,desc' },
+      })
       .then(response => {
         //console.log(data)
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_PRODUCTS, payload: response.data.content });
           if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const getAllProducts = () => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/products/all')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: GET_ALL_PRODUCTS, payload: response.data });
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -182,9 +203,9 @@ export const importProducts = (productFile, callbackFun) => {
     axios
       .post('/products/import', formData, {
         headers: {
-            'content-type': 'multipart/form-data'
-        }
-    })
+          'content-type': 'multipart/form-data',
+        },
+      })
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported products were added successfully.'));

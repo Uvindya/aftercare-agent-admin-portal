@@ -24,15 +24,24 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
 
   const {
     id,
+    createdAt,
+    createdBy,
+    modifiedAt,
+    modifiedBy,
     description,
-    product,
-    additionalNote,
-    completionNote,
-    targetCompletionDate,
-    breakdownType,
     reportedAt,
     scheduledDate,
+    targetCompletionDate,
+    product,
+    technician,
+    completionNote,
+    additionalNote,
+    breakdownType,
+    riskLevel,
+    priorityLevel,
     status,
+    rootCause,
+    solution,
   } = detailedCurrentBreakdown;
 
   return (
@@ -55,6 +64,8 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
               )}
               <Typography className={classes.subTitleRoot}>{`Type : ${breakdownType}`}</Typography>
               <Typography className={classes.subTitleRoot}>{`Status : ${status}`}</Typography>
+              <Typography className={classes.subTitleRoot}>{`Risk : ${riskLevel}`}</Typography>
+              <Typography className={classes.subTitleRoot}>{`Priority : ${priorityLevel}`}</Typography>
             </Box>
           </Box>
         </Box>
@@ -71,6 +82,8 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
           Notes
         </Box>
         <Box mt={1}>
+          <Typography className={classes.subTitleRoot}>{`Root cause : ${rootCause}`}</Typography>
+          <Typography className={classes.subTitleRoot}>{`Solution : ${solution}`}</Typography>
           <Typography className={classes.subTitleRoot}>{`Completion Note : ${completionNote}`}</Typography>
           <Typography className={classes.subTitleRoot}>{`Additional Note : ${additionalNote}`}</Typography>
         </Box>
@@ -107,6 +120,37 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
           <PhoneIcon />
           <Box ml={5}>
             <Box color="text.secondary">{product.client.primaryPhoneNo}</Box>
+          </Box>
+        </Box>
+        {/*<Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
+          <LocationCity />
+          <Box ml={5}>
+            <Box color="text.secondary">{`${addressLine1},`}</Box>
+            <Box color="text.secondary">{`${addressLine2},`}</Box>
+            <Box color="text.secondary">{`${city}, ${district}`}</Box>
+          </Box>
+  </Box>*/}
+      </Box>
+      <Box px={6} py={5}>
+        <Box mb={5} component="p" color="common.dark">
+          Technician Detail
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+          <EmailIcon />
+          <Box ml={5} color="primary.main" component="p">
+            {`${technician.firstName} ${technician.lastName} - ${technician.erpId}`}
+          </Box>
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+          <EmailIcon />
+          <Box ml={5} color="primary.main" component="p">
+            {technician.email}
+          </Box>
+        </Box>
+        <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
+          <PhoneIcon />
+          <Box ml={5}>
+            <Box color="text.secondary">{technician.primaryPhoneNo}</Box>
           </Box>
         </Box>
         {/*<Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>

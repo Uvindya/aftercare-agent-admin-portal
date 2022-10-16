@@ -20,12 +20,6 @@ const headCells = [
     label: 'Product Name',
   },
   {
-    id: 'scheduledDate',
-    numeric: false,
-    disablePadding: false,
-    label: 'Scheduled Date',
-  },
-  {
     id: 'clientName',
     numeric: false,
     disablePadding: false,
@@ -36,6 +30,18 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: 'Technician Assigned',
+  },
+  {
+    id: 'breakdownType',
+    numeric: false,
+    disablePadding: false,
+    label: 'Breakdown Type',
+  },
+  {
+    id: 'risk',
+    numeric: false,
+    disablePadding: false,
+    label: 'Risk',
   },
   { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
 ];
