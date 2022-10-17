@@ -7,11 +7,13 @@ import {
   GET_PRODUCTS,
   SET_PRODUCT_DETAILS,
   SET_FULL_PRODUCT_DETAILS,
+  GET_MY_PRODUCTS,
 } from '../../@jumbo/constants/ActionTypes';
 
 const INIT_STATE = {
   products: [],
   allProducts: [],
+  myProducts: [],
   currentProduct: null,
   detailedCurrentProduct: null,
 };
@@ -28,6 +30,14 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         allProducts: action.payload,
+      };
+    }
+    case GET_MY_PRODUCTS: {
+      return {
+        ...state,
+        myProducts: action.payload.map(p => {
+          return { id: p.id, key: `${p.name} - ${p.erpId}` };
+        }),
       };
     }
     case SET_PRODUCT_DETAILS: {

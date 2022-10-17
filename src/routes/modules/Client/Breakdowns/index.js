@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BreakdownDetail from './BreakdownDetailView';
+import AddNewBreakdown from './AddNewBreakdown';
 import AddEditBreakdownNotes from './BreakdownNotes';
 import PropertiesList from './BreakdownList';
 import Collapse from '@material-ui/core/Collapse';
@@ -11,6 +12,7 @@ import {
   appoveBreakdown,
   acceptBreakdown,
 } from '../../../../redux/actions/Breakdowns';
+import { getMyProducts } from '../../../../redux/actions/Products';
 
 const BreakdownListing = () => {
   const { myBreakdowns, detailedCurrentBreakdown } = useSelector(({ breakdownsReducer }) => breakdownsReducer);
@@ -30,10 +32,14 @@ const BreakdownListing = () => {
 
   useEffect(() => {
     if (myBreakdowns.length === 0) {
-      dispatch(getMyOwnsBreakdowns(() => filterMaintainnances()));
+      loadMyBreakdowns();
     }
     filterMaintainnances(tabValue);
   }, [dispatch, tabValue, page, myBreakdowns]);
+
+  const loadMyBreakdowns = () => {
+    dispatch(getMyOwnsBreakdowns(() => filterMaintainnances()));
+  };
 
   const filterMaintainnances = tabValue => {
     if (!tabValue) {
@@ -113,6 +119,13 @@ const BreakdownListing = () => {
           setSelectedType(type);
         }),
       );
+    } else if (type == 'NEW') {
+      dispatch(
+        getMyProducts(() => {
+          setSelectedBreakdown(true);
+          setSelectedType(type);
+        }),
+      );
     } else if (type == 'ACCEPT_M') {
       setConfirmationTitle('Confirm Breakdown Acceptance');
       setConfirmationBody('Are you sure you want to accept this Breakdown as a completed ? ');
@@ -135,6 +148,7 @@ const BreakdownListing = () => {
         {selectedType == 'NOTES' && (
           <AddEditBreakdownNotes selectedBreakdown={detailedCurrentBreakdown} showBreakdownList={showBreakdownList} />
         )}
+        {selectedType == 'NEW' && <AddNewBreakdown showBreakdownList={showBreakdownList} callbck={loadMyBreakdowns} />}
       </Collapse>
 
       <Collapse in={!selectedBreakdown} timeout="auto" unmountOnExit>

@@ -10,6 +10,9 @@ import Button from '@material-ui/core/Button';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
   headerRoot: {
@@ -66,6 +69,12 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 16,
     },
   },
+  purpleIcon: {
+    color: 'purple',
+    backgroundColor: 'rgba(63, 81, 181, 0.1)',
+    marginRight: '10px',
+    marginLeft: '10px',
+  },
 }));
 
 const actions = [
@@ -96,6 +105,12 @@ const BreakdownsList = ({
             <Typography component="div" variant="h4" className={classes.titleRoot}>
               Breakdowns
             </Typography>
+            <IconButton
+              aria-label="Report Breakdown"
+              className={classes.purpleIcon}
+              onClick={() => onBreakdownClick('NEW', null)}>
+              <AddIcon />
+            </IconButton>
             <BreakdownTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>
         }

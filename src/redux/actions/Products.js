@@ -8,6 +8,7 @@ import {
   GET_PRODUCTS,
   SET_PRODUCT_DETAILS,
   SET_FULL_PRODUCT_DETAILS,
+  GET_MY_PRODUCTS,
 } from '../../@jumbo/constants/ActionTypes';
 
 export const getProducts = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
@@ -43,6 +44,26 @@ export const getAllProducts = () => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_ALL_PRODUCTS, payload: response.data });
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const getMyProducts = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/products/my')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: GET_MY_PRODUCTS, payload: response.data });
+          if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
