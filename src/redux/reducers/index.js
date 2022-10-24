@@ -8,6 +8,7 @@ import Technicians from './Technicians';
 import Products from './Products';
 import Maintainances from './Maintainances';
 import Breakdowns from './Breakdowns';
+import Reports from './Reports';
 
 export default history =>
   combineReducers({
@@ -19,4 +20,5 @@ export default history =>
     productsReducer: Products,
     maintainancesReducer: Maintainances,
     breakdownsReducer: Breakdowns,
+    reportsReducer: Reports,
   });

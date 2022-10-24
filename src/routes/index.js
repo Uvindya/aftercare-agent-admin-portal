@@ -9,6 +9,7 @@ import ProductModule from './modules/Admin/Products';
 import TechnicianModule from './modules/Admin/Technicians';
 import MaintainanceModule from './modules/Admin/Maintainances';
 import BreakdownModule from './modules/Admin/Breakdowns';
+import ReportModule from './modules/Admin/Reports';
 import ReportsPage from './Pages/ReportPage';
 import TechMaintainanceModule from './modules/Technician/Maintainances';
 import TechBreakdownModule from './modules/Technician/Breakdowns';
@@ -70,7 +71,7 @@ const Routes = () => {
         <RestrictedRoute path="/breakdowns" component={BreakdownModule} permission="ADMIN" />
         <RestrictedRoute path="/clients" component={ClientModule} permission="ADMIN" />
         <RestrictedRoute path="/maintainances" component={MaintainanceModule} permission="ADMIN" />
-        <RestrictedRoute path="/reports" component={ReportsPage} permission="ADMIN" />
+        <RestrictedRoute path="/reports" component={ReportModule} permission="ADMIN" />
         <RestrictedRoute path="/technicians" component={TechnicianModule} permission="ADMIN" />
         <RestrictedRoute path="/products" component={ProductModule} permission="ADMIN" />
         <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
