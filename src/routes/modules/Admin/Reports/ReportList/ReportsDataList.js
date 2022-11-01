@@ -1,6 +1,6 @@
 import React from 'react';
 import CmtList from '../../../../../@coremat/CmtList';
-import BreakdownItem from './BreakdownItem';
+import ReportItem from './ReportItem';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListEmptyResult from '../../../../../@coremat/CmtList/ListEmptyResult';
@@ -28,9 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const BreakdownsDataList = ({ data, onBreakdownClick }) => {
+const ReportsDataList = ({ data, onReportClick }) => {
   const classes = useStyles();
-  return data.map(item => <BreakdownItem item={item} onBreakdownClick={onBreakdownClick} />);
+  return data.map(item => <ReportItem item={item} onReportClick={onReportClick} />);
 };
 
-export default BreakdownsDataList;
+export default ReportsDataList;

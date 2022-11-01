@@ -35,16 +35,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const BreakdownItem = ({ item, onBreakdownClick }) => {
+const ReportItem = ({ item, onReportClick }) => {
   const classes = useStyles();
-  const getTitle = () => (
-    <React.Fragment>
-      <Box className={classes.badgeRoot} component="span" bgcolor={item.status === 'COMPLETED' ? '#FF8C00' : '#8DCD03'}>
-        {item.name}
-      </Box>
-    </React.Fragment>
-  );
-
   return (
     <CmtCard className={classes.cardRoot}>
       <CmtCardContent>
@@ -63,7 +55,7 @@ const BreakdownItem = ({ item, onBreakdownClick }) => {
             variant="outlined"
             color="primary"
             className={classes.btnRoot}
-            onClick={() => onBreakdownClick(item.type, item)}>
+            onClick={() => onReportClick(item.type, item)}>
             Generate
           </Button>
         </Box>
@@ -72,4 +64,4 @@ const BreakdownItem = ({ item, onBreakdownClick }) => {
   );
 };
 
-export default BreakdownItem;
+export default ReportItem;

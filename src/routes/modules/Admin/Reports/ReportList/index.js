@@ -4,8 +4,7 @@ import CmtCard from '../../../../../@coremat/CmtCard';
 import CmtCardHeader from '../../../../../@coremat/CmtCard/CmtCardHeader';
 import CmtSearch from '../../../../../@coremat/CmtSearch';
 import CmtCardContent from '../../../../../@coremat/CmtCard/CmtCardContent';
-import BreakdownTabs from './BreakdownTabs';
-import BreakdownsDataList from './BreakdownsDataList';
+import ReportsDataList from './ReportsDataList';
 import Button from '@material-ui/core/Button';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
@@ -87,15 +86,7 @@ const actions = [
   },
 ];
 
-const BreakdownsList = ({
-  onBreakdownClick,
-  tabValue,
-  onChangeTab,
-  data,
-  searchText,
-  handleSearchTextChange,
-  handlePageChange,
-}) => {
+const BreakdownsList = ({ onReportClick, data }) => {
   const classes = useStyles();
   return (
     <CmtCard>
@@ -111,7 +102,7 @@ const BreakdownsList = ({
       />
       <CmtCardContent className={classes.cardContentRoot}>
         <PerfectScrollbar className={classes.scrollbarRoot}>
-          <BreakdownsDataList data={data} onBreakdownClick={onBreakdownClick} />
+          <ReportsDataList data={data} onReportClick={onReportClick} />
         </PerfectScrollbar>
       </CmtCardContent>
     </CmtCard>

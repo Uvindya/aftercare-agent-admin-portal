@@ -85,13 +85,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AddEditBreakdownNotes = ({
-  selectedBreakdown,
-  showBreakdownList,
-  keys,
-  onBreakdownReportKeyChange,
-  onDownloadClick,
-}) => {
+const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange, onDownloadClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -106,21 +100,19 @@ const AddEditBreakdownNotes = ({
   const [from, setFrom] = useState(firstDay.toISOString().split('T')[0]);
   const [to, setTo] = useState(lastDay.toISOString().split('T')[0]);
 
-  useEffect(() => {}, [selectedBreakdown, dispatch]);
-
   return (
     <CmtCard>
       <Box display="block" flexDirection="row" alignItems={{ sm: 'center' }} px={6} py={3}>
         <Box display="flex" alignItems="center" mb={{ xs: 2, sm: 0 }}>
           <Tooltip title="close">
             <Box ml={-3} clone>
-              <IconButton onClick={showBreakdownList}>
+              <IconButton onClick={showReportList}>
                 <Close />
               </IconButton>
             </Box>
           </Tooltip>
           <Typography component="div" variant="h4" className={classes.titleRoot}>
-            {selectedBreakdown.name}
+            {selectedReport.name}
           </Typography>
         </Box>
       </Box>
@@ -160,7 +152,7 @@ const AddEditBreakdownNotes = ({
                   label={k}
                   checked={keys[k]}
                   onChange={e => {
-                    onBreakdownReportKeyChange(k, !keys[k]);
+                    onReportKeyChange(k, !keys[k]);
                   }}
                   helperText=""
                 />{' '}
@@ -171,7 +163,7 @@ const AddEditBreakdownNotes = ({
 
         <Box display="flex" justifyContent="flex-end" mb={4} p={6}>
           <Box ml={2}>
-            <Button variant="contained" color="primary" onClick={() => onDownloadClick(selectedBreakdown.type, from, to)}>
+            <Button variant="contained" color="primary" onClick={() => onDownloadClick(selectedReport.type, from, to)}>
               Download
             </Button>
           </Box>
@@ -181,4 +173,4 @@ const AddEditBreakdownNotes = ({
   );
 };
 
-export default AddEditBreakdownNotes;
+export default ReportConfig;

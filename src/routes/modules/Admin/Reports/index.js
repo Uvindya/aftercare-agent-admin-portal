@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import BreakdownDetail from './BreakdownDetailView';
-import AddNewBreakdown from './AddNewBreakdown';
-import AddEditBreakdownNotes from './BreakdownNotes';
-import PropertiesList from './BreakdownList';
+import ReportConfig from './ReportConfig';
+import PropertiesList from './ReportList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
 import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
-import { getReportKeys, changeBreakdownReportKey, downloadBreakdownReport } from '../../../../redux/actions/Reports';
+import {
+  getReportKeys,
+  changeBreakdownReportKey,
+  downloadBreakdownReport,
+  changeMaintainanceReportKey,
+  downloadMaintainanceReport,
+} from '../../../../redux/actions/Reports';
 import { getMyProducts } from '../../../../redux/actions/Products';
 
-const BreakdownListing = () => {
-  const { reportKeys, breakdownReportKeys } = useSelector(({ reportsReducer }) => reportsReducer);
-  const [selectedBreakdown, setSelectedBreakdown] = useState(null);
+const ReportListing = () => {
+  const { reportKeys, breakdownReportKeys, maintainanceReportKeys } = useSelector(({ reportsReducer }) => reportsReducer);
+  const [selectedReport, setSelectedReport] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState('');
@@ -30,44 +34,13 @@ const BreakdownListing = () => {
     }
   }, [dispatch, tabValue, page, reportKeys]);
 
-  const handleBreakdownClick = (type, breakdown) => {
-    if (type == 'BR') {
-      setSelectedBreakdown(true);
-      setSelectedType(type);
-      setSelectedItem(breakdown);
-    }
-    /*if (type == 'MORE_DETAILS') {
-      dispatch(
-        getDetailedCurrentBreakdown(breakdown.id, () => {
-          setSelectedBreakdown(true);
-          setSelectedType(type);
-        }),
-      );
-    } else if (type == 'NOTES') {
-      dispatch(
-        getDetailedCurrentBreakdown(breakdown.id, () => {
-          setSelectedBreakdown(true);
-          setSelectedType(type);
-        }),
-      );
-    } else if (type == 'NEW') {
-      dispatch(
-        getMyProducts(() => {
-          setSelectedBreakdown(true);
-          setSelectedType(type);
-        }),
-      );
-    } else if (type == 'ACCEPT_M') {
-      setConfirmationTitle('Confirm Breakdown Acceptance');
-      setConfirmationBody('Are you sure you want to accept this Breakdown as a completed ? ');
-      setOpenConfirmDialog(true);
-      setSelectedBreakdownId(breakdown.id);
-      setType(type);
-    }*/
+  const handleReportClick = (type, data) => {
+    setSelectedReport(true);
+    setSelectedType(type);
+    setSelectedItem(data);
   };
 
   const onDownloadClick = (type, from, to) => {
-    console.log(type + ' ' + from + ' ' + to);
     if (type == 'BR') {
       let selectedKeys = [];
       for (let k in breakdownReportKeys) {
@@ -76,6 +49,14 @@ const BreakdownListing = () => {
         }
       }
       dispatch(downloadBreakdownReport(from, to, selectedKeys));
+    } else if (type == 'MR') {
+      let selectedKeys = [];
+      for (let k in maintainanceReportKeys) {
+        if (maintainanceReportKeys[k]) {
+          selectedKeys.push(k);
+        }
+      }
+      dispatch(downloadMaintainanceReport(from, to, selectedKeys));
     }
   };
 
@@ -83,7 +64,11 @@ const BreakdownListing = () => {
     dispatch(changeBreakdownReportKey(key, selected));
   };
 
-  const showBreakdownList = () => setSelectedBreakdown(null);
+  const onMaintainanceReportKeyChange = (key, selected) => {
+    dispatch(changeMaintainanceReportKey(key, selected));
+  };
+
+  const showReportList = () => setSelectedReport(null);
 
   const data = [
     {
@@ -114,23 +99,33 @@ const BreakdownListing = () => {
 
   return (
     <React.Fragment>
-      <Collapse in={selectedBreakdown} timeout="auto" unmountOnExit>
+      <Collapse in={selectedReport} timeout="auto" unmountOnExit>
         {selectedType == 'BR' && (
-          <AddEditBreakdownNotes
+          <ReportConfig
             keys={breakdownReportKeys}
-            onBreakdownReportKeyChange={onBreakdownReportKeyChange}
-            selectedBreakdown={selectedItem}
+            onReportKeyChange={onBreakdownReportKeyChange}
+            selectedReport={selectedItem}
             onDownloadClick={onDownloadClick}
-            showBreakdownList={showBreakdownList}
+            showReportList={showReportList}
+          />
+        )}
+
+        {selectedType == 'MR' && (
+          <ReportConfig
+            keys={maintainanceReportKeys}
+            onReportKeyChange={onMaintainanceReportKeyChange}
+            selectedReport={selectedItem}
+            onDownloadClick={onDownloadClick}
+            showReportList={showReportList}
           />
         )}
       </Collapse>
 
-      <Collapse in={!selectedBreakdown} timeout="auto" unmountOnExit>
-        <PropertiesList onBreakdownClick={handleBreakdownClick} data={data} />
+      <Collapse in={!selectedReport} timeout="auto" unmountOnExit>
+        <PropertiesList onReportClick={handleReportClick} data={data} />
       </Collapse>
     </React.Fragment>
   );
 };
 
-export default BreakdownListing;
+export default ReportListing;
