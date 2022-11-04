@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import AppTextInput from '../../../../../@jumbo/components/Common/formElements/AppTextInput';
 import AppCheckBox from '../../../../../@jumbo/components/Common/formElements/AppCheckBox';
 import AppDatePicker from '../../../../../@jumbo/components/Common/formElements/AppDatePicker';
+import AppSelectBox from '../../../../../@jumbo/components/Common/formElements/AppSelectBox';
 import Button from '@material-ui/core/Button';
 import { Close } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
@@ -85,7 +86,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange, onDownloadClick }) => {
+const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange, onDownloadClick, type, technicians }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -99,6 +100,9 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
 
   const [from, setFrom] = useState(firstDay.toISOString().split('T')[0]);
   const [to, setTo] = useState(lastDay.toISOString().split('T')[0]);
+  const [technician, setTechnician] = useState(0);
+
+  if (type === 'TWS') technicians = [{ id: '0', key: 'ALL' }, ...technicians];
 
   return (
     <CmtCard>
@@ -117,6 +121,25 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
         </Box>
       </Box>
       <Box p={6}>
+        {type == 'TWS' && (
+          <GridContainer>
+            <Grid item xs={6} sm={6}>
+              <AppSelectBox
+                fullWidth
+                data={technicians}
+                label="Technician"
+                valueKey="id"
+                variant="outlined"
+                labelKey="key"
+                value={0}
+                onChange={e => {
+                  setTechnician(e.target.value);
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} sm={6} />
+          </GridContainer>
+        )}
         <GridContainer>
           <Grid item xs={6} sm={6}>
             <AppTextInput
@@ -163,7 +186,10 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
 
         <Box display="flex" justifyContent="flex-end" mb={4} p={6}>
           <Box ml={2}>
-            <Button variant="contained" color="primary" onClick={() => onDownloadClick(selectedReport.type, from, to)}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => onDownloadClick(selectedReport.type, from, to, technician)}>
               Download
             </Button>
           </Box>
