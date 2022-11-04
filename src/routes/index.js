@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import BreakdownPage from './Pages/BreakdownPage';
-import DashboardPage from './Pages/DashboardPage';
+import DashboardModule from './modules/Admin/Dashboard';
 import ClientModule from './modules/Admin/Clients';
 import ProductModule from './modules/Admin/Products';
 import TechnicianModule from './modules/Admin/Technicians';
@@ -67,7 +67,7 @@ const Routes = () => {
   return (
     <React.Fragment>
       <Switch>
-        <RestrictedRoute path="/dashboard" component={DashboardPage} permission="ADMIN" />
+        <RestrictedRoute path="/dashboard" component={DashboardModule} permission="ADMIN" />
         <RestrictedRoute path="/breakdowns" component={BreakdownModule} permission="ADMIN" />
         <RestrictedRoute path="/clients" component={ClientModule} permission="ADMIN" />
         <RestrictedRoute path="/maintainances" component={MaintainanceModule} permission="ADMIN" />
