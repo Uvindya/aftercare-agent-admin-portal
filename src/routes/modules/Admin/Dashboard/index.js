@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Grid, Typography, ListItem, Box } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -18,6 +18,8 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { getDashboardSummary } from '../../../../redux/actions/Reports';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   orderLg2: {
@@ -88,16 +90,9 @@ const statusSummary = [
   { label: 'Completed', value: 12, color: 'green' },
 ];
 
-const monthlySummary = [
-  { name: '', maintainances: 0, breakdowns: 0 },
-  { name: 'Jan', maintainances: 4000, breakdowns: 3000 },
-  { name: 'Feb', maintainances: 2000, breakdowns: 1000 },
-  { name: 'Mar', maintainances: 4400, breakdowns: 4000 },
-  { name: 'Apr', maintainances: 9000, breakdowns: 3800 },
-  { name: 'May', maintainances: 3500, breakdowns: 2000 },
-  { name: 'Jun', maintainances: 1750, breakdowns: 1000 },
-  { name: 'Jul', maintainances: 100, breakdowns: 100 },
-];
+//const monthlySummary = [
+//  { name: '', maintainances: 0, breakdowns: 0 },
+//];
 
 const ProgressIndicator = ({ item }) => (
   <Box width={1}>
@@ -116,7 +111,49 @@ const ProgressIndicator = ({ item }) => (
 );
 
 const DashboardModule = () => {
+  const { dashboardSummary } = useSelector(({ reportsReducer }) => reportsReducer);
   const classes = useStyles();
+
+  const [projectsCount, setProjectsCount] = useState(0);
+  const [clientsCount, setClientsCount] = useState(0);
+  const [techniciansCount, setTechniciansCount] = useState(0);
+  const [totalTasksCount, setTotalTasksCount] = useState(0);
+  const [maintainancesCount, setMaintainancesCount] = useState(0);
+  const [breakdownsCount, setBreakdownsCount] = useState(0);
+  const [inProgressCount, setInProgressCount] = useState(0);
+  const [upCommingMaintainacesCount, setUpCommingMaintainacesCount] = useState(0);
+  const [pendingBreakdownCount, setPendingBreakdownCount] = useState(0);
+  const [inProgressMaintainanceCount, setInProgressMaintainanceCount] = useState(0);
+  const [pendingAcceptenceBreakdownCount, setPendingAcceptenceBreakdownCount] = useState(0);
+  const [monthlySummary, setMonthlySummary] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (Object.keys(dashboardSummary).length === 0) {
+      dispatch(getDashboardSummary());
+    }
+    setProjectsCount(dashboardSummary.productsCount);
+    setClientsCount(dashboardSummary.clientsCount);
+    setTechniciansCount(dashboardSummary.technicianCount);
+    setTotalTasksCount(dashboardSummary.tasksCount);
+    setMaintainancesCount(dashboardSummary.maintainancesCount);
+    setBreakdownsCount(dashboardSummary.breakdownsCount);
+    setInProgressCount(dashboardSummary.inprogressCount);
+    setUpCommingMaintainacesCount(dashboardSummary.upCommingMaintainacesCount);
+    setPendingBreakdownCount(dashboardSummary.pendingBreakdownCount);
+    setInProgressMaintainanceCount(dashboardSummary.inprogressMaintainanceCount);
+    setPendingAcceptenceBreakdownCount(dashboardSummary.pendingAcceptenceBreakdownCount);
+    statusSummary[0].value = Number(dashboardSummary.notStartedPercentage).toFixed(2);
+    statusSummary[1].value = Number(dashboardSummary.inprogressPercentage).toFixed(2);
+    statusSummary[2].value = Number(dashboardSummary.completedPercentage).toFixed(2);
+    setMonthlySummary(dashboardSummary.monthlySummary);
+  }, [dispatch, dashboardSummary]);
+
+  const formatNumber = number => {
+    return number < 10 ? '0' + number : number;
+  };
+
   return (
     <PageContainer>
       <GridContainer>
@@ -138,16 +175,18 @@ const DashboardModule = () => {
                     </Typography>
 
                     <NavLink className={classes.navLink} to="/maintainances">
-                      <MessageIcon className={classes.iconRoot} /> 5 Up coming Maintainances
+                      <MessageIcon className={classes.iconRoot} /> {`${upCommingMaintainacesCount} Up coming Maintainances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
-                      <MailOutlineIcon className={classes.iconRoot} /> 2 Pending Breakdowns
+                      <MailOutlineIcon className={classes.iconRoot} /> {`${pendingBreakdownCount} Pending Breakdowns`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/maintainances">
-                      <CheckCircleIcon className={classes.iconRoot} /> 7 in progress Maintainances
+                      <CheckCircleIcon className={classes.iconRoot} />{' '}
+                      {`${inProgressMaintainanceCount} in progress Maintainances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
-                      <NotificationsIcon className={classes.iconRoot} /> 3 Pending acceptence Breakdowns
+                      <NotificationsIcon className={classes.iconRoot} />{' '}
+                      {`${pendingAcceptenceBreakdownCount} Pending acceptence Breakdowns`}
                     </NavLink>
                   </div>
                 </Grid>
@@ -176,7 +215,7 @@ const DashboardModule = () => {
                         labelStyle={{ color: 'black' }}
                         itemStyle={{ color: '#0795F4' }}
                         labelFormatter={function(value) {
-                          return `Month: ${value}`;
+                          return `${value}`;
                         }}
                         cursor={false}
                       />
@@ -210,7 +249,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/projectIcon.svg'}
-                number="09"
+                number={projectsCount}
                 label="Products"
                 labelProps={{
                   fontSize: 16,
@@ -222,7 +261,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/tasksIcon.svg'}
-                number="457"
+                number={clientsCount}
                 label="Clients"
                 labelProps={{
                   fontSize: 16,
@@ -234,7 +273,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/teamsIcon.svg'}
-                number="13"
+                number={techniciansCount}
                 label="Technicians"
                 labelProps={{
                   fontSize: 16,
@@ -246,7 +285,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/filesIcon.svg'}
-                number="42"
+                number={totalTasksCount}
                 label="Total Tasks"
                 labelProps={{
                   fontSize: 16,
@@ -258,7 +297,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/projectIcon.svg'}
-                number="09"
+                number={maintainancesCount}
                 label="Maintainances"
                 labelProps={{
                   fontSize: 16,
@@ -270,7 +309,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={3}>
               <CounterCard
                 icon={'/images/dashboard/tasksIcon.svg'}
-                number="457"
+                number={breakdownsCount}
                 label="Breakdowns"
                 labelProps={{
                   fontSize: 16,
@@ -282,7 +321,7 @@ const DashboardModule = () => {
             <Grid item xs={12} sm={6} md={6}>
               <CounterCard
                 icon={'/images/dashboard/teamsIcon.svg'}
-                number="13"
+                number={inProgressCount}
                 label="In progress Breakdowns & Maintainances"
                 labelProps={{
                   fontSize: 16,

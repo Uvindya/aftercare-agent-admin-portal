@@ -5,6 +5,7 @@ import {
   MR_REPORT_KEY_CHANGED,
   TWS_REPORT_KEY_CHANGED,
   UMR_REPORT_KEY_CHANGED,
+  DASHBOARD_SUMMARY_LOADED,
 } from '../../@jumbo/constants/ActionTypes';
 
 const INIT_STATE = {
@@ -12,6 +13,7 @@ const INIT_STATE = {
   breakdownReportKeys: {},
   maintainanceReportKeys: {},
   worksheetReportKeys: {},
+  dashboardSummary: {},
 };
 
 export default (state = INIT_STATE, action) => {
@@ -74,6 +76,12 @@ export default (state = INIT_STATE, action) => {
           ...state.maintainanceReportKeys,
           [action.payload.key]: action.payload.selected,
         },
+      };
+    }
+    case DASHBOARD_SUMMARY_LOADED: {
+      return {
+        ...state,
+        dashboardSummary: action.payload,
       };
     }
     default:

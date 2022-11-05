@@ -6,6 +6,7 @@ import {
   MR_REPORT_KEY_CHANGED,
   UMR_REPORT_KEY_CHANGED,
   TWS_REPORT_KEY_CHANGED,
+  DASHBOARD_SUMMARY_LOADED,
 } from '../../@jumbo/constants/ActionTypes';
 
 /*export const getBreakdowns = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
@@ -41,6 +42,26 @@ export const getReportKeys = callbackFun => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_REPORT_KEYS, payload: response.data });
+          if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const getDashboardSummary = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/reports/dashboard')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: DASHBOARD_SUMMARY_LOADED, payload: response.data });
           if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
