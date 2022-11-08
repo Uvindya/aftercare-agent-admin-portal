@@ -85,6 +85,18 @@ export const sidebarNavs = {
   ],
   TECHNICIAN: [
     {
+      name: <IntlMessages id={'sidebar.dashboard.main'} />,
+      type: 'section',
+      children: [
+        {
+          name: <IntlMessages id={'sidebar.dashboard.sub1'} />,
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/technician/dashboard',
+        },
+      ],
+    },
+    {
       name: <IntlMessages id={'sidebar.maintainance.main'} />,
       type: 'section',
       children: [
@@ -110,6 +122,18 @@ export const sidebarNavs = {
     },
   ],
   CLIENT: [
+    {
+      name: <IntlMessages id={'sidebar.dashboard.main'} />,
+      type: 'section',
+      children: [
+        {
+          name: <IntlMessages id={'sidebar.dashboard.sub1'} />,
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/client/dashboard',
+        },
+      ],
+    },
     {
       name: <IntlMessages id={'sidebar.maintainance.main'} />,
       type: 'section',

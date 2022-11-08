@@ -73,6 +73,46 @@ export const getDashboardSummary = callbackFun => {
   };
 };
 
+export const getClientDashboardSummary = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/reports/client/dashboard')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: DASHBOARD_SUMMARY_LOADED, payload: response.data });
+          if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const getTechnicianDashboardSummary = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/reports/technician/dashboard')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: DASHBOARD_SUMMARY_LOADED, payload: response.data });
+          if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const downloadBreakdownReport = (from, to, keys) => {
   return dispatch => {
     dispatch(fetchStart());

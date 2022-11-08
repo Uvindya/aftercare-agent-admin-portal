@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import BreakdownPage from './Pages/BreakdownPage';
+import TechnicianDashboardModule from './modules/Technician/Dashboard';
 import DashboardModule from './modules/Admin/Dashboard';
 import ClientModule from './modules/Admin/Clients';
 import ProductModule from './modules/Admin/Products';
@@ -10,7 +10,7 @@ import TechnicianModule from './modules/Admin/Technicians';
 import MaintainanceModule from './modules/Admin/Maintainances';
 import BreakdownModule from './modules/Admin/Breakdowns';
 import ReportModule from './modules/Admin/Reports';
-import ReportsPage from './Pages/ReportPage';
+import ClientDashboardModule from './modules/Client/Dashboard';
 import TechMaintainanceModule from './modules/Technician/Maintainances';
 import TechBreakdownModule from './modules/Technician/Breakdowns';
 import ClientMaintainanceModule from './modules/Client/Maintainances';
@@ -43,9 +43,9 @@ const RestrictedRoute = ({ component: Component, permission, ...rest }) => {
 const getLandingPage = role => {
   switch (role) {
     case 'TECHNICIAN':
-      return <Redirect to={'/technician/maintainances'} />;
+      return <Redirect to={'/technician/dashboard'} />;
     case 'CLIENT':
-      return <Redirect to={'/client/maintainances'} />;
+      return <Redirect to={'/client/dashboard'} />;
     default:
       return <Redirect to={'/dashboard'} />;
   }
@@ -76,8 +76,10 @@ const Routes = () => {
         <RestrictedRoute path="/products" component={ProductModule} permission="ADMIN" />
         <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/breakdowns" component={TechBreakdownModule} permission="TECHNICIAN" />
+        <RestrictedRoute path="/technician/dashboard" component={TechnicianDashboardModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/client/maintainances" component={ClientMaintainanceModule} permission="CLIENT" />
         <RestrictedRoute path="/client/breakdowns" component={ClientBreakdownModule} permission="CLIENT" />
+        <RestrictedRoute path="/client/dashboard" component={ClientDashboardModule} permission="CLIENT" />
         <Route path="/signin" component={Login} />
         <Route path="/forgot-password" component={ForgotPasswordPage} />
         <Route component={Error404} />
