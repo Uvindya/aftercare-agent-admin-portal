@@ -86,6 +86,9 @@ const DashboardModule = () => {
   useEffect(() => {
     if (Object.keys(dashboardSummary).length === 0) {
       dispatch(getTechnicianDashboardSummary());
+      setInterval(() => {
+        if (window.location.pathname.includes('dashboard')) dispatch(getTechnicianDashboardSummary());
+      }, 10000);
     }
     setTotalTasksCount(dashboardSummary.totalTasks);
     setActiveBreakdownCount(dashboardSummary.activeBreakdownsCount);

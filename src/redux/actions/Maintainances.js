@@ -94,6 +94,34 @@ export const getMyOwnsMaintainances = callbackFun => {
   };
 };
 
+export const importMaintainances = (maintainancesFile, callbackFun) => {
+  var formData = new FormData();
+  formData.append('file', maintainancesFile);
+  //console.log(formData);
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .post('/tasks/maintainances/import', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(fetchSuccess('Imported Maintainances were added successfully.'));
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getMaintainances([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const setCurrentMaintainance = maintainance => {
   return dispatch => {
     dispatch({ type: SET_MAINTAINANCE_DETAILS, payload: maintainance });

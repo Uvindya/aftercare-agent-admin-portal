@@ -25,6 +25,7 @@ const MaintainanceTableToolbar = ({
   setFilterOptions,
   searchTerm,
   setSearchTerm,
+  onMaintainanceImport,
 }) => {
   const classes = useStyles();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -86,6 +87,9 @@ const MaintainanceTableToolbar = ({
             Maintainances{' '}
             <Button color="primary" onClick={() => onMaintainanceAdd(true)} disabled>
               Add New Maintainance
+            </Button>
+            <Button color="primary" onClick={() => onMaintainanceImport(true)}>
+              Import Maintainances
             </Button>
           </Typography>
         )}
@@ -154,6 +158,7 @@ MaintainanceTableToolbar.propTypes = {
   searchTerm: PropTypes.string,
   setSearchTerm: PropTypes.func,
   onMaintainanceAdd: PropTypes.func,
+  onMaintainanceImport: PropTypes.func,
 };
 
 export default React.memo(MaintainanceTableToolbar);

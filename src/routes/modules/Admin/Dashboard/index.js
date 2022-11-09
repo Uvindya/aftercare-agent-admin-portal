@@ -132,6 +132,9 @@ const DashboardModule = () => {
   useEffect(() => {
     if (Object.keys(dashboardSummary).length === 0) {
       dispatch(getDashboardSummary());
+      setInterval(() => {
+        if (window.location.pathname.includes('dashboard')) dispatch(getDashboardSummary());
+      }, 10000);
     }
     setProjectsCount(dashboardSummary.productsCount);
     setClientsCount(dashboardSummary.clientsCount);

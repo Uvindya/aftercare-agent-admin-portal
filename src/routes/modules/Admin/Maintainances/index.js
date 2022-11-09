@@ -21,6 +21,7 @@ import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import MaintainanceDetailView from './MaintainanceDetailView';
 import NoRecordFound from './NoRecordFound';
+import ImportMaintainance from './ImportMaintainance';
 
 const MaintainancesModule = () => {
   const classes = useStyles();
@@ -43,6 +44,7 @@ const MaintainancesModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [openImportMaintainanceDialog, setOpenImportMaintainanceDialog] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -149,6 +151,11 @@ const MaintainancesModule = () => {
     setOpenConfirmDialog(false);
   };
 
+  const handleCloseImportMaintainanceDialog = () => {
+    setOpenImportMaintainanceDialog(false);
+    //dispatch(setCurrentClient(null));
+  };
+
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -162,6 +169,7 @@ const MaintainancesModule = () => {
           setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          onMaintainanceImport={setOpenImportMaintainanceDialog}
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
@@ -215,6 +223,14 @@ const MaintainancesModule = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
         />
       </Paper>
+
+      {openImportMaintainanceDialog && (
+        <ImportMaintainance
+          open={openImportMaintainanceDialog}
+          onCloseDialog={handleCloseImportMaintainanceDialog}
+          callbck={updateMaintainanceTableInfoCallBack}
+        />
+      )}
 
       {openMaintainanceDialog && (
         <AddEditMaintainance

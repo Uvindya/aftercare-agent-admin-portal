@@ -224,6 +224,34 @@ export const breakdownNotes = (id, notes, callbackFun) => {
   };
 };
 
+export const importBreakdowns = (breakdownsFile, callbackFun) => {
+  var formData = new FormData();
+  formData.append('file', breakdownsFile);
+  //console.log(formData);
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .post('/tasks/breakdowns/import', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        if (response.status === 201) {
+          dispatch(fetchSuccess('Imported Breakdowns were added successfully.'));
+          //dispatch({ type: ADD_CLIENT, payload: data.data });
+          dispatch(getBreakdowns([], '', callbackFun, 0, 10));
+          //if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const addNewBreakdown = (breakdown, callbackFun) => {
   //console.log(breakdown)
   return dispatch => {

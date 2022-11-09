@@ -25,6 +25,7 @@ const BreakdownTableToolbar = ({
   setFilterOptions,
   searchTerm,
   setSearchTerm,
+  onBreakdownImport,
 }) => {
   const classes = useStyles();
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -86,6 +87,9 @@ const BreakdownTableToolbar = ({
             Breakdowns{' '}
             <Button color="primary" onClick={() => onBreakdownAdd(true)}>
               Add New Breakdown
+            </Button>
+            <Button color="primary" onClick={() => onBreakdownImport(true)}>
+              Import Breakdown
             </Button>
           </Typography>
         )}
@@ -154,6 +158,7 @@ BreakdownTableToolbar.propTypes = {
   searchTerm: PropTypes.string,
   setSearchTerm: PropTypes.func,
   onBreakdownAdd: PropTypes.func,
+  onBreakdownImport: PropTypes.func,
 };
 
 export default React.memo(BreakdownTableToolbar);

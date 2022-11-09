@@ -21,6 +21,7 @@ import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import BreakdownDetailView from './BreakdownDetailView';
 import NoRecordFound from './NoRecordFound';
+import ImportBreakdowns from './ImportBreakdown';
 
 const BreakdownsModule = () => {
   const classes = useStyles();
@@ -43,6 +44,7 @@ const BreakdownsModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [openImportBreakdownDialog, setOpenImportBreakdownDialog] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -89,6 +91,11 @@ const BreakdownsModule = () => {
       return;
     }
     setSelected([]);
+  };
+
+  const handleCloseImportBreakdownDialog = () => {
+    setOpenImportBreakdownDialog(false);
+    //dispatch(setCurrentBreakdown(null));
   };
 
   const handleRowClick = (event, id) => {
@@ -162,6 +169,7 @@ const BreakdownsModule = () => {
           setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          onBreakdownImport={setOpenImportBreakdownDialog}
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
@@ -215,6 +223,14 @@ const BreakdownsModule = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
         />
       </Paper>
+
+      {openImportBreakdownDialog && (
+        <ImportBreakdowns
+          open={openImportBreakdownDialog}
+          onCloseDialog={handleCloseImportBreakdownDialog}
+          callbck={updateBreakdownTableInfoCallBack}
+        />
+      )}
 
       {openBreakdownDialog && (
         <AddEditBreakdown

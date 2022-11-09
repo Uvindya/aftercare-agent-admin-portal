@@ -86,6 +86,9 @@ const DashboardModule = () => {
   useEffect(() => {
     if (Object.keys(dashboardSummary).length === 0) {
       dispatch(getClientDashboardSummary());
+      setInterval(() => {
+        if (window.location.pathname.includes('dashboard')) dispatch(getClientDashboardSummary());
+      }, 10000);
     }
     setProductsCount(dashboardSummary.productsCount);
     setActiveBreakdownCount(dashboardSummary.activeBreakdownsCount);
