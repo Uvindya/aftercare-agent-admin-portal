@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import CmtCarousel from '../../../../../@coremat/CmtCarousel';
 import GridContainer from '../../../../../@jumbo/components/GridContainer';
 import Grid from '@material-ui/core/Grid';
 import AppTextInput from '../../../../../@jumbo/components/Common/formElements/AppTextInput';
 import AppCheckBox from '../../../../../@jumbo/components/Common/formElements/AppCheckBox';
-import AppDatePicker from '../../../../../@jumbo/components/Common/formElements/AppDatePicker';
 import AppSelectBox from '../../../../../@jumbo/components/Common/formElements/AppSelectBox';
 import Button from '@material-ui/core/Button';
 import { Close } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import CmtCard from '../../../../../@coremat/CmtCard';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import CmtCardMedia from '../../../../../@coremat/CmtCard/CmtCardMedia';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import { timeFromNow } from '../../../../../@jumbo/utils/dateHelper';
-import Chip from '@material-ui/core/Chip';
-import { useDispatch, useSelector } from 'react-redux';
-import { breakdownNotes } from '../../../../../redux/actions/Breakdowns';
 
 const useStyles = makeStyles(theme => ({
   titleRoot: {
@@ -88,7 +78,6 @@ const useStyles = makeStyles(theme => ({
 
 const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange, onDownloadClick, type, technicians }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   let date = new Date();
   let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -148,7 +137,6 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
               label="From"
               value={from}
               onChange={e => {
-                //console.log(e.format('M'))
                 setFrom(e.target.value);
               }}
               helperText=""
@@ -161,7 +149,6 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
               label="To"
               value={to}
               onChange={e => {
-                //console.log(e.format('M'))
                 setTo(e.target.value);
               }}
               helperText=""

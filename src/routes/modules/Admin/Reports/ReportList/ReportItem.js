@@ -1,19 +1,8 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import CmtMediaObject from '../../../../../@coremat/CmtMediaObject';
-import CmtImage from '../../../../../@coremat/CmtImage';
-import { timeFromNow } from '../../../../../@jumbo/utils/dateHelper';
-import CmtCarousel from '../../../../../@coremat/CmtCarousel';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import NoteIcon from '@material-ui/icons/NoteAdd';
-import AcceptenceIcon from '@material-ui/icons/CheckCircle';
-import ApproveIcon from '@material-ui/icons/CheckCircleOutline';
 
 import CmtCard from '../../../../../@coremat/CmtCard';
 import CmtCardContent from '../../../../../@coremat/CmtCard/CmtCardContent';

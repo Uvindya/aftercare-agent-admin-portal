@@ -2,16 +2,11 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import CmtCard from '../../../../../@coremat/CmtCard';
 import CmtCardHeader from '../../../../../@coremat/CmtCard/CmtCardHeader';
-import CmtSearch from '../../../../../@coremat/CmtSearch';
 import CmtCardContent from '../../../../../@coremat/CmtCard/CmtCardContent';
 import ReportsDataList from './ReportsDataList';
-import Button from '@material-ui/core/Button';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
   headerRoot: {
@@ -76,15 +71,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '10px',
   },
 }));
-
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
 
 const BreakdownsList = ({ onReportClick, data }) => {
   const classes = useStyles();

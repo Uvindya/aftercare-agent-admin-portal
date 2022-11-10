@@ -3,7 +3,6 @@ import ReportConfig from './ReportConfig';
 import PropertiesList from './ReportList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import {
   getReportKeys,
   changeBreakdownReportKey,
@@ -15,7 +14,6 @@ import {
   downloadUpcommingMaintainanceReport,
   downloadWorksheetReport,
 } from '../../../../redux/actions/Reports';
-import { getMyProducts } from '../../../../redux/actions/Products';
 import { getAllTechnicians } from '../../../../redux/actions/Technicians';
 
 const ReportListing = () => {
@@ -26,14 +24,7 @@ const ReportListing = () => {
 
   const [selectedReport, setSelectedReport] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-  const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState('');
-  const [tabValue, setTabValue] = useState('');
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [confirmationBody, setConfirmationBody] = useState('');
-  const [selectedBreakdownId, setSelectedBreakdownId] = useState('');
-  const [type, setType] = useState('');
 
   const dispatch = useDispatch();
 
@@ -44,7 +35,7 @@ const ReportListing = () => {
     if (allTechnicians.length == 0) {
       dispatch(getAllTechnicians());
     }
-  }, [dispatch, tabValue, page, reportKeys]);
+  }, [dispatch, reportKeys]);
 
   const handleReportClick = (type, data) => {
     setSelectedReport(true);
