@@ -5,7 +5,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TechnicianListRow from './TechnicianListRow';
 import TechnicianTableHead from './TechnicianTableHead';
 import TechniciansTableToolbar from './TechniciansTableToolbar';
-import { getComparator, stableSort } from '../../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteTechnician,
@@ -21,6 +20,30 @@ import useStyles from './index.style';
 import TechnicianDetailView from './TechnicianDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportTechnician from './ImportTechnician';
+
+const headCells = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
+  {
+    id: 'primaryPhoneNo',
+    numeric: false,
+    disablePadding: false,
+    label: 'Primary Phone No',
+  },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+];
 
 const TechniciansModule = () => {
   const classes = useStyles();
@@ -70,21 +93,6 @@ const TechniciansModule = () => {
     dispatch(setCurrentTechnician(null));
   };
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderBy(property);
-    setOrder(isAsc ? 'desc' : 'asc');
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = technicians.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleRowClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -125,11 +133,6 @@ const TechniciansModule = () => {
     setOpenTechnicianDialog(true);
   };
 
-  const handleTechnicianDelete = technician => {
-    setSelectedTechnician(technician);
-    setOpenConfirmDialog(true);
-  };
-
   const handleConfirmDelete = () => {
     setOpenConfirmDialog(false);
     dispatch(deleteTechnician(selectedTechnician.id));
@@ -150,8 +153,6 @@ const TechniciansModule = () => {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <TechniciansTableToolbar
-          selected={selected}
-          setSelected={setSelected}
           onTechnicianAdd={setOpenTechnicianDialog}
           onTechnicianImport={setOpenImportTechnicianDialog}
           filterOptions={filterOptions}
@@ -161,15 +162,7 @@ const TechniciansModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <TechnicianTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={technicians.length}
-            />
+            <TechnicianTableHead headers={headCells} />
             <TableBody>
               {!!technicians.length ? (
                 technicians.map((row, index) => (
@@ -178,7 +171,6 @@ const TechniciansModule = () => {
                     row={row}
                     onRowClick={handleRowClick}
                     onTechnicianEdit={handleTechnicianEdit}
-                    onTechnicianDelete={handleTechnicianDelete}
                     onTechnicianView={handleTechnicianView}
                     isSelected={isSelected}
                     callbck={updateTechnicianTableInfoCallBack}

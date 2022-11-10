@@ -79,27 +79,54 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onSubmitClick = () => {
+    let hasError = false;
     if (!firstName) {
+      hasError = true;
       setFirstNameError(requiredMessage);
-    } else if (!lastName) {
+    }
+
+    if (!lastName) {
+      hasError = true;
       setLastNameError(requiredMessage);
-    } else if (!erpId) {
+    }
+
+    if (!erpId) {
+      hasError = true;
       setErpIdError(requiredMessage);
-    } else if (!email) {
+    }
+
+    if (!email) {
+      hasError = true;
       setEmailError(requiredMessage);
     } else if (!isValidEmail(email)) {
+      hasError = true;
       setEmailError(emailNotValid);
-    } else if (!primaryPhoneNo) {
+    }
+
+    if (!primaryPhoneNo) {
+      hasError = true;
       setPrimaryPhoneNoError(requiredMessage);
     } else if (!isValidPhoneNo(primaryPhoneNo)) {
+      hasError = true;
       setPrimaryPhoneNoError(phoneNoNotValid);
-    } else if (!yearOfExperience && isValidNumber(yearOfExperience)) {
+    }
+
+    if (!yearOfExperience && isValidNumber(yearOfExperience)) {
+      hasError = true;
       setYearOfExperienceError(yearOfExpNotValid);
-    } else if (!password) {
+    }
+
+    if (!password) {
+      hasError = true;
       setPasswordError(requiredMessage);
-    } else if (!gender) {
+    }
+
+    if (!gender) {
+      hasError = true;
       setGenderError(requiredMessage);
-    } else {
+    }
+
+    if (!hasError) {
       onTechnicianSave();
     }
   };
@@ -224,7 +251,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
                   setErpId(e.target.value);
                   setErpIdError('');
                 }}
-                helperText={passwordError}
+                helperText={erpIdError}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

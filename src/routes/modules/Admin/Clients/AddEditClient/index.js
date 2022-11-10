@@ -86,33 +86,69 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onSubmitClick = () => {
+    let hasError = false;
     if (!firstName) {
+      hasError = true;
       setFirstNameError(requiredMessage);
-    } else if (!lastName) {
+    }
+
+    if (!lastName) {
+      hasError = true;
       setLastNameError(requiredMessage);
-    } else if (!email) {
+    }
+
+    if (!email) {
+      hasError = true;
       setEmailError(requiredMessage);
-    } else if (!erpId) {
-      setErpIdError(requiredMessage);
     } else if (!isValidEmail(email)) {
+      hasError = true;
       setEmailError(emailNotValid);
-    } else if (!primaryPhoneNo) {
+    }
+
+    if (!erpId) {
+      hasError = true;
+      setErpIdError(requiredMessage);
+    }
+
+    if (!primaryPhoneNo) {
+      hasError = true;
       setPrimaryPhoneNoError(requiredMessage);
     } else if (!isValidPhoneNo(primaryPhoneNo)) {
+      hasError = true;
       setPrimaryPhoneNoError(phoneNoNotValid);
-    } else if (secondaryPhoneNo != '' && !isValidPhoneNo(secondaryPhoneNo)) {
+    }
+
+    if (secondaryPhoneNo != '' && !isValidPhoneNo(secondaryPhoneNo)) {
+      hasError = true;
       setSecondaryPhoneNoError(phoneNoNotValid);
-    } else if (!password) {
+    }
+
+    if (!password) {
+      hasError = true;
       setPasswordError(requiredMessage);
-    } else if (!gender) {
+    }
+
+    if (!gender) {
+      hasError = true;
       setGenderError(requiredMessage);
-    } else if (!addressLine1) {
+    }
+
+    if (!addressLine1) {
+      hasError = true;
       setAddressLine1Error(requiredMessage);
-    } else if (!city) {
+    }
+
+    if (!city) {
+      hasError = true;
       setCityError(requiredMessage);
-    } else if (!district) {
+    }
+
+    if (!district) {
+      hasError = true;
       setDistrictError(requiredMessage);
-    } else {
+    }
+
+    if (!hasError) {
       onClientSave();
     }
   };

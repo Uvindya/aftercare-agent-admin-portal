@@ -1,21 +1,10 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
-import Checkbox from '@material-ui/core/Checkbox';
 import TableRow from '@material-ui/core/TableRow';
-import { Block, CheckCircleOutline, Delete, Edit, Mail, MoreHoriz, Visibility } from '@material-ui/icons';
+import { Block, CheckCircleOutline, Edit, MoreHoriz, Visibility } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { updateTechnicianStatus } from '../../../../../redux/actions/Technicians';
-
-const useStyles = makeStyles(theme => ({
-  titleRoot: {
-    marginBottom: 2,
-    fontSize: 14,
-    letterSpacing: 0.25,
-    color: theme.palette.common.dark,
-  },
-}));
 
 const getTechnicianActions = technician => {
   const actions = [
@@ -34,16 +23,7 @@ const getTechnicianActions = technician => {
   return actions;
 };
 
-const TechnicianListRow = ({
-  row,
-  isSelected,
-  onRowClick,
-  onTechnicianEdit,
-  onTechnicianDelete,
-  onTechnicianView,
-  callbck,
-}) => {
-  const classes = useStyles();
+const TechnicianListRow = ({ row, onRowClick, onTechnicianEdit, onTechnicianView, callbck }) => {
   const dispatch = useDispatch();
 
   const onTechnicianMenuClick = menu => {
@@ -58,22 +38,10 @@ const TechnicianListRow = ({
     }
   };
 
-  const labelId = `enhanced-table-checkbox-${row.id}`;
-  const isItemSelected = isSelected(row.id);
   const technicianActions = getTechnicianActions(row);
 
   return (
-    <TableRow
-      hover
-      onClick={event => onRowClick(event, row.id)}
-      role="checkbox"
-      aria-checked={isItemSelected}
-      tabIndex={-1}
-      key={row.id}
-      selected={isItemSelected}>
-      <TableCell padding="checkbox">
-        <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
-      </TableCell>
+    <TableRow hover onClick={event => onRowClick(event, row.id)} role="checkbox" tabIndex={-1} key={row.id}>
       <TableCell align="center">{row.id}</TableCell>
       <TableCell align="center">{row.name}</TableCell>
       <TableCell align="center">{row.email}</TableCell>

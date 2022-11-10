@@ -87,19 +87,38 @@ const AddEditBreakdown = ({ open, onCloseDialog, callbck }) => {
   }, [currentBreakdown, dispatch]);
 
   const onSubmitClick = () => {
+    let hasError = false;
     if (!clientId) {
+      hasError = true;
       setClientIdError(requiredMessage);
-    } else if (!productId) {
+    }
+
+    if (!productId) {
+      hasError = true;
       setProductIdError(requiredMessage);
-    } else if (!breakdownType) {
+    }
+
+    if (!breakdownType) {
+      hasError = true;
       setBreakdownTypeError(requiredMessage);
-    } else if (!risk) {
+    }
+
+    if (!risk) {
+      hasError = true;
       setRiskError(requiredMessage);
-    } else if (!priority) {
+    }
+
+    if (!priority) {
+      hasError = true;
       setPriorityError(requiredMessage);
-    } else if (!description) {
+    }
+
+    if (!description) {
+      hasError = true;
       setDescriptionError(requiredMessage);
-    } else {
+    }
+
+    if (!hasError) {
       onBreakdownSave();
     }
   };

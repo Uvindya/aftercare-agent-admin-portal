@@ -91,27 +91,58 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onSubmitClick = () => {
+    let hasError = false;
     if (!name) {
+      hasError = true;
       setNameError(requiredMessage);
-    } else if (!erpId) {
+    }
+
+    if (!erpId) {
+      hasError = true;
       setErpIdError(requiredMessage);
-    } else if (!make) {
+    }
+
+    if (!make) {
+      hasError = true;
       setMakeError(requiredMessage);
-    } else if (!model) {
+    }
+
+    if (!model) {
+      hasError = true;
       setModelError(requiredMessage);
-    } else if (!countryOfOrigin) {
+    }
+
+    if (!countryOfOrigin) {
+      hasError = true;
       setCountryOfOriginError(requiredMessage);
-    } else if (!serialNumber) {
+    }
+
+    if (!serialNumber) {
+      hasError = true;
       setSerialNumberError(requiredMessage);
-    } else if (!manufactureYear && isValidYear(manufactureYear)) {
+    }
+
+    if (!manufactureYear && !isValidYear(manufactureYear)) {
+      hasError = true;
       setManufactureYearError(manufactureYearNotValid);
-    } else if (!warrentyPeriod && isValidNumber(warrentyPeriod)) {
+    }
+
+    if (!warrentyPeriod && !isValidNumber(warrentyPeriod)) {
+      hasError = true;
       setWarrentyPeriodError(warrentyNotValid);
-    } else if (!maintainnanceInterval && isValidNumber(maintainnanceInterval)) {
+    }
+
+    if (!maintainnanceInterval && !isValidNumber(maintainnanceInterval)) {
+      hasError = true;
       setMaintainnanceIntervalError(intervalNotValid);
-    } else if (!clientId) {
+    }
+
+    if (!clientId) {
+      hasError = true;
       setClientIdError(requiredMessage);
-    } else {
+    }
+
+    if (!hasError) {
       onProductSave();
     }
   };
