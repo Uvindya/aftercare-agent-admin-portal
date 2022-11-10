@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import Box from '@material-ui/core/Box';
-import GridContainer from '../../../../../@jumbo/components/GridContainer';
-import Grid from '@material-ui/core/Grid';
-import AppTextInput from '../../../../../@jumbo/components/Common/formElements/AppTextInput';
 import CmtImage from '../../../../../@coremat/CmtImage';
 import { useDropzone } from 'react-dropzone';
 import Button from '@material-ui/core/Button';
-import CmtList from '../../../../../@coremat/CmtList';
-import IconButton from '@material-ui/core/IconButton';
-import AppSelectBox from '../../../../../@jumbo/components/Common/formElements/AppSelectBox';
-import { emailNotValid, requiredMessage } from '../../../../../@jumbo/constants/ErrorMessages';
-import { useDispatch, useSelector } from 'react-redux';
-import NumberFormat from 'react-number-format';
+import { requiredMessage } from '../../../../../@jumbo/constants/ErrorMessages';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { isValidEmail } from '../../../../../@jumbo/utils/commonHelper';
-import { importProducts, updateProduct } from '../../../../../redux/actions/Products';
+import { importProducts } from '../../../../../redux/actions/Products';
 
 const useStyles = makeStyles(theme => ({
   dialogRoot: {

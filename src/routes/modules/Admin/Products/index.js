@@ -5,35 +5,62 @@ import TablePagination from '@material-ui/core/TablePagination';
 import ProductListRow from './ProductListRow';
 import ProductTableHead from './ProductTableHead';
 import ProductTableToolbar from './ProductsTableToolbar';
-import { getComparator, stableSort } from '../../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteProduct,
   getProducts,
   setCurrentProduct,
   getDetailedCurrentProduct,
   setDetailedCurrentProduct,
 } from '../../../../redux/actions/Products';
 import AddEditProduct from './AddEditProduct';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import ProductDetailView from './ProductDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportProducts from './ImportProducts';
 
+const headers = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
+  {
+    id: 'warrentyPeriod',
+    numeric: false,
+    disablePadding: false,
+    label: 'Warrenty Period',
+  },
+  {
+    id: 'clientName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Client Name',
+  },
+  {
+    id: 'serialNumber',
+    numeric: false,
+    disablePadding: false,
+    label: 'Serial Number',
+  },
+];
+
 const ProductsModule = () => {
   const classes = useStyles();
   const { products } = useSelector(({ productsReducer }) => productsReducer);
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [order, setOrder] = React.useState('asc');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openProductDialog, setOpenProductDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState({ name: '' });
   const [productsFetched, setProductsFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -67,21 +94,6 @@ const ProductsModule = () => {
   const handleCloseProductDialog = () => {
     setOpenProductDialog(false);
     dispatch(setCurrentProduct(null));
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderBy(property);
-    setOrder(isAsc ? 'desc' : 'asc');
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = products.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleRowClick = (event, id) => {
@@ -124,20 +136,6 @@ const ProductsModule = () => {
     setOpenProductDialog(true);
   };
 
-  const handleProductDelete = product => {
-    setSelectedProduct(product);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteProduct(selectedProduct.id));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
-  };
-
   const handleCloseImportProductDialog = () => {
     setOpenImportProductDialog(false);
     //dispatch(setCurrentProduct(null));
@@ -149,8 +147,6 @@ const ProductsModule = () => {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <ProductTableToolbar
-          selected={selected}
-          setSelected={setSelected}
           onProductAdd={setOpenProductDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
@@ -160,15 +156,7 @@ const ProductsModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <ProductTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={products.length}
-            />
+            <ProductTableHead headers={headers} />
             <TableBody>
               {!!products.length ? (
                 products.map((row, index) => (
@@ -177,7 +165,6 @@ const ProductsModule = () => {
                     row={row}
                     onRowClick={handleRowClick}
                     onProductEdit={handleProductEdit}
-                    onProductDelete={handleProductDelete}
                     onProductView={handleProductView}
                     isSelected={isSelected}
                     callbck={updateProductTableInfoCallBack}
@@ -225,14 +212,6 @@ const ProductsModule = () => {
           callbck={updateProductTableInfoCallBack}
         />
       )}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete ${selectedProduct.name}`}
-        content={'Are you sure, you want to  delete this product?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };

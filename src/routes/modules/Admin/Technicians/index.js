@@ -7,14 +7,12 @@ import TechnicianTableHead from './TechnicianTableHead';
 import TechniciansTableToolbar from './TechniciansTableToolbar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteTechnician,
   getTechnicians,
   setCurrentTechnician,
   getDetailedCurrentTechnician,
   setDetailedCurrentTechnician,
 } from '../../../../redux/actions/Technicians';
 import AddEditTechnician from './AddEditTechnician';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import TechnicianDetailView from './TechnicianDetailView';
@@ -48,15 +46,11 @@ const headCells = [
 const TechniciansModule = () => {
   const classes = useStyles();
   const { technicians } = useSelector(({ technicianReducer }) => technicianReducer);
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [order, setOrder] = React.useState('asc');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openTechnicianDialog, setOpenTechnicianDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedTechnician, setSelectedTechnician] = useState({ name: '' });
   const [techniciansFetched, setTechniciansFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -131,15 +125,6 @@ const TechniciansModule = () => {
   const handleTechnicianEdit = technician => {
     dispatch(setCurrentTechnician(technician));
     setOpenTechnicianDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteTechnician(selectedTechnician.id));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
   };
 
   const handleCloseImportTechnicianDialog = () => {
@@ -218,14 +203,6 @@ const TechniciansModule = () => {
           callbck={updateTechnicianTableInfoCallBack}
         />
       )}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete ${selectedTechnician.name}`}
-        content={'Are you sure, you want to  delete this technician?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };

@@ -1,25 +1,16 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
-import CmtAvatar from '../../../../../@coremat/CmtAvatar';
 import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
 import { useSelector } from 'react-redux';
-import CmtList from '../../../../../@coremat/CmtList';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import ClearIcon from '@material-ui/icons/Clear';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import PeopleIcon from '@material-ui/icons/People';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import SettingsIcon from '@material-ui/icons/Settings';
-import LocationCity from '@material-ui/icons/LocationCity';
 import useStyles from './index.style';
-import { Block, CheckCircleOutline } from '@material-ui/icons';
-import { Tooltip } from '@material-ui/core';
 
 const ProductDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
@@ -41,8 +32,6 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
     warrentyPeriod,
     maintainnanceInterval,
   } = detailedCurrentProduct;
-
-  //const { cId, pName, email, primaryPhoneNo } = client;
   return (
     <Dialog open={open} onClose={onCloseDialog} className={classes.dialogRoot}>
       <Box className={classes.productInfoRoot}>
