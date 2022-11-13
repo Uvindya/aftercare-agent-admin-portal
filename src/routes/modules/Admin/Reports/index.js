@@ -32,7 +32,7 @@ const ReportListing = () => {
     if (Object.keys(reportKeys).length === 0) {
       dispatch(getReportKeys());
     }
-    if (allTechnicians.length == 0) {
+    if (allTechnicians.length === 0) {
       dispatch(getAllTechnicians());
     }
   }, [dispatch, reportKeys]);
@@ -44,7 +44,7 @@ const ReportListing = () => {
   };
 
   const onDownloadClick = (type, from, to, technician) => {
-    if (type == 'BR') {
+    if (type === 'BR') {
       let selectedKeys = [];
       for (let k in breakdownReportKeys) {
         if (breakdownReportKeys[k]) {
@@ -52,7 +52,7 @@ const ReportListing = () => {
         }
       }
       dispatch(downloadBreakdownReport(from, to, selectedKeys));
-    } else if (type == 'MR') {
+    } else if (type === 'MR') {
       let selectedKeys = [];
       for (let k in maintainanceReportKeys) {
         if (maintainanceReportKeys[k]) {
@@ -60,7 +60,7 @@ const ReportListing = () => {
         }
       }
       dispatch(downloadMaintainanceReport(from, to, selectedKeys));
-    } else if (type == 'TWS') {
+    } else if (type === 'TWS') {
       let selectedKeys = [];
       for (let k in worksheetReportKeys) {
         if (worksheetReportKeys[k]) {
@@ -68,7 +68,7 @@ const ReportListing = () => {
         }
       }
       dispatch(downloadWorksheetReport(from, to, selectedKeys, technician));
-    } else if (type == 'UMR') {
+    } else if (type === 'UMR') {
       let selectedKeys = [];
       for (let k in maintainanceReportKeys) {
         if (maintainanceReportKeys[k]) {
@@ -127,7 +127,7 @@ const ReportListing = () => {
   return (
     <React.Fragment>
       <Collapse in={selectedReport} timeout="auto" unmountOnExit>
-        {selectedType == 'BR' && (
+        {selectedType === 'BR' && (
           <ReportConfig
             keys={breakdownReportKeys}
             onReportKeyChange={onBreakdownReportKeyChange}
@@ -138,7 +138,7 @@ const ReportListing = () => {
           />
         )}
 
-        {selectedType == 'MR' && (
+        {selectedType === 'MR' && (
           <ReportConfig
             keys={maintainanceReportKeys}
             onReportKeyChange={onMaintainanceReportKeyChange}
@@ -149,7 +149,7 @@ const ReportListing = () => {
           />
         )}
 
-        {selectedType == 'TWS' && (
+        {selectedType === 'TWS' && (
           <ReportConfig
             keys={worksheetReportKeys}
             onReportKeyChange={onWorksheetReportKeyChange}
@@ -161,7 +161,7 @@ const ReportListing = () => {
           />
         )}
 
-        {selectedType == 'UMR' && (
+        {selectedType === 'UMR' && (
           <ReportConfig
             keys={maintainanceReportKeys}
             onReportKeyChange={onUpcommingMaintainanceReportKeyChange}

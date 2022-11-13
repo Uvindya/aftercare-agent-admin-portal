@@ -9,30 +9,6 @@ import {
   DASHBOARD_SUMMARY_LOADED,
 } from '../../@jumbo/constants/ActionTypes';
 
-/*export const getBreakdowns = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
-  return dispatch => {
-    dispatch(fetchStart());
-    //console.log(filterOptions)
-    axios
-      .get('/tasks/breakdowns', {
-        params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
-      })
-      .then(response => {
-        //console.log(data)
-        if (response.status === 200) {
-          dispatch(fetchSuccess());
-          dispatch({ type: GET_BREAKDOWNS, payload: response.data.content });
-          if (callbackFun) callbackFun(response.data);
-        } else {
-          dispatch(fetchError('There was something issue in responding server.'));
-        }
-      })
-      .catch(error => {
-        dispatch(fetchError('There was something issue in responding server'));
-      });
-  };
-};*/
-
 export const getReportKeys = callbackFun => {
   return dispatch => {
     dispatch(fetchStart());

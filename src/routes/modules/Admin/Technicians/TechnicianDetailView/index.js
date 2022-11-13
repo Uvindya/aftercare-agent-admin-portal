@@ -15,7 +15,6 @@ const TechnicianDetailView = ({ open, onCloseDialog }) => {
   const { detailedCurrentTechnician } = useSelector(({ technicianReducer }) => technicianReducer);
 
   const {
-    id,
     erpId,
     firstName,
     lastName,

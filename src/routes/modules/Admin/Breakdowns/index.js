@@ -5,10 +5,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import BreakdownListRow from './BreakdownListRow';
 import BreakdownTableHead from './BreakdownTableHead';
 import BreakdownTableToolbar from './BreakdownsTableToolbar';
-import { getComparator, stableSort } from '../../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteBreakdown,
   getBreakdowns,
   setCurrentBreakdown,
   getDetailedCurrentBreakdown,
@@ -16,28 +14,61 @@ import {
 } from '../../../../redux/actions/Breakdowns';
 import AddEditBreakdown from './AddEditBreakdown';
 import AssignTechnician from './AssignTechnician';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import BreakdownDetailView from './BreakdownDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportBreakdowns from './ImportBreakdown';
 
+const headers = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'productName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Product Name',
+  },
+  {
+    id: 'clientName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Client Name',
+  },
+  {
+    id: 'technicianId',
+    numeric: false,
+    disablePadding: false,
+    label: 'Technician Assigned',
+  },
+  {
+    id: 'breakdownType',
+    numeric: false,
+    disablePadding: false,
+    label: 'Breakdown Type',
+  },
+  {
+    id: 'risk',
+    numeric: false,
+    disablePadding: false,
+    label: 'Risk',
+  },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+];
+
 const BreakdownsModule = () => {
   const classes = useStyles();
   const { breakdowns } = useSelector(({ breakdownsReducer }) => breakdownsReducer);
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [order, setOrder] = React.useState('asc');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openBreakdownDialog, setOpenBreakdownDialog] = useState(false);
   const [openAssignTechnicianDialog, setOpenAssignTechnicianDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedBreakdown, setSelectedBreakdown] = useState({
-    name: '',
-  });
   const [breakdownsFetched, setBreakdownsFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -76,21 +107,6 @@ const BreakdownsModule = () => {
   const handleCloseAssignTechnicianDialog = () => {
     setOpenAssignTechnicianDialog(false);
     dispatch(setCurrentBreakdown(null));
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderBy(property);
-    setOrder(isAsc ? 'desc' : 'asc');
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = breakdowns.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleCloseImportBreakdownDialog = () => {
@@ -137,33 +153,12 @@ const BreakdownsModule = () => {
     dispatch(setDetailedCurrentBreakdown(null));
   };
 
-  const handleBreakdownEdit = breakdown => {
-    dispatch(setCurrentBreakdown(breakdown));
-    setOpenBreakdownDialog(true);
-  };
-
-  const handleBreakdownDelete = breakdown => {
-    setSelectedBreakdown(breakdown);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteBreakdown(selectedBreakdown.id));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
-  };
-
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <BreakdownTableToolbar
-          selected={selected}
-          setSelected={setSelected}
           onBreakdownAdd={setOpenBreakdownDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
@@ -173,15 +168,7 @@ const BreakdownsModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <BreakdownTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={breakdowns.length}
-            />
+            <BreakdownTableHead headers={headers} />
             <TableBody>
               {!!breakdowns.length ? (
                 breakdowns.map((row, index) => (
@@ -189,8 +176,6 @@ const BreakdownsModule = () => {
                     key={index}
                     row={row}
                     onRowClick={handleRowClick}
-                    onBreakdownEdit={handleBreakdownEdit}
-                    onBreakdownDelete={handleBreakdownDelete}
                     onBreakdownView={handleBreakdownView}
                     onAssignTechnician={handleAssignTechnician}
                     isSelected={isSelected}
@@ -247,14 +232,6 @@ const BreakdownsModule = () => {
         />
       )}
       {openViewDialog && <BreakdownDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete ${selectedBreakdown.name}`}
-        content={'Are you sure, you want to  delete this breakdown?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };

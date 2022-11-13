@@ -17,7 +17,6 @@ const ProductDetailView = ({ open, onCloseDialog }) => {
   const { detailedCurrentProduct } = useSelector(({ productsReducer }) => productsReducer);
 
   const {
-    id,
     name,
     description,
     make,

@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import CmtCarousel from '../../../../../@coremat/CmtCarousel';
 import { Close } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import CmtCard from '../../../../../@coremat/CmtCard';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import CmtCardMedia from '../../../../../@coremat/CmtCard/CmtCardMedia';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import { timeFromNow } from '../../../../../@jumbo/utils/dateHelper';
-import Chip from '@material-ui/core/Chip';
-import { addNewBreakdown, updateBreakdown } from '../../../../../redux/actions/Breakdowns';
+import { addNewBreakdown } from '../../../../../redux/actions/Breakdowns';
 import AppTextInput from '../../../../../@jumbo/components/Common/formElements/AppTextInput';
 import Button from '@material-ui/core/Button';
 import AppSelectBox from '../../../../../@jumbo/components/Common/formElements/AppSelectBox';
-import { emailNotValid, requiredMessage, phoneNoNotValid } from '../../../../../@jumbo/constants/ErrorMessages';
+import { requiredMessage } from '../../../../../@jumbo/constants/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

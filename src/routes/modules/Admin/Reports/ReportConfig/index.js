@@ -110,7 +110,7 @@ const ReportConfig = ({ selectedReport, showReportList, keys, onReportKeyChange,
         </Box>
       </Box>
       <Box p={6}>
-        {type == 'TWS' && (
+        {type === 'TWS' && (
           <GridContainer>
             <Grid item xs={6} sm={6}>
               <AppSelectBox

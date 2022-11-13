@@ -1,7 +1,6 @@
 import { fetchError, fetchStart, fetchSuccess } from './Common';
 import axios from '../../services/common/config';
 import {
-  //GET_ALL_MAINTAINANCES,
   DELETE_BULK_MAINTAINANCES,
   DELETE_MAINTAINANCE,
   EDIT_MAINTAINANCE,
@@ -14,13 +13,11 @@ import {
 export const getMaintainances = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
-    //console.log(filterOptions)
     axios
       .get('/tasks/maintainances', {
         params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
       })
       .then(response => {
-        //console.log(data)
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_MAINTAINANCES, payload: response.data.content });
@@ -43,7 +40,6 @@ export const getAllMaintainances = () => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
-          //dispatch({ type: GET_ALL_MAINTAINANCES, payload: response.data });
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -97,7 +93,6 @@ export const getMyOwnsMaintainances = callbackFun => {
 export const importMaintainances = (maintainancesFile, callbackFun) => {
   var formData = new FormData();
   formData.append('file', maintainancesFile);
-  //console.log(formData);
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -109,9 +104,7 @@ export const importMaintainances = (maintainancesFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported Maintainances were added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getMaintainances([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -253,7 +246,6 @@ export const maintainanceNotes = (id, notes, callbackFun) => {
 };
 
 export const addNewMaintainance = (maintainance, callbackFun) => {
-  //console.log(maintainance)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -261,9 +253,7 @@ export const addNewMaintainance = (maintainance, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New maintainance was added successfully.'));
-          //dispatch({ type: ADD_MAINTAINANCE, payload: data.data });
           dispatch(getMaintainances([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -275,7 +265,6 @@ export const addNewMaintainance = (maintainance, callbackFun) => {
 };
 
 export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => {
-  //console.log(maintainance)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -283,9 +272,7 @@ export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => 
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('Assign technician to maintainance was successfull.'));
-          //dispatch({ type: ADD_MAINTAINANCE, payload: data.data });
           dispatch(getMaintainances([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -331,8 +318,6 @@ export const updateMaintainanceStatus = (data, callbackFun) => {
         if (response.status === 200) {
           dispatch(fetchSuccess('maintainance status was updated successfully.'));
           dispatch(getMaintainances([], '', callbackFun, 0, 10));
-          //dispatch({ type: EDIT_MAINTAINANCE, payload: response.data });
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostAdd, Widgets } from '@material-ui/icons';
+import { PostAdd } from '@material-ui/icons';
 import IntlMessages from '../../../utils/IntlMessages';
 
 export const sidebarNavs = {

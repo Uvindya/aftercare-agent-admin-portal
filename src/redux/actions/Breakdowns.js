@@ -1,7 +1,6 @@
 import { fetchError, fetchStart, fetchSuccess } from './Common';
 import axios from '../../services/common/config';
 import {
-  //GET_ALL_BREAKDOWNS,
   DELETE_BULK_BREAKDOWNS,
   DELETE_BREAKDOWN,
   EDIT_BREAKDOWN,
@@ -14,13 +13,11 @@ import {
 export const getBreakdowns = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
-    //console.log(filterOptions)
     axios
       .get('/tasks/breakdowns', {
         params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
       })
       .then(response => {
-        //console.log(data)
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_BREAKDOWNS, payload: response.data.content });
@@ -43,7 +40,6 @@ export const getAllBreakdowns = () => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
-          //dispatch({ type: GET_ALL_BREAKDOWNS, payload: response.data });
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -227,7 +223,6 @@ export const breakdownNotes = (id, notes, callbackFun) => {
 export const importBreakdowns = (breakdownsFile, callbackFun) => {
   var formData = new FormData();
   formData.append('file', breakdownsFile);
-  //console.log(formData);
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -239,9 +234,7 @@ export const importBreakdowns = (breakdownsFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported Breakdowns were added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getBreakdowns([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -253,7 +246,6 @@ export const importBreakdowns = (breakdownsFile, callbackFun) => {
 };
 
 export const addNewBreakdown = (breakdown, callbackFun) => {
-  //console.log(breakdown)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -261,9 +253,7 @@ export const addNewBreakdown = (breakdown, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New breakdown was added successfully.'));
-          //dispatch({ type: ADD_BREAKDOWN, payload: data.data });
           dispatch(getBreakdowns([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -275,7 +265,6 @@ export const addNewBreakdown = (breakdown, callbackFun) => {
 };
 
 export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => {
-  //console.log(breakdown)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -283,9 +272,7 @@ export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => 
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('Assign technician to breakdown was successfull.'));
-          //dispatch({ type: ADD_BREAKDOWN, payload: data.data });
           dispatch(getBreakdowns([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -331,8 +318,6 @@ export const updateBreakdownStatus = (data, callbackFun) => {
         if (response.status === 200) {
           dispatch(fetchSuccess('breakdown status was updated successfully.'));
           dispatch(getBreakdowns([], '', callbackFun, 0, 10));
-          //dispatch({ type: EDIT_BREAKDOWN, payload: response.data });
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

@@ -6,7 +6,6 @@ import {
   GET_BREAKDOWNS,
   SET_BREAKDOWN_DETAILS,
   SET_FULL_BREAKDOWN_DETAILS,
-  //GET_ALL_BREAKDOWNS,
   GET_MY_BREAKDOWNS,
 } from '../../@jumbo/constants/ActionTypes';
 
@@ -32,12 +31,6 @@ export default (state = INIT_STATE, action) => {
         myBreakdowns: action.payload,
       };
     }
-    //case GET_ALL_BREAKDOWNS: {
-    //  return {
-    //    ...state,
-    //    allBreakdowns: action.payload,
-    //  };
-    //}
     case SET_BREAKDOWN_DETAILS: {
       return {
         ...state,

@@ -14,13 +14,11 @@ import {
 export const getProducts = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
-    //console.log(filterOptions)
     axios
       .get('/products', {
         params: { page, size, searchTerm, sort: 'modified_at,desc' },
       })
       .then(response => {
-        //console.log(data)
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_PRODUCTS, payload: response.data.content });
@@ -107,7 +105,6 @@ export const getDetailedCurrentProduct = (id, callbackFun) => {
 };
 
 export const addNewProduct = (product, callbackFun) => {
-  //console.log(product)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -115,9 +112,7 @@ export const addNewProduct = (product, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New product was added successfully.'));
-          //dispatch({ type: ADD_PRODUCT, payload: data.data });
           dispatch(getProducts([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -163,8 +158,6 @@ export const updateProductStatus = (data, callbackFun) => {
         if (response.status === 200) {
           dispatch(fetchSuccess('product status was updated successfully.'));
           dispatch(getProducts([], '', callbackFun, 0, 10));
-          //dispatch({ type: EDIT_PRODUCT, payload: response.data });
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -218,7 +211,6 @@ export const deleteProduct = (productId, callbackFun) => {
 export const importProducts = (productFile, callbackFun) => {
   var formData = new FormData();
   formData.append('file', productFile);
-  //console.log(formData);
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -230,9 +222,7 @@ export const importProducts = (productFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported products were added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getProducts([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

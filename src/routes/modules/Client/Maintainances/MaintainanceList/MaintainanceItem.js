@@ -1,17 +1,11 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import ScheduleIcon from '@material-ui/icons/Schedule';
 import CmtMediaObject from '../../../../../@coremat/CmtMediaObject';
-import CmtImage from '../../../../../@coremat/CmtImage';
-import { timeFromNow } from '../../../../../@jumbo/utils/dateHelper';
-import CmtCarousel from '../../../../../@coremat/CmtCarousel';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import NoteIcon from '@material-ui/icons/NoteAdd';
 import AcceptenceIcon from '@material-ui/icons/CheckCircle';
 import ApproveIcon from '@material-ui/icons/CheckCircleOutline';
 
@@ -187,20 +181,6 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
   return (
     <CmtMediaObject
       className={classes.mediaObjectRoot}
-      /*avatar={
-        <Box className={classes.carouselRoot}>
-          <CmtCarousel
-            data={item.images}
-            dotPosition="bottom-left"
-            className={classes.containerStyle}
-            settings={{
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            }}
-            renderRow={(item, index) => <CmtImage key={index} src={item.image} alt={item.title} />}
-          />
-        </Box>
-      }*/
       avatarPos="center"
       title={getTitle()}
       subTitle={item.address}
@@ -227,12 +207,6 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
           <ApproveIcon />
         </IconButton>
       )}
-
-      {/*item.status === 'IN_PROGRESS' && (
-        <IconButton aria-label="Add Notes" className={classes.orangeIcon} onClick={() => onMaintainanceClick('NOTES', item)}>
-          <NoteIcon />
-        </IconButton>
-      )*/}
 
       {item.status === 'NEEDS_CLIENTS_ACCEPTENCE' && (
         <IconButton aria-label="Accept" className={classes.greenIcon} onClick={() => onMaintainanceClick('ACCEPT_M', item)}>

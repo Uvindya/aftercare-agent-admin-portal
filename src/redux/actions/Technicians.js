@@ -14,7 +14,9 @@ export const getTechnicians = (filterOptions = [], searchTerm = '', callbackFun,
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .get('/users/technicians', { params: { page , size, searchTerm, sort : 'modifiedAt,desc'} })
+      .get('/users/technicians', {
+        params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
+      })
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
@@ -48,7 +50,6 @@ export const getAllTechnicians = () => {
       });
   };
 };
-
 
 export const setCurrentTechnician = technician => {
   return dispatch => {
@@ -85,21 +86,18 @@ export const getDetailedCurrentTechnician = (id, callbackFun) => {
 export const importTechnicians = (technicianFile, callbackFun) => {
   var formData = new FormData();
   formData.append('file', technicianFile);
-  //console.log(formData);
   return dispatch => {
     dispatch(fetchStart());
     axios
       .post('/users/technicians/import', formData, {
         headers: {
-            'content-type': 'multipart/form-data'
-        }
-    })
+          'content-type': 'multipart/form-data',
+        },
+      })
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported technicians were added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getTechnicians([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -118,9 +116,7 @@ export const addNewTechnician = (technician, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New technician was added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getTechnicians([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -166,8 +162,6 @@ export const updateTechnicianStatus = (data, callbackFun) => {
         if (response.status === 200) {
           dispatch(fetchSuccess('Technician status was updated successfully.'));
           dispatch(getTechnicians([], '', callbackFun, 0, 10));
-          //dispatch({ type: EDIT_TECHNICIAN, payload: response.data });
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

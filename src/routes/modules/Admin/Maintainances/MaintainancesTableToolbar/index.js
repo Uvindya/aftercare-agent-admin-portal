@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import PropTypes from 'prop-types';
 import { Button, Chip, Menu, MenuItem } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { deleteBulkMaintainances } from '../../../../../redux/actions/Maintainances';
-import ConfirmDialog from '../../../../../@jumbo/components/Common/ConfirmDialog';
 import CmtSearch from '../../../../../@coremat/CmtSearch';
 import useStyles from './index.style';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -18,8 +14,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 const filterOptionsList = [{ label: 'Active', value: 'active' }];
 
 const MaintainanceTableToolbar = ({
-  selected,
-  setSelected,
   onMaintainanceAdd,
   filterOptions,
   setFilterOptions,
@@ -28,10 +22,7 @@ const MaintainanceTableToolbar = ({
   onMaintainanceImport,
 }) => {
   const classes = useStyles();
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const dispatch = useDispatch();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -39,19 +30,6 @@ const MaintainanceTableToolbar = ({
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const onDeleteCLick = () => {
-    setOpenConfirmDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteBulkMaintainances(selected, () => setSelected([])));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
   };
 
   const onFilterOptionClick = option => {
@@ -70,19 +48,10 @@ const MaintainanceTableToolbar = ({
 
   const onSearchChipDelete = () => setSearchTerm('');
 
-  const numSelected = selected.length;
-
   return (
     <React.Fragment>
-      <Toolbar
-        className={clsx(classes.root, {
-          [classes.highlight]: numSelected > 0,
-        })}>
-        {numSelected > 0 ? (
-          <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-            {numSelected} selected
-          </Typography>
-        ) : (
+      <Toolbar className={clsx(classes.root)}>
+        {
           <Typography className={classes.title} variant="h4" id="tableTitle" component="div">
             Maintainances{' '}
             <Button color="primary" onClick={() => onMaintainanceAdd(true)} disabled>
@@ -92,15 +61,9 @@ const MaintainanceTableToolbar = ({
               Import Maintainances
             </Button>
           </Typography>
-        )}
+        }
 
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete" onClick={onDeleteCLick}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
+        {
           <React.Fragment>
             <CmtSearch onChange={e => setSearchTerm(e.target.value)} value={searchTerm} border={false} onlyIcon />
             <div className={classes.chipsRoot}>
@@ -136,23 +99,13 @@ const MaintainanceTableToolbar = ({
               ))}
             </Menu>
           </React.Fragment>
-        )}
+        }
       </Toolbar>
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete maintainances`}
-        content={'Are you sure, you want to  delete selected maintainances?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </React.Fragment>
   );
 };
 
 MaintainanceTableToolbar.propTypes = {
-  selected: PropTypes.array,
-  setSelected: PropTypes.func,
   filterOptions: PropTypes.array,
   setFilterOptions: PropTypes.func,
   searchTerm: PropTypes.string,

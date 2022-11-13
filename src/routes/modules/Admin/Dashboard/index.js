@@ -90,10 +90,6 @@ const statusSummary = [
   { label: 'Completed', value: 12, color: 'green' },
 ];
 
-//const monthlySummary = [
-//  { name: '', maintainances: 0, breakdowns: 0 },
-//];
-
 const ProgressIndicator = ({ item }) => (
   <Box width={1}>
     <CmtProgressBar

@@ -1,4 +1,3 @@
-import { maskedDateFormatter } from '@material-ui/pickers/_helpers/text-field-helper';
 import {
   GET_REPORT_KEYS,
   BR_REPORT_KEY_CHANGED,
@@ -19,17 +18,17 @@ const INIT_STATE = {
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
     case GET_REPORT_KEYS: {
-      let bk = new Object();
+      let bk = {};
       action.payload.breakdownKeys.forEach(k => {
         bk[k] = true;
       });
 
-      let mk = new Object();
+      let mk = {};
       action.payload.maintainanceKeys.forEach(k => {
         mk[k] = true;
       });
 
-      let wsk = new Object();
+      let wsk = {};
       action.payload.worksheetKeys.forEach(k => {
         wsk[k] = true;
       });

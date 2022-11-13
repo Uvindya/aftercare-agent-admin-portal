@@ -11,7 +11,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({

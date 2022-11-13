@@ -6,12 +6,7 @@ import PropertiesList from './BreakdownList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
 import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
-import {
-  getMyOwnsBreakdowns,
-  getDetailedCurrentBreakdown,
-  appoveBreakdown,
-  acceptBreakdown,
-} from '../../../../redux/actions/Breakdowns';
+import { getMyOwnsBreakdowns, getDetailedCurrentBreakdown, acceptBreakdown } from '../../../../redux/actions/Breakdowns';
 import { getMyProducts } from '../../../../redux/actions/Products';
 
 const BreakdownListing = () => {
@@ -169,20 +164,6 @@ const BreakdownListing = () => {
         onClose={handleCancel}
         onConfirm={handleConfirm}
       />
-
-      {/*{selectedBreakdown ? (
-        <BreakdownDetail selectedBreakdown={selectedBreakdown} showBreakdownList={showBreakdownList} />
-      ) : (
-        <PropertiesList
-          onBreakdownClick={handleBreakdownClick}
-          tabValue={tabValue}
-          onChangeTab={onChangeTab}
-          data={data}
-          searchText={searchText}
-          handleSearchTextChange={handleSearchTextChange}
-          handlePageChange={handlePageChange}
-        />
-      )}*/}
     </React.Fragment>
   );
 };

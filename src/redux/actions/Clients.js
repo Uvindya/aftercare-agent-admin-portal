@@ -13,11 +13,11 @@ import {
 export const getClients = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
-    //console.log(filterOptions)
     axios
-      .get('/users/clients', { params: { page , size, searchTerm, sort : 'modifiedAt,desc'} })
+      .get('/users/clients', {
+        params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
+      })
       .then(response => {
-        //console.log(data)
         if (response.status === 200) {
           dispatch(fetchSuccess());
           dispatch({ type: GET_CLIENTS, payload: response.data.content });
@@ -84,7 +84,6 @@ export const getDetailedCurrentClient = (id, callbackFun) => {
 };
 
 export const addNewClient = (client, callbackFun) => {
-  //console.log(client)
   return dispatch => {
     dispatch(fetchStart());
     axios
@@ -92,9 +91,7 @@ export const addNewClient = (client, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New client was added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getClients([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -108,21 +105,18 @@ export const addNewClient = (client, callbackFun) => {
 export const importClients = (clientFile, callbackFun) => {
   var formData = new FormData();
   formData.append('file', clientFile);
-  //console.log(formData);
   return dispatch => {
     dispatch(fetchStart());
     axios
       .post('/users/clients/import', formData, {
         headers: {
-            'content-type': 'multipart/form-data'
-        }
-    })
+          'content-type': 'multipart/form-data',
+        },
+      })
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported clients were added successfully.'));
-          //dispatch({ type: ADD_CLIENT, payload: data.data });
           dispatch(getClients([], '', callbackFun, 0, 10));
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -168,8 +162,6 @@ export const updateClientStatus = (data, callbackFun) => {
         if (response.status === 200) {
           dispatch(fetchSuccess('client status was updated successfully.'));
           dispatch(getClients([], '', callbackFun, 0, 10));
-          //dispatch({ type: EDIT_CLIENT, payload: response.data });
-          //if (callbackFun) callbackFun(response.data);
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

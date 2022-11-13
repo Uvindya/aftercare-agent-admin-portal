@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuhMethods } from '../../../../services/auth';
 import { CurrentAuthMethod } from '../../../constants/AppConstants';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PersonIcon from '@material-ui/icons/Person';
-import SettingsIcon from '@material-ui/icons/Settings';
 import SidebarThemeContext from '../../../../@coremat/CmtLayouts/SidebarThemeContext/SidebarThemeContext';
 
 const useStyles = makeStyles(theme => ({
@@ -77,9 +75,6 @@ const SidebarHeader = () => {
             alignItems: 'flex-end',
           }}>
           <div className="mr-2">
-            {/*<Typography className={classes.userTitle} component="h3" variant="h6">
-            {authUser ? authUser.username : ''}
-            </Typography>*/}
             <Typography className={classes.userSubTitle}>{authUser ? authUser.username : ''}</Typography>
           </div>
           <ArrowDropDownIcon />
@@ -102,14 +97,6 @@ const SidebarHeader = () => {
           }}>
           <Paper elevation={8}>
             <MenuList>
-              {/*<MenuItem onClick={handlePopoverClose}>
-                <PersonIcon />
-                <div className="ml-2">Profile</div>
-              </MenuItem>
-              <MenuItem onClick={handlePopoverClose}>
-                <SettingsIcon />
-                <div className="ml-2">Settings</div>
-              </MenuItem>*/}
               <MenuItem onClick={onLogoutClick}>
                 <ExitToAppIcon />
                 <div className="ml-2">Logout</div>

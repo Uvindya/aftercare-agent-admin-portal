@@ -8,9 +8,6 @@ import { AuhMethods } from '../../../../services/auth';
 import ContentLoader from '../../ContentLoader';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import CmtImage from '../../../../@coremat/CmtImage';
-import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { CurrentAuthMethod } from '../../../constants/AppConstants';
 import { NavLink } from 'react-router-dom';
 import AuthWrapper from './AuthWrapper';
@@ -55,9 +52,9 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
-  logo:{
+  logo: {
     fontSize: '2em',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 }));
 //variant = 'default', 'standard'
@@ -82,7 +79,7 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
         <Box mb={7} className={classes.logo}>
           CB Aftercare Service Agent
         </Box>
-       {/*} <Typography component="div" variant="h1" className={classes.titleRoot}>
+        {/*} <Typography component="div" variant="h1" className={classes.titleRoot}>
           Login
       </Typography>*/}
         <form>

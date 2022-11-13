@@ -6,7 +6,6 @@ import {
   GET_MAINTAINANCES,
   SET_MAINTAINANCE_DETAILS,
   SET_FULL_MAINTAINANCE_DETAILS,
-  //GET_ALL_MAINTAINANCES,
   GET_MY_MAINTAINANCES,
 } from '../../@jumbo/constants/ActionTypes';
 
@@ -32,12 +31,6 @@ export default (state = INIT_STATE, action) => {
         myMaintainances: action.payload,
       };
     }
-    //case GET_ALL_MAINTAINANCES: {
-    //  return {
-    //    ...state,
-    //    allMaintainances: action.payload,
-    //  };
-    //}
     case SET_MAINTAINANCE_DETAILS: {
       return {
         ...state,

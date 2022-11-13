@@ -5,10 +5,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import MaintainanceListRow from './MaintainanceListRow';
 import MaintainanceTableHead from './MaintainanceTableHead';
 import MaintainanceTableToolbar from './MaintainancesTableToolbar';
-import { getComparator, stableSort } from '../../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteMaintainance,
   getMaintainances,
   setCurrentMaintainance,
   getDetailedCurrentMaintainance,
@@ -16,28 +14,55 @@ import {
 } from '../../../../redux/actions/Maintainances';
 import AddEditMaintainance from './AddEditMaintainance';
 import AssignTechnician from './AssignTechnician';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import MaintainanceDetailView from './MaintainanceDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportMaintainance from './ImportMaintainance';
 
+const headers = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'productName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Product Name',
+  },
+  {
+    id: 'scheduledDate',
+    numeric: false,
+    disablePadding: false,
+    label: 'Scheduled Date',
+  },
+  {
+    id: 'clientName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Client Name',
+  },
+  {
+    id: 'technicianId',
+    numeric: false,
+    disablePadding: false,
+    label: 'Technician Assigned',
+  },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+];
+
 const MaintainancesModule = () => {
   const classes = useStyles();
   const { maintainances } = useSelector(({ maintainancesReducer }) => maintainancesReducer);
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [order, setOrder] = React.useState('asc');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openMaintainanceDialog, setOpenMaintainanceDialog] = useState(false);
   const [openAssignTechnicianDialog, setOpenAssignTechnicianDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedMaintainance, setSelectedMaintainance] = useState({
-    name: '',
-  });
   const [maintainancesFetched, setMaintainancesFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -76,21 +101,6 @@ const MaintainancesModule = () => {
   const handleCloseAssignTechnicianDialog = () => {
     setOpenAssignTechnicianDialog(false);
     dispatch(setCurrentMaintainance(null));
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderBy(property);
-    setOrder(isAsc ? 'desc' : 'asc');
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = maintainances.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleRowClick = (event, id) => {
@@ -137,20 +147,6 @@ const MaintainancesModule = () => {
     setOpenMaintainanceDialog(true);
   };
 
-  const handleMaintainanceDelete = maintainance => {
-    setSelectedMaintainance(maintainance);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteMaintainance(selectedMaintainance.id));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
-  };
-
   const handleCloseImportMaintainanceDialog = () => {
     setOpenImportMaintainanceDialog(false);
     //dispatch(setCurrentClient(null));
@@ -162,8 +158,6 @@ const MaintainancesModule = () => {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <MaintainanceTableToolbar
-          selected={selected}
-          setSelected={setSelected}
           onMaintainanceAdd={setOpenMaintainanceDialog}
           filterOptions={filterOptions}
           setFilterOptions={setFilterOptions}
@@ -173,15 +167,7 @@ const MaintainancesModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <MaintainanceTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={maintainances.length}
-            />
+            <MaintainanceTableHead headers={headers} />
             <TableBody>
               {!!maintainances.length ? (
                 maintainances.map((row, index) => (
@@ -190,7 +176,6 @@ const MaintainancesModule = () => {
                     row={row}
                     onRowClick={handleRowClick}
                     onMaintainanceEdit={handleMaintainanceEdit}
-                    onMaintainanceDelete={handleMaintainanceDelete}
                     onMaintainanceView={handleMaintainanceView}
                     onAssignTechnician={handleAssignTechnician}
                     isSelected={isSelected}
@@ -247,14 +232,6 @@ const MaintainancesModule = () => {
         />
       )}
       {openViewDialog && <MaintainanceDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete ${selectedMaintainance.name}`}
-        content={'Are you sure, you want to  delete this maintainance?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };

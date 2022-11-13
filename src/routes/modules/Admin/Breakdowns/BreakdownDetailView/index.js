@@ -1,33 +1,20 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
-import CmtAvatar from '../../../../../@coremat/CmtAvatar';
 import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
 import { useSelector } from 'react-redux';
-import CmtList from '../../../../../@coremat/CmtList';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
 import ClearIcon from '@material-ui/icons/Clear';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import LocationCity from '@material-ui/icons/LocationCity';
 import useStyles from './index.style';
-import { Block, CheckCircleOutline } from '@material-ui/icons';
-import { Tooltip } from '@material-ui/core';
 
 const BreakdownDetailView = ({ open, onCloseDialog }) => {
   const classes = useStyles();
   const { detailedCurrentBreakdown } = useSelector(({ breakdownsReducer }) => breakdownsReducer);
 
   const {
-    id,
-    createdAt,
-    createdBy,
-    modifiedAt,
-    modifiedBy,
     description,
     reportedAt,
     scheduledDate,
@@ -122,14 +109,6 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
             <Box color="text.secondary">{product.client.primaryPhoneNo}</Box>
           </Box>
         </Box>
-        {/*<Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
-          <LocationCity />
-          <Box ml={5}>
-            <Box color="text.secondary">{`${addressLine1},`}</Box>
-            <Box color="text.secondary">{`${addressLine2},`}</Box>
-            <Box color="text.secondary">{`${city}, ${district}`}</Box>
-          </Box>
-  </Box>*/}
       </Box>
       <Box px={6} py={5}>
         <Box mb={5} component="p" color="common.dark">
@@ -153,14 +132,6 @@ const BreakdownDetailView = ({ open, onCloseDialog }) => {
             <Box color="text.secondary">{technician.primaryPhoneNo}</Box>
           </Box>
         </Box>
-        {/*<Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
-          <LocationCity />
-          <Box ml={5}>
-            <Box color="text.secondary">{`${addressLine1},`}</Box>
-            <Box color="text.secondary">{`${addressLine2},`}</Box>
-            <Box color="text.secondary">{`${city}, ${district}`}</Box>
-          </Box>
-  </Box>*/}
       </Box>
     </Dialog>
   );

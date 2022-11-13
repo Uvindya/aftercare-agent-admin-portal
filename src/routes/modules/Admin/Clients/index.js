@@ -5,10 +5,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import ClientListRow from './ClientListRow';
 import ClientTableHead from './ClientTableHead';
 import ClientTableToolbar from './ClientsTableToolbar';
-import { getComparator, stableSort } from '../../../../@jumbo/utils/tableHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteClient,
   getClients,
   setCurrentClient,
   getDetailedCurrentClient,
@@ -16,25 +14,44 @@ import {
 } from '../../../../redux/actions/Clients';
 import AddEditClient from './AddEditClient';
 import ImportClient from './ImportClient';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import ClientDetailView from './ClientDetailView';
 import NoRecordFound from './NoRecordFound';
 
+const headers = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
+  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
+  {
+    id: 'primaryPhoneNo',
+    numeric: false,
+    disablePadding: false,
+    label: 'Primary Phone No',
+  },
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
+];
+
 const ClientsModule = () => {
   const classes = useStyles();
   const { clients } = useSelector(({ clientsReducer }) => clientsReducer);
-  const [orderBy, setOrderBy] = React.useState('id');
-  const [order, setOrder] = React.useState('asc');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selected, setSelected] = React.useState([]);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openClientDialog, setOpenClientDialog] = useState(false);
   const [openImportClientDialog, setOpenImportClientDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedClient, setSelectedClient] = useState({ name: '' });
   const [clientsFetched, setClientsFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -72,21 +89,6 @@ const ClientsModule = () => {
   const handleCloseImportClientDialog = () => {
     setOpenImportClientDialog(false);
     //dispatch(setCurrentClient(null));
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderBy(property);
-    setOrder(isAsc ? 'desc' : 'asc');
-  };
-
-  const handleSelectAllClick = event => {
-    if (event.target.checked) {
-      const newSelected = clients.map(n => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleRowClick = (event, id) => {
@@ -129,28 +131,12 @@ const ClientsModule = () => {
     setOpenClientDialog(true);
   };
 
-  const handleClientDelete = client => {
-    setSelectedClient(client);
-    setOpenConfirmDialog(true);
-  };
-
-  const handleConfirmDelete = () => {
-    setOpenConfirmDialog(false);
-    dispatch(deleteClient(selectedClient.id));
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmDialog(false);
-  };
-
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <ClientTableToolbar
-          selected={selected}
-          setSelected={setSelected}
           onClientAdd={setOpenClientDialog}
           onClientImport={setOpenImportClientDialog}
           filterOptions={filterOptions}
@@ -160,15 +146,7 @@ const ClientsModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <ClientTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={clients.length}
-            />
+            <ClientTableHead headers={headers} />
             <TableBody>
               {!!clients.length ? (
                 clients.map((row, index) => (
@@ -177,7 +155,6 @@ const ClientsModule = () => {
                     row={row}
                     onRowClick={handleRowClick}
                     onClientEdit={handleClientEdit}
-                    onClientDelete={handleClientDelete}
                     onClientView={handleClientView}
                     isSelected={isSelected}
                     callbck={updateClientTableInfoCallBack}
@@ -223,14 +200,6 @@ const ClientsModule = () => {
         />
       )}
       {openViewDialog && <ClientDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title={`Confirm delete ${selectedClient.name}`}
-        content={'Are you sure, you want to  delete this client?'}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      />
     </div>
   );
 };

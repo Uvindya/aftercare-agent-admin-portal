@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import Box from '@material-ui/core/Box';
-import GridContainer from '../../../../../@jumbo/components/GridContainer';
-import Grid from '@material-ui/core/Grid';
-import AppTextInput from '../../../../../@jumbo/components/Common/formElements/AppTextInput';
 import Button from '@material-ui/core/Button';
 import AppSelectBox from '../../../../../@jumbo/components/Common/formElements/AppSelectBox';
-import {
-  warrentyNotValid,
-  requiredMessage,
-  manufactureYearNotValid,
-  intervalNotValid,
-} from '../../../../../@jumbo/constants/ErrorMessages';
+import { requiredMessage } from '../../../../../@jumbo/constants/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import { isValidNumber, isValidYear } from '../../../../../@jumbo/utils/commonHelper';
 import { assignTechnicianToMaintainnance } from '../../../../../redux/actions/Maintainances';
 import { getAllTechnicians } from '../../../../../redux/actions/Technicians';
 
