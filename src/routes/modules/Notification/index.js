@@ -12,7 +12,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
 import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
-import { getCustomDateTime, getNewDate } from '../../../@jumbo/utils/dateHelper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getNotificationCount, getNotifications, markAsRead } from '../../../redux/actions/Notifications';
@@ -54,72 +53,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
-
-const headerNotifications = [
-  {
-    id: 2,
-    title: 'Ttitle -1',
-    message: 'this is message',
-    category: 'MAINTAINANCE',
-    user: {
-      id: 101,
-      name: 'Dinesh Suthar',
-      profile_pic: 'https://www.wheeliebinnumber.co.uk/wp-content/uploads/2016/09/B-1.jpg',
-    },
-    type: 'POSTING',
-    metaData: {
-      post: {
-        type: 'album',
-        title: 'This is Beginning',
-        owner: {
-          id: 545,
-          name: 'Martin Guptil',
-          profile_pic: 'https://via.placeholder.com/150x150',
-        },
-      },
-    },
-    createdAt: getCustomDateTime(-27, 'minutes', 'MMMM DD, YYYY, h:mm:ss a'),
-  },
-  {
-    id: 2,
-    title: 'Ttitle -2',
-    message: 'this is message',
-    category: 'BREAKDOWN',
-    user: {
-      id: 101,
-      name: 'Dinesh Suthar',
-      profile_pic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3461ub9jFtxyrgJm7Hw7C1qKTAQo0jbcdUA&usqp=CAU',
-    },
-    type: 'POSTING',
-    metaData: {
-      post: {
-        type: 'album',
-        title: 'This is Beginning',
-        owner: {
-          id: 545,
-          name: 'Martin Guptil',
-          profile_pic: 'https://via.placeholder.com/150x150',
-        },
-      },
-    },
-    createdAt: getCustomDateTime(-27, 'minutes', 'MMMM DD, YYYY, h:mm:ss a'),
-  },
-];
-
 const HeaderNotifications = () => {
   const classes = useStyles();
 
   const { notifications, notificationCount } = useSelector(({ notificationReducer }) => notificationReducer);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [counter, setCounter] = useState(5);
   const theme = useTheme();
 
   const dispatch = useDispatch();
@@ -136,7 +74,6 @@ const HeaderNotifications = () => {
   const onOpenPopOver = event => {
     setAnchorEl(event.currentTarget);
     dispatch(getNotifications());
-    setCounter(0);
   };
 
   const onClosePopOver = () => {
@@ -191,8 +128,6 @@ const HeaderNotifications = () => {
         <CmtCard className={classes.cardRoot}>
           <CmtCardHeader
             title="Notifications"
-            actionsPos="top-corner"
-            actions={actions}
             separator={{
               color: theme.palette.borderColor.dark,
               borderWidth: 1,

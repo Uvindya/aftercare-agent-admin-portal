@@ -1,22 +1,16 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import MessageIcon from '@material-ui/icons/Message';
-import ShareIcon from '@material-ui/icons/Share';
-import EmailIcon from '@material-ui/icons/Email';
-import CakeIcon from '@material-ui/icons/Cake';
 import CmtMediaObject from '../../../@coremat/CmtMediaObject';
 import CmtAvatar from '../../../@coremat/CmtAvatar';
-import { getDateElements } from '../../../@jumbo/utils/dateHelper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { fade } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   feedItemRoot: {
     padding: '10px 5px',
     position: 'relative',
     marginBottom: '5px',
-    borderBottom: `1px solid ${fade(theme.palette.common.dark, 0.035)}`,
+    borderBottom: `1px solid #ccc`,
     '& .Cmt-media-object': {
       alignItems: 'center',
     },
