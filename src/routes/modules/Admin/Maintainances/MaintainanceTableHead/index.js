@@ -9,7 +9,9 @@ function MaintainanceTableHead({ headers }) {
     <TableHead>
       <TableRow>
         {headers.map(headCell => (
-          <TableCell key={headCell.id} align="center" padding={headCell.disablePadding ? 'none' : 'normal'} />
+          <TableCell key={headCell.id} align="center" padding={headCell.disablePadding ? 'none' : 'normal'}>
+            {headCell.label}
+          </TableCell>
         ))}
         <TableCell align="center">Actions</TableCell>
       </TableRow>
