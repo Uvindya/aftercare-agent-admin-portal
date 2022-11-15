@@ -9,6 +9,7 @@ import Products from './Products';
 import Maintainances from './Maintainances';
 import Breakdowns from './Breakdowns';
 import Reports from './Reports';
+import Notifications from './Notifications';
 
 export default history =>
   combineReducers({
@@ -21,4 +22,5 @@ export default history =>
     maintainancesReducer: Maintainances,
     breakdownsReducer: Breakdowns,
     reportsReducer: Reports,
+    notificationReducer: Notifications,
   });

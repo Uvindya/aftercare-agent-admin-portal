@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import SearchPopover from '../../partials/SearchPopover';
 import AppsMenu from '../../partials/Header/AppsMenu';
 import HeaderMessages from '../../partials/Header/HeaderMessages';
-import HeaderNotifications from '../../partials/Header/HeaderNotifications';
+import HeaderNotifications from '../../../../../routes/modules/Notification';
 import LanguageSwitcher from '../../partials/LanguageSwitcher';
 import { makeStyles } from '@material-ui/styles';
 import UserDropDown from '../../partials/UserDropDown';

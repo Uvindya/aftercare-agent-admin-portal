@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, IconButton, makeStyles, Popover, Tooltip, useTheme } from '@material-ui/core';
 import { alpha } from '@material-ui/core/styles';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import CmtCardHeader from '../../../../../../@coremat/CmtCard/CmtCardHeader';
-import CmtCardContent from '../../../../../../@coremat/CmtCard/CmtCardContent';
-import CmtList from '../../../../../../@coremat/CmtList';
-import CmtCard from '../../../../../../@coremat/CmtCard';
+import CmtCardHeader from '../../../@coremat/CmtCard/CmtCardHeader';
+import CmtCardContent from '../../../@coremat/CmtCard/CmtCardContent';
+import CmtList from '../../../@coremat/CmtList';
+import CmtCard from '../../../@coremat/CmtCard';
 
 import NotificationItem from './NotificationItem';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import clsx from 'clsx';
 import Badge from '@material-ui/core/Badge';
 import Typography from '@material-ui/core/Typography';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getNotificationCount, getNotifications, markAsRead } from '../../../redux/actions/Notifications';
 
 const useStyles = makeStyles(theme => ({
   cardRoot: {
@@ -50,30 +53,37 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
-
-const headerNotifications = [];
-
 const HeaderNotifications = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [counter, setCounter] = React.useState(5);
+
+  const { notifications, notificationCount } = useSelector(({ notificationReducer }) => notificationReducer);
+  const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (notifications.length === 0) {
+      dispatch(getNotificationCount());
+      setInterval(() => {
+        dispatch(getNotificationCount());
+      }, 10000);
+    }
+  }, [dispatch, notifications, notificationCount]);
 
   const onOpenPopOver = event => {
     setAnchorEl(event.currentTarget);
-    setCounter(0);
+    dispatch(getNotifications());
   };
 
   const onClosePopOver = () => {
     setAnchorEl(null);
+  };
+
+  const onRead = i => {
+    if (!i.read) {
+      dispatch(markAsRead(i.id));
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -85,11 +95,19 @@ const HeaderNotifications = () => {
         <IconButton
           onClick={onOpenPopOver}
           className={clsx(classes.iconRoot, 'Cmt-appIcon', {
-            active: counter > 0,
+            active: notificationCount > 0,
           })}>
-          <Badge badgeContent={counter} classes={{ badge: classes.counterRoot }}>
-            <NotificationsIcon />
-          </Badge>
+          {!open && (
+            <Badge badgeContent={notificationCount} classes={{ badge: classes.counterRoot }}>
+              <NotificationsIcon />
+            </Badge>
+          )}
+
+          {open && (
+            <Badge classes={{ badge: classes.counterRoot }}>
+              <NotificationsIcon />
+            </Badge>
+          )}
         </IconButton>
       </Tooltip>
 
@@ -110,8 +128,6 @@ const HeaderNotifications = () => {
         <CmtCard className={classes.cardRoot}>
           <CmtCardHeader
             title="Notifications"
-            actionsPos="top-corner"
-            actions={actions}
             separator={{
               color: theme.palette.borderColor.dark,
               borderWidth: 1,
@@ -119,11 +135,11 @@ const HeaderNotifications = () => {
             }}
           />
           <CmtCardContent>
-            {headerNotifications.length > 0 ? (
+            {notifications.length > 0 ? (
               <PerfectScrollbar className={classes.scrollbarRoot}>
                 <CmtList
-                  data={headerNotifications}
-                  renderRow={(item, index) => <NotificationItem key={index} item={item} />}
+                  data={notifications}
+                  renderRow={(item, index) => <NotificationItem key={index} item={item} onRead={onRead} />}
                 />
               </PerfectScrollbar>
             ) : (

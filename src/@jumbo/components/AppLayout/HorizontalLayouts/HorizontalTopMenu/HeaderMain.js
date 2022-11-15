@@ -10,7 +10,7 @@ import Logo from '../../partials/Logo';
 import SearchPopover from '../../partials/SearchPopover';
 import AppsMenu from '../../partials/Header/AppsMenu';
 import HeaderMessages from '../../partials/Header/HeaderMessages';
-import HeaderNotifications from '../../partials/Header/HeaderNotifications';
+import HeaderNotifications from '../../../../../routes/modules/Notification';
 import LanguageSwitcher from '../../partials/LanguageSwitcher';
 import UserDropDown from '../../partials/UserDropDown';
 

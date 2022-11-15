@@ -7,7 +7,7 @@ import Logo from '../../partials/Logo';
 import SidebarToggleHandler from '../../../../../@coremat/CmtLayouts/Horizontal/SidebarToggleHandler';
 import AppsMenu from '../../partials/Header/AppsMenu';
 import HeaderMessages from '../../partials/Header/HeaderMessages';
-import HeaderNotifications from '../../partials/Header/HeaderNotifications';
+import HeaderNotifications from '../../../../../routes/modules/Notification';
 import LanguageSwitcher from '../../partials/LanguageSwitcher';
 import SearchPopover from '../../partials/SearchPopover';
 import UserDropDown from '../../partials/UserDropDown';

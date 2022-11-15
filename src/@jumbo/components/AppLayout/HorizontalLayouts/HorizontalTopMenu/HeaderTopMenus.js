@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import AppsMenu from '../../partials/Header/AppsMenu';
 import HeaderMessages from '../../partials/Header/HeaderMessages';
-import HeaderNotifications from '../../partials/Header/HeaderNotifications';
+import HeaderNotifications from '../../../../../routes/modules/Notification';
 import { makeStyles } from '@material-ui/styles';
 import { horizontalDefaultNavs } from '../../partials/menus';
 import CmtHorizontal from '../../../../../@coremat/CmtNavigation/Horizontal';

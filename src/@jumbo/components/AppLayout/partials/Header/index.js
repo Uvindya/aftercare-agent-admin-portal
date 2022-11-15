@@ -7,7 +7,7 @@ import LanguageSwitcher from '../LanguageSwitcher';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import SearchIcon from '@material-ui/icons/Search';
 import AppsMenu from './AppsMenu';
-import HeaderNotifications from './HeaderNotifications';
+import HeaderNotifications from '../../../../../routes/modules/Notification';
 import HeaderMessages from './HeaderMessages';
 import Hidden from '@material-ui/core/Hidden';
 import Logo from '../Logo';

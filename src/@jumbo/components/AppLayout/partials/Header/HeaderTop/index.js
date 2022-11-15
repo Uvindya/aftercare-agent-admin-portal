@@ -6,7 +6,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import AppsMenu from '../AppsMenu';
 import HeaderMessages from '../HeaderMessages';
-import HeaderNotifications from '../HeaderNotifications';
+import HeaderNotifications from '../../../../../../routes/modules/Notification';
 import LanguageSwitcher from '../../LanguageSwitcher';
 import Logo from '../../Logo';
 import SearchPopover from '../../SearchPopover';
