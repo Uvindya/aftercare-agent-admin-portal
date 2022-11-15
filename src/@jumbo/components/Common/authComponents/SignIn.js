@@ -85,6 +85,7 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
         <form>
           <Box mb={2}>
             <TextField
+              id="email"
               label={<IntlMessages id="appModule.email" />}
               fullWidth
               onChange={event => setEmail(event.target.value)}
@@ -96,6 +97,7 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
           </Box>
           <Box mb={2}>
             <TextField
+              id="password"
               type="password"
               label={<IntlMessages id="appModule.password" />}
               fullWidth
@@ -107,7 +109,7 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
             />
           </Box>
           <Box display="flex" alignItems="center" justifyContent="space-between" mb={5}>
-            <Button onClick={onSubmit} variant="contained" color="primary">
+            <Button id="signin-btn" onClick={onSubmit} variant="contained" color="primary">
               <IntlMessages id="appModule.signIn" />
             </Button>
             <Box component="p" fontSize={{ xs: 12, sm: 16 }}>
