@@ -50,6 +50,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   const [model, setModel] = useState('');
   const [manufactureYear, setManufactureYear] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
+  const [purchasedAt, setPurchasedAt] = useState(new Date().toISOString().split('T')[0]);
 
   const [nameError, setNameError] = useState('');
   const [erpIdError, setErpIdError] = useState('');
@@ -63,6 +64,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   const [modelError, setModelError] = useState('');
   const [manufactureYearError, setManufactureYearError] = useState('');
   const [serialNumberError, setSerialNumberError] = useState('');
+  const [purchasedAtError, setPurchasedAtError] = useState('');
 
   const dispatch = useDispatch();
 
@@ -82,6 +84,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setManufactureYear(currentProduct.manufactureYear);
       setCountryOfOrigin(currentProduct.countryOfOrigin);
       setSerialNumber(currentProduct.serialNumber);
+      setPurchasedAt(currentProduct.purchasedAt);
       // hide password
     }
   }, [currentProduct, dispatch]);
@@ -122,6 +125,11 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setSerialNumberError(requiredMessage);
     }
 
+    if (!purchasedAt) {
+      hasError = true;
+      setPurchasedAt(requiredMessage);
+    }
+
     if (!manufactureYear && !isValidYear(manufactureYear)) {
       hasError = true;
       setManufactureYearError(manufactureYearNotValid);
@@ -160,6 +168,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       model,
       countryOfOrigin,
       serialNumber,
+      purchasedAt,
     };
 
     if (currentProduct) {
@@ -223,6 +232,19 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
                   setSerialNumberError('');
                 }}
                 helperText={serialNumberError}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <AppTextInput
+                type="date"
+                variant="outlined"
+                label="Purchased At"
+                value={purchasedAt}
+                onChange={e => {
+                  setPurchasedAt(e.target.value);
+                  setPurchasedAtError('');
+                }}
+                helperText={purchasedAtError}
               />
             </Grid>
           </GridContainer>
