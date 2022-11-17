@@ -133,16 +133,15 @@ export const sentMailToClient = () => {
   };
 };
 
-export const updateClient = (client, callbackFun) => {
+export const updateClient = (id, client, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .put('/clients', client)
+      .put(`/users/clients/${id}`, client)
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected client was updated successfully.'));
-          dispatch({ type: EDIT_CLIENT, payload: data.data });
-          if (callbackFun) callbackFun(data.data);
+          dispatch(getClients([], '', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

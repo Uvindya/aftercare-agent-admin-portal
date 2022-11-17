@@ -129,6 +129,7 @@ const ClientsModule = () => {
   const handleClientEdit = client => {
     dispatch(setCurrentClient(client));
     setOpenClientDialog(true);
+    dispatch(getDetailedCurrentClient(client.id));
   };
 
   const isSelected = id => selected.indexOf(id) !== -1;

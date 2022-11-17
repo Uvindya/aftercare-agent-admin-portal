@@ -40,6 +40,7 @@ const genders = [
 const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
   const classes = useStyles();
   const currentTechnician = useSelector(({ technicianReducer }) => technicianReducer.currentTechnician);
+  const detailedCurrentTechnician = useSelector(({ technicianReducer }) => technicianReducer.detailedCurrentTechnician);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -59,20 +60,20 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
   const [erpIdError, setErpIdError] = useState('');
   const [genderError, setGenderError] = useState('');
 
+  const isOnEdit = currentTechnician && detailedCurrentTechnician;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currentTechnician) {
-      setFirstName(currentTechnician.firstName);
-      setLastName(currentTechnician.lastName);
-      setEmail(currentTechnician.email);
-      setPrimaryPhoneNo(currentTechnician.primaryPhoneNo);
-      setYearOfExperience(currentTechnician.yearOfExperience);
-      setGender(currentTechnician.gender);
-      setErpId(currentTechnician.erpId);
+    if (isOnEdit) {
+      setFirstName(detailedCurrentTechnician.firstName);
+      setLastName(detailedCurrentTechnician.lastName);
+      setPrimaryPhoneNo(detailedCurrentTechnician.primaryPhoneNo);
+      setYearOfExperience(detailedCurrentTechnician.yearOfExperience);
+      setGender(detailedCurrentTechnician.gender);
       // hide password
     }
-  }, [currentTechnician]);
+  }, [currentTechnician, detailedCurrentTechnician]);
 
   const onGenderChange = value => {
     setGender(value);
@@ -90,15 +91,15 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
       setLastNameError(requiredMessage);
     }
 
-    if (!erpId) {
+    if (!isOnEdit && !erpId) {
       hasError = true;
       setErpIdError(requiredMessage);
     }
 
-    if (!email) {
+    if (!isOnEdit && !email) {
       hasError = true;
       setEmailError(requiredMessage);
-    } else if (!isValidEmail(email)) {
+    } else if (!isOnEdit && !isValidEmail(email)) {
       hasError = true;
       setEmailError(emailNotValid);
     }
@@ -116,7 +117,7 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
       setYearOfExperienceError(yearOfExpNotValid);
     }
 
-    if (!password) {
+    if (!isOnEdit && !password) {
       hasError = true;
       setPasswordError(requiredMessage);
     }
@@ -132,20 +133,29 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onTechnicianSave = () => {
-    const technicianDetail = {
-      firstName,
-      lastName,
-      email,
-      primaryPhoneNo,
-      gender,
-      password,
-      yearOfExperience,
-      erpId,
-    };
+    const technicianDetail = isOnEdit
+      ? {
+          firstName,
+          lastName,
+          primaryPhoneNo,
+          gender,
+          yearOfExperience,
+        }
+      : {
+          firstName,
+          lastName,
+          email,
+          primaryPhoneNo,
+          gender,
+          password,
+          yearOfExperience,
+          erpId,
+        };
 
-    if (currentTechnician) {
+    if (isOnEdit) {
       dispatch(
-        updateTechnician({ ...currentTechnician, ...technicianDetail }, () => {
+        updateTechnician(detailedCurrentTechnician.id, technicianDetail, data => {
+          callbck(data);
           onCloseDialog();
         }),
       );
@@ -195,19 +205,21 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
-            fullWidth
-            variant="outlined"
-            label="Email Address"
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value);
-              setEmailError('');
-            }}
-            helperText={emailError}
-          />
-        </Box>
+        {!isOnEdit && (
+          <Box mb={{ xs: 6, md: 5 }}>
+            <AppTextInput
+              fullWidth
+              variant="outlined"
+              label="Email Address"
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+                setEmailError('');
+              }}
+              helperText={emailError}
+            />
+          </Box>
+        )}
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
             <Grid item xs={12} sm={6}>
@@ -241,19 +253,21 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="ERP ID"
-                value={erpId}
-                onChange={e => {
-                  setErpId(e.target.value);
-                  setErpIdError('');
-                }}
-                helperText={erpIdError}
-              />
-            </Grid>
+            {!isOnEdit && (
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  fullWidth
+                  variant="outlined"
+                  label="ERP ID"
+                  value={erpId}
+                  onChange={e => {
+                    setErpId(e.target.value);
+                    setErpIdError('');
+                  }}
+                  helperText={erpIdError}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <AppSelectBox
                 fullWidth
@@ -272,25 +286,27 @@ const AddEditTechnician = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
-            type="password"
-            fullWidth
-            variant="outlined"
-            label="Password"
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-              setPasswordError('');
-            }}
-            helperText={passwordError}
-          />
-        </Box>
+        {!isOnEdit && (
+          <Box mb={{ xs: 6, md: 5 }}>
+            <AppTextInput
+              type="password"
+              fullWidth
+              variant="outlined"
+              label="Password"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+                setPasswordError('');
+              }}
+              helperText={passwordError}
+            />
+          </Box>
+        )}
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>
             <Button variant="contained" color="primary" onClick={onSubmitClick}>
-              Save
+              {isOnEdit ? `Update` : `Save`}
             </Button>
           </Box>
         </Box>

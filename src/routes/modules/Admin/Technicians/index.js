@@ -125,6 +125,7 @@ const TechniciansModule = () => {
   const handleTechnicianEdit = technician => {
     dispatch(setCurrentTechnician(technician));
     setOpenTechnicianDialog(true);
+    dispatch(getDetailedCurrentTechnician(technician.id));
   };
 
   const handleCloseImportTechnicianDialog = () => {

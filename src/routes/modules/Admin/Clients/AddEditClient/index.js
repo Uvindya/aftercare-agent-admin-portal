@@ -35,6 +35,7 @@ const genders = [
 const AddEditClient = ({ open, onCloseDialog, callbck }) => {
   const classes = useStyles();
   const currentClient = useSelector(({ clientsReducer }) => clientsReducer.currentClient);
+  const detailedCurrentClient = useSelector(({ clientsReducer }) => clientsReducer.detailedCurrentClient);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -62,24 +63,24 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
   const [districtError, setDistrictError] = useState('');
   const [cityError, setCityError] = useState('');
 
+  const isOnEdit = currentClient && detailedCurrentClient;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currentClient) {
-      setFirstName(currentClient.firstName);
-      setLastName(currentClient.lastName);
-      setEmail(currentClient.email);
-      setPrimaryPhoneNo(currentClient.primaryPhoneNo);
-      setSecondaryPhoneNo(currentClient.secondaryPhoneNo);
-      setGender(currentClient.gender);
-      setAddressLine1(currentClient.addressLine1);
-      setAddressLine2(currentClient.addressLine2);
-      setDistrict(currentClient.district);
-      setCity(currentClient.city);
-      setErpId(currentClient.erpId);
+    if (isOnEdit) {
+      setFirstName(detailedCurrentClient.firstName);
+      setLastName(detailedCurrentClient.lastName);
+      setPrimaryPhoneNo(detailedCurrentClient.primaryPhoneNo);
+      setSecondaryPhoneNo(detailedCurrentClient.secondaryPhoneNo);
+      setGender(detailedCurrentClient.gender);
+      setAddressLine1(detailedCurrentClient.addressLine1);
+      setAddressLine2(detailedCurrentClient.addressLine2);
+      setDistrict(detailedCurrentClient.district);
+      setCity(detailedCurrentClient.city);
       // hide password
     }
-  }, [currentClient]);
+  }, [currentClient, detailedCurrentClient]);
 
   const onGenderChange = value => {
     setGender(value);
@@ -97,15 +98,15 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
       setLastNameError(requiredMessage);
     }
 
-    if (!email) {
+    if (!isOnEdit && !email) {
       hasError = true;
       setEmailError(requiredMessage);
-    } else if (!isValidEmail(email)) {
+    } else if (!isOnEdit && !isValidEmail(email)) {
       hasError = true;
       setEmailError(emailNotValid);
     }
 
-    if (!erpId) {
+    if (!isOnEdit && !erpId) {
       hasError = true;
       setErpIdError(requiredMessage);
     }
@@ -123,7 +124,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
       setSecondaryPhoneNoError(phoneNoNotValid);
     }
 
-    if (!password) {
+    if (!isOnEdit && !password) {
       hasError = true;
       setPasswordError(requiredMessage);
     }
@@ -154,24 +155,37 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onClientSave = () => {
-    const clientDetail = {
-      firstName,
-      lastName,
-      email,
-      primaryPhoneNo,
-      secondaryPhoneNo,
-      gender,
-      password,
-      addressLine1,
-      addressLine2,
-      city,
-      district,
-      erpId,
-    };
+    const clientDetail = isOnEdit
+      ? {
+          firstName,
+          lastName,
+          primaryPhoneNo,
+          secondaryPhoneNo,
+          gender,
+          addressLine1,
+          addressLine2,
+          city,
+          district,
+        }
+      : {
+          firstName,
+          lastName,
+          email,
+          primaryPhoneNo,
+          secondaryPhoneNo,
+          gender,
+          password,
+          addressLine1,
+          addressLine2,
+          city,
+          district,
+          erpId,
+        };
 
-    if (currentClient) {
+    if (isOnEdit) {
       dispatch(
-        updateClient({ ...currentClient, ...clientDetail }, () => {
+        updateClient(detailedCurrentClient.id, clientDetail, data => {
+          callbck(data);
           onCloseDialog();
         }),
       );
@@ -221,19 +235,21 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
-            fullWidth
-            variant="outlined"
-            label="Email Address"
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value);
-              setEmailError('');
-            }}
-            helperText={emailError}
-          />
-        </Box>
+        {!isOnEdit && (
+          <Box mb={{ xs: 6, md: 5 }}>
+            <AppTextInput
+              fullWidth
+              variant="outlined"
+              label="Email Address"
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+                setEmailError('');
+              }}
+              helperText={emailError}
+            />
+          </Box>
+        )}
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
             <Grid item xs={12} sm={6}>
@@ -267,20 +283,22 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="ERP ID"
-                autoComplete="off"
-                value={erpId}
-                onChange={e => {
-                  setErpId(e.target.value);
-                  setErpIdError('');
-                }}
-                helperText={erpIdError}
-              />
-            </Grid>
+            {!isOnEdit && (
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  fullWidth
+                  variant="outlined"
+                  label="ERP ID"
+                  autoComplete="off"
+                  value={erpId}
+                  onChange={e => {
+                    setErpId(e.target.value);
+                    setErpIdError('');
+                  }}
+                  helperText={erpIdError}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <AppSelectBox
                 fullWidth
@@ -299,21 +317,23 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppTextInput
-            type="password"
-            fullWidth
-            variant="outlined"
-            label="Password"
-            autoComplete="off"
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-              setPasswordError('');
-            }}
-            helperText={passwordError}
-          />
-        </Box>
+        {!isOnEdit && (
+          <Box mb={{ xs: 6, md: 5 }}>
+            <AppTextInput
+              type="password"
+              fullWidth
+              variant="outlined"
+              label="Password"
+              autoComplete="off"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+                setPasswordError('');
+              }}
+              helperText={passwordError}
+            />
+          </Box>
+        )}
         <Box mb={{ xs: 6, md: 5 }}>
           <AppTextInput
             fullWidth
@@ -372,7 +392,7 @@ const AddEditClient = ({ open, onCloseDialog, callbck }) => {
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>
             <Button variant="contained" color="primary" onClick={onSubmitClick}>
-              Save
+              {isOnEdit ? `Update` : `Save`}
             </Button>
           </Box>
         </Box>

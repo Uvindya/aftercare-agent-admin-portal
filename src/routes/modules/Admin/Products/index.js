@@ -134,6 +134,7 @@ const ProductsModule = () => {
   const handleProductEdit = product => {
     dispatch(setCurrentProduct(product));
     setOpenProductDialog(true);
+    dispatch(getDetailedCurrentProduct(product.id));
   };
 
   const handleCloseImportProductDialog = () => {

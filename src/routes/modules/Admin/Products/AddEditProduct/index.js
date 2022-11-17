@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   const classes = useStyles();
   const currentProduct = useSelector(({ productsReducer }) => productsReducer.currentProduct);
+  const detailedCurrentProduct = useSelector(({ productsReducer }) => productsReducer.detailedCurrentProduct);
   const allClients = useSelector(({ clientsReducer }) => clientsReducer.allClients);
 
   const [name, setName] = useState('');
@@ -66,28 +67,23 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   const [serialNumberError, setSerialNumberError] = useState('');
   const [purchasedAtError, setPurchasedAtError] = useState('');
 
+  const isOnEdit = currentProduct && detailedCurrentProduct;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (allClients.length == 0) {
       dispatch(getAllClients());
     }
-    if (currentProduct) {
-      setName(currentProduct.name);
-      setErpId(currentProduct.erpId);
-      setWarrentyPeriod(currentProduct.warrentyPeriod);
-      setMaintainnanceInterval(currentProduct.maintainnanceInterval);
-      setClientId(currentProduct.clientId);
-      setDescription(currentProduct.description);
-      setMake(currentProduct.make);
-      setModel(currentProduct.model);
-      setManufactureYear(currentProduct.manufactureYear);
-      setCountryOfOrigin(currentProduct.countryOfOrigin);
-      setSerialNumber(currentProduct.serialNumber);
-      setPurchasedAt(currentProduct.purchasedAt);
-      // hide password
+    if (isOnEdit) {
+      setName(detailedCurrentProduct.name);
+      setDescription(detailedCurrentProduct.description);
+      setMake(detailedCurrentProduct.make);
+      setModel(detailedCurrentProduct.model);
+      setManufactureYear(detailedCurrentProduct.manufactureYear);
+      setCountryOfOrigin(detailedCurrentProduct.countryOfOrigin);
     }
-  }, [currentProduct, dispatch]);
+  }, [currentProduct, detailedCurrentProduct, dispatch]);
 
   const onClientChange = value => {
     setClientId(value);
@@ -100,7 +96,7 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setNameError(requiredMessage);
     }
 
-    if (!erpId) {
+    if (!isOnEdit && !erpId) {
       hasError = true;
       setErpIdError(requiredMessage);
     }
@@ -120,12 +116,12 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setCountryOfOriginError(requiredMessage);
     }
 
-    if (!serialNumber) {
+    if (!isOnEdit && !serialNumber) {
       hasError = true;
       setSerialNumberError(requiredMessage);
     }
 
-    if (!purchasedAt) {
+    if (!isOnEdit && !purchasedAt) {
       hasError = true;
       setPurchasedAt(requiredMessage);
     }
@@ -135,17 +131,17 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
       setManufactureYearError(manufactureYearNotValid);
     }
 
-    if (!warrentyPeriod && !isValidNumber(warrentyPeriod)) {
+    if (!isOnEdit && !warrentyPeriod && !isValidNumber(warrentyPeriod)) {
       hasError = true;
       setWarrentyPeriodError(warrentyNotValid);
     }
 
-    if (!maintainnanceInterval && !isValidNumber(maintainnanceInterval)) {
+    if (!isOnEdit && !maintainnanceInterval && !isValidNumber(maintainnanceInterval)) {
       hasError = true;
       setMaintainnanceIntervalError(intervalNotValid);
     }
 
-    if (!clientId) {
+    if (!isOnEdit && !clientId) {
       hasError = true;
       setClientIdError(requiredMessage);
     }
@@ -156,24 +152,34 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
   };
 
   const onProductSave = () => {
-    const productDetail = {
-      name,
-      erpId,
-      warrentyPeriod,
-      maintainnanceInterval,
-      clientId,
-      description,
-      manufactureYear,
-      make,
-      model,
-      countryOfOrigin,
-      serialNumber,
-      purchasedAt,
-    };
+    const productDetail = isOnEdit
+      ? {
+          name,
+          description,
+          manufactureYear,
+          make,
+          model,
+          countryOfOrigin,
+        }
+      : {
+          name,
+          erpId,
+          warrentyPeriod,
+          maintainnanceInterval,
+          clientId,
+          description,
+          manufactureYear,
+          make,
+          model,
+          countryOfOrigin,
+          serialNumber,
+          purchasedAt,
+        };
 
-    if (currentProduct) {
+    if (isOnEdit) {
       dispatch(
-        updateProduct({ ...currentProduct, ...productDetail }, () => {
+        updateProduct(detailedCurrentProduct.id, productDetail, data => {
+          callbck(data);
           onCloseDialog();
         }),
       );
@@ -208,45 +214,51 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
                 helperText={nameError}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="ERP ID"
-                value={erpId}
-                onChange={e => {
-                  setErpId(e.target.value);
-                  setErpIdError('');
-                }}
-                helperText={erpIdError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <AppTextInput
-                fullWidth
-                variant="outlined"
-                label="Serial Number"
-                value={serialNumber}
-                onChange={e => {
-                  setSerialNumber(e.target.value);
-                  setSerialNumberError('');
-                }}
-                helperText={serialNumberError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <AppTextInput
-                type="date"
-                variant="outlined"
-                label="Purchased At"
-                value={purchasedAt}
-                onChange={e => {
-                  setPurchasedAt(e.target.value);
-                  setPurchasedAtError('');
-                }}
-                helperText={purchasedAtError}
-              />
-            </Grid>
+            {!isOnEdit && (
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  fullWidth
+                  variant="outlined"
+                  label="ERP ID"
+                  value={erpId}
+                  onChange={e => {
+                    setErpId(e.target.value);
+                    setErpIdError('');
+                  }}
+                  helperText={erpIdError}
+                />
+              </Grid>
+            )}
+            {!isOnEdit && (
+              <Grid item xs={12} sm={6}>
+                <AppTextInput
+                  fullWidth
+                  variant="outlined"
+                  label="Serial Number"
+                  value={serialNumber}
+                  onChange={e => {
+                    setSerialNumber(e.target.value);
+                    setSerialNumberError('');
+                  }}
+                  helperText={serialNumberError}
+                />
+              </Grid>
+            )}
+            {!isOnEdit && (
+              <Grid item xs={12} sm={12}>
+                <AppTextInput
+                  type="date"
+                  variant="outlined"
+                  label="Purchased At"
+                  value={purchasedAt}
+                  onChange={e => {
+                    setPurchasedAt(e.target.value);
+                    setPurchasedAtError('');
+                  }}
+                  helperText={purchasedAtError}
+                />
+              </Grid>
+            )}
           </GridContainer>
         </Box>
         <Box mb={{ xs: 6, md: 5 }}>
@@ -267,34 +279,38 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
           <GridContainer>
-            <Grid item xs={12} sm={12}>
-              <AppTextInput
-                fullWidth
-                type="number"
-                variant="outlined"
-                label="Warrenty Period (Months)"
-                value={warrentyPeriod}
-                onChange={e => {
-                  setWarrentyPeriod(e.target.value);
-                  setWarrentyPeriodError('');
-                }}
-                helperText={warrentyPeriodError}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <AppTextInput
-                type="number"
-                fullWidth
-                variant="outlined"
-                label="Maintainnance Interval (Months)"
-                value={maintainnanceInterval}
-                onChange={e => {
-                  setMaintainnanceInterval(e.target.value);
-                  setMaintainnanceIntervalError('');
-                }}
-                helperText={maintainnanceIntervalError}
-              />
-            </Grid>
+            {!isOnEdit && (
+              <Grid item xs={12} sm={12}>
+                <AppTextInput
+                  fullWidth
+                  type="number"
+                  variant="outlined"
+                  label="Warrenty Period (Months)"
+                  value={warrentyPeriod}
+                  onChange={e => {
+                    setWarrentyPeriod(e.target.value);
+                    setWarrentyPeriodError('');
+                  }}
+                  helperText={warrentyPeriodError}
+                />
+              </Grid>
+            )}
+            {!isOnEdit && (
+              <Grid item xs={12} sm={12}>
+                <AppTextInput
+                  type="number"
+                  fullWidth
+                  variant="outlined"
+                  label="Maintainnance Interval (Months)"
+                  value={maintainnanceInterval}
+                  onChange={e => {
+                    setMaintainnanceInterval(e.target.value);
+                    setMaintainnanceIntervalError('');
+                  }}
+                  helperText={maintainnanceIntervalError}
+                />
+              </Grid>
+            )}
           </GridContainer>
         </Box>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" mb={{ xs: 6, md: 5 }}>
@@ -358,27 +374,29 @@ const AddEditProduct = ({ open, onCloseDialog, callbck }) => {
             </Grid>
           </GridContainer>
         </Box>
-        <Box mb={{ xs: 6, md: 5 }}>
-          <AppSelectBox
-            fullWidth
-            data={allClients}
-            label="Client"
-            valueKey="id"
-            variant="outlined"
-            labelKey="key"
-            value={clientId}
-            onChange={e => {
-              onClientChange(e.target.value);
-              setClientIdError('');
-            }}
-            helperText={clientIdError}
-          />
-        </Box>
+        {!isOnEdit && (
+          <Box mb={{ xs: 6, md: 5 }}>
+            <AppSelectBox
+              fullWidth
+              data={allClients}
+              label="Client"
+              valueKey="id"
+              variant="outlined"
+              labelKey="key"
+              value={clientId}
+              onChange={e => {
+                onClientChange(e.target.value);
+                setClientIdError('');
+              }}
+              helperText={clientIdError}
+            />
+          </Box>
+        )}
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button onClick={onCloseDialog}>Cancel</Button>
           <Box ml={2}>
             <Button variant="contained" color="primary" onClick={onSubmitClick}>
-              Save
+              {isOnEdit ? `Update` : `Save`}
             </Button>
           </Box>
         </Box>

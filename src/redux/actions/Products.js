@@ -129,16 +129,15 @@ export const sentMailToProduct = () => {
   };
 };
 
-export const updateProduct = (product, callbackFun) => {
+export const updateProduct = (id, product, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .put('/products', product)
+      .put(`/products/${id}`, product)
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected product was updated successfully.'));
-          dispatch({ type: EDIT_PRODUCT, payload: data.data });
-          if (callbackFun) callbackFun(data.data);
+          dispatch(getProducts([], '', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

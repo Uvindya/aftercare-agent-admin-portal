@@ -133,16 +133,15 @@ export const sentMailToTechnician = () => {
   };
 };
 
-export const updateTechnician = (technician, callbackFun) => {
+export const updateTechnician = (id, technician, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
     axios
-      .put('/technicians', technician)
+      .put(`/users/technicians/${id}`, technician)
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected technician was updated successfully.'));
-          dispatch({ type: EDIT_TECHNICIAN, payload: data.data });
-          if (callbackFun) callbackFun(data.data);
+          dispatch(getTechnicians([], '', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
