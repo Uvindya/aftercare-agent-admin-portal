@@ -105,7 +105,7 @@ const ReportListing = () => {
         'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
     },
     {
-      name: 'Maintainance Report',
+      name: 'Maintenance Report',
       type: 'MR',
       description:
         'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
@@ -117,7 +117,7 @@ const ReportListing = () => {
         'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
     },
     {
-      name: 'Upcomming Maintainance Report',
+      name: 'Upcomming Maintenance Report',
       type: 'UMR',
       description:
         'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',

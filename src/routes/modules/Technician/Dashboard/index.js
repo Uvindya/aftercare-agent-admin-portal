@@ -133,7 +133,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/teamsIcon.svg'}
                 number={activeMaintainanceCount}
-                label="Active Maintainances"
+                label="Active Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}
@@ -145,7 +145,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/filesIcon.svg'}
                 number={upCommingMaintainacesCount}
-                label="Up Comming Maintainances"
+                label="Up Comming Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}

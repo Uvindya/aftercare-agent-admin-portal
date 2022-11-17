@@ -11,10 +11,12 @@ import {
   setCurrentBreakdown,
   getDetailedCurrentBreakdown,
   setDetailedCurrentBreakdown,
+  cancelBreakdown,
 } from '../../../../redux/actions/Breakdowns';
 import AddEditBreakdown from './AddEditBreakdown';
 import AssignTechnician from './AssignTechnician';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
+import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import useStyles from './index.style';
 import BreakdownDetailView from './BreakdownDetailView';
 import NoRecordFound from './NoRecordFound';
@@ -76,6 +78,8 @@ const BreakdownsModule = () => {
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openImportBreakdownDialog, setOpenImportBreakdownDialog] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [selectedBreakdownId, setSelectedBreakdownId] = useState('');
 
   const dispatch = useDispatch();
 
@@ -148,12 +152,26 @@ const BreakdownsModule = () => {
     dispatch(getDetailedCurrentBreakdown(breakdown.id, () => setOpenAssignTechnicianDialog(true)));
   };
 
+  const handleCancelBreakdown = breakdown => {
+    setOpenConfirmDialog(true);
+    setSelectedBreakdownId(breakdown.id);
+  };
+
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
     dispatch(setDetailedCurrentBreakdown(null));
   };
 
   const isSelected = id => selected.indexOf(id) !== -1;
+
+  const handleConfirm = () => {
+    setOpenConfirmDialog(false);
+    dispatch(cancelBreakdown(selectedBreakdownId, data => updateBreakdownTableInfoCallBack(data)));
+  };
+
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -178,8 +196,8 @@ const BreakdownsModule = () => {
                     onRowClick={handleRowClick}
                     onBreakdownView={handleBreakdownView}
                     onAssignTechnician={handleAssignTechnician}
+                    onCancelBreakdown={handleCancelBreakdown}
                     isSelected={isSelected}
-                    callbck={updateBreakdownTableInfoCallBack}
                   />
                 ))
               ) : (
@@ -216,6 +234,14 @@ const BreakdownsModule = () => {
           callbck={updateBreakdownTableInfoCallBack}
         />
       )}
+
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Confirm Breakdown Cancellation'"
+        content="Are you sure you want to cancel this Breakdown ? "
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+      />
 
       {openBreakdownDialog && (
         <AddEditBreakdown

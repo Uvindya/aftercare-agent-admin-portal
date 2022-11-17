@@ -94,7 +94,7 @@ const MaintainancesList = ({
         title={
           <Box display="flex" alignItems={{ md: 'center' }} flexDirection={{ xs: 'column', md: 'row' }}>
             <Typography component="div" variant="h4" className={classes.titleRoot}>
-              Maintainances
+              Maintenances
             </Typography>
             <MaintainanceTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>

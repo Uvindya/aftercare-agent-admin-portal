@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const useStyles = makeStyles(theme => ({
   headerRoot: {
@@ -66,16 +68,14 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 16,
     },
   },
+  greenIcon: {
+    color: 'green',
+    backgroundColor: 'rgba(63, 81, 181, 0.1)',
+    marginRight: '5px',
+    marginLeft: '10px',
+    padding: '10px',
+  },
 }));
-
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
 
 const MaintainancesList = ({
   onMaintainanceClick,
@@ -94,13 +94,17 @@ const MaintainancesList = ({
         title={
           <Box display="flex" alignItems={{ md: 'center' }} flexDirection={{ xs: 'column', md: 'row' }}>
             <Typography component="div" variant="h4" className={classes.titleRoot}>
-              Maintainances
+              Maintenances
+              <IconButton
+                aria-label="Refresh Maintenance"
+                className={classes.greenIcon}
+                onClick={() => onMaintainanceClick('REFRESH', null)}>
+                <RefreshIcon />
+              </IconButton>
             </Typography>
             <MaintainanceTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>
-        }
-        actionsPos="top-corner"
-        actions={actions}>
+        }>
         <Box className={classes.searchAction}>
           <Box className={classes.searchActionBar}>
             <CmtSearch onlyIcon border={false} value={searchText} onChange={handleSearchTextChange} />

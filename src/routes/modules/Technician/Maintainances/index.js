@@ -129,14 +129,14 @@ const MaintainanceListing = () => {
         }),
       );
     } else if (type == 'START_M') {
-      setConfirmationTitle('Confirm Maintainance Start');
-      setConfirmationBody('Are you sure you want to start this Maintainance ? ');
+      setConfirmationTitle('Confirm Maintenance Start');
+      setConfirmationBody('Are you sure you want to start this Maintenance ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);
     } else if (type == 'COMPLETE_M') {
-      setConfirmationTitle('Confirm Maintainance Completion');
-      setConfirmationBody('Are you sure you want to complete this Maintainance ? ');
+      setConfirmationTitle('Confirm Maintenance Completion');
+      setConfirmationBody('Are you sure you want to complete this Maintenance ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);

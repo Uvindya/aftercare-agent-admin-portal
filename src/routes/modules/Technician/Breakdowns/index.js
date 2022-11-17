@@ -168,20 +168,6 @@ const BreakdownListing = () => {
         onClose={handleCancel}
         onConfirm={handleConfirm}
       />
-
-      {/*{selectedBreakdown ? (
-        <BreakdownDetail selectedBreakdown={selectedBreakdown} showBreakdownList={showBreakdownList} />
-      ) : (
-        <PropertiesList
-          onBreakdownClick={handleBreakdownClick}
-          tabValue={tabValue}
-          onChangeTab={onChangeTab}
-          data={data}
-          searchText={searchText}
-          handleSearchTextChange={handleSearchTextChange}
-          handlePageChange={handlePageChange}
-        />
-      )}*/}
     </React.Fragment>
   );
 };

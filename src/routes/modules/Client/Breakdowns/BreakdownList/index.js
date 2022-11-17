@@ -12,6 +12,7 @@ import { alpha, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const useStyles = makeStyles(theme => ({
   headerRoot: {
@@ -73,17 +74,16 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(63, 81, 181, 0.1)',
     marginRight: '10px',
     marginLeft: '10px',
+    padding: '10px',
+  },
+  greenIcon: {
+    color: 'green',
+    backgroundColor: 'rgba(63, 81, 181, 0.1)',
+    marginRight: '5px',
+    marginLeft: '5px',
+    padding: '10px',
   },
 }));
-
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
 
 const BreakdownsList = ({
   onBreakdownClick,
@@ -103,18 +103,22 @@ const BreakdownsList = ({
           <Box display="flex" alignItems={{ md: 'center' }} flexDirection={{ xs: 'column', md: 'row' }}>
             <Typography component="div" variant="h4" className={classes.titleRoot}>
               Breakdowns
+              <IconButton
+                aria-label="Report Breakdown"
+                className={classes.purpleIcon}
+                onClick={() => onBreakdownClick('NEW', null)}>
+                <AddIcon />
+              </IconButton>
+              <IconButton
+                aria-label="Refresh Breakdown"
+                className={classes.greenIcon}
+                onClick={() => onBreakdownClick('REFRESH', null)}>
+                <RefreshIcon />
+              </IconButton>
             </Typography>
-            <IconButton
-              aria-label="Report Breakdown"
-              className={classes.purpleIcon}
-              onClick={() => onBreakdownClick('NEW', null)}>
-              <AddIcon />
-            </IconButton>
             <BreakdownTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>
-        }
-        actionsPos="top-corner"
-        actions={actions}>
+        }>
         <Box className={classes.searchAction}>
           <Box className={classes.searchActionBar}>
             <CmtSearch onlyIcon border={false} value={searchText} onChange={handleSearchTextChange} />

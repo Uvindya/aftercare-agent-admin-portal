@@ -35,7 +35,6 @@ const MaintainanceTabs = ({ tabValue, onChangeTab }) => {
   const maintainanceTabCategories = [
     { name: 'Pending', slug: 'PENDING' },
     { name: 'In Progress', slug: 'IN_PROGRESS' },
-    { name: 'Need my Approval', slug: 'NEED_MY_APPROVAL' },
     { name: 'Completed', slug: 'COMPLETED' },
   ];
   const classes = useStyles();

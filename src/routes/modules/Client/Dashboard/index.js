@@ -145,7 +145,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/filesIcon.svg'}
                 number={upCommingMaintainacesCount}
-                label="Up Comming Maintainances"
+                label="Up Comming Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}

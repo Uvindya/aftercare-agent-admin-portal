@@ -53,12 +53,12 @@ const MaintainanceTableToolbar = ({
       <Toolbar className={clsx(classes.root)}>
         {
           <Typography className={classes.title} variant="h4" id="tableTitle" component="div">
-            Maintainances{' '}
+            Maintenances{' '}
             <Button color="primary" onClick={() => onMaintainanceAdd(true)} disabled>
-              Add New Maintainance
+              Add New Maintenance
             </Button>
             <Button color="primary" onClick={() => onMaintainanceImport(true)}>
-              Import Maintainances
+              Import Maintenances
             </Button>
           </Typography>
         }

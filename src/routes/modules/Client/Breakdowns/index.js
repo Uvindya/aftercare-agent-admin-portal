@@ -51,10 +51,11 @@ const BreakdownListing = () => {
       );
       return;
     } else if (tabValue === 'IN_PROGRESS') {
-      setCategoryData(myBreakdowns.filter(item => item.status === 'IN_PROGRESS').slice(0, page * 5));
-      return;
-    } else if (tabValue === 'NEED_MY_APPROVAL') {
-      setCategoryData(myBreakdowns.filter(item => item.status === 'NEEDS_CLIENTS_ACCEPTENCE').slice(0, page * 5));
+      setCategoryData(
+        myBreakdowns
+          .filter(item => item.status === 'IN_PROGRESS' || item.status === 'NEEDS_CLIENTS_ACCEPTENCE')
+          .slice(0, page * 5),
+      );
       return;
     }
   };
@@ -127,6 +128,8 @@ const BreakdownListing = () => {
       setOpenConfirmDialog(true);
       setSelectedBreakdownId(breakdown.id);
       setType(type);
+    } else if (type == 'REFRESH') {
+      loadMyBreakdowns();
     }
   };
 

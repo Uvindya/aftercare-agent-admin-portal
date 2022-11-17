@@ -47,17 +47,16 @@ const MaintainanceListing = () => {
     } else if (tabValue === 'UP_COMMING') {
       setCategoryData(
         myMaintainances
-          .filter(item => item.status === 'SCHEDULED' || item.status === 'CLIENT_ACKNOWLEDGED')
+          .filter(
+            item => item.status === 'SCHEDULED' || item.status === 'CLIENT_ACKNOWLEDGED' || item.status === 'TECH_ASSIGNED',
+          )
           .slice(0, page * 5),
       );
       return;
     } else if (tabValue === 'IN_PROGRESS') {
-      setCategoryData(myMaintainances.filter(item => item.status === 'IN_PROGRESS').slice(0, page * 5));
-      return;
-    } else if (tabValue === 'NEED_MY_APPROVAL') {
       setCategoryData(
         myMaintainances
-          .filter(item => item.status === 'NEEDS_CLIENTS_ACCEPTENCE' || item.status === 'TECH_ASSIGNED')
+          .filter(item => item.status === 'IN_PROGRESS' || item.status === 'NEEDS_CLIENTS_ACCEPTENCE')
           .slice(0, page * 5),
       );
       return;
@@ -126,15 +125,17 @@ const MaintainanceListing = () => {
           setSelectedType(type);
         }),
       );
+    } else if (type == 'REFRESH') {
+      dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
     } else if (type == 'APPROVE_M') {
-      setConfirmationTitle('Confirm Maintainance Approval');
-      setConfirmationBody('Are you sure you want to approve this Maintainance ? ');
+      setConfirmationTitle('Confirm Maintenance Approval');
+      setConfirmationBody('Are you sure you want to approve this Maintenance ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);
     } else if (type == 'ACCEPT_M') {
-      setConfirmationTitle('Confirm Maintainance Acceptance');
-      setConfirmationBody('Are you sure you want to accept this Maintainance as a completed ? ');
+      setConfirmationTitle('Confirm Maintenance Acceptance');
+      setConfirmationBody('Are you sure you want to accept this Maintenance as a completed ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);

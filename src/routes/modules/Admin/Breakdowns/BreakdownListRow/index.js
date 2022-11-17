@@ -3,49 +3,38 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Edit, MoreHoriz, Visibility } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
-import { useDispatch } from 'react-redux';
-import { updateBreakdownStatus } from '../../../../../redux/actions/Breakdowns';
 
 const getBreakdownActions = breakdown => {
-  const actions = [
-    { action: 'view', label: 'View', icon: <Visibility /> },
-    { action: 'reschedule', label: 'Reschedule', icon: <Visibility /> },
-  ];
-  if (!breakdown.technicianName) {
+  const actions = [{ action: 'view', label: 'View', icon: <Visibility /> }];
+  if (breakdown.status === 'NEW' && !breakdown.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Assign Technician',
       icon: <Edit />,
     });
   }
-  if (breakdown.technicianName) {
+  if (breakdown.status !== 'COMPLETED' && breakdown.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Reassign Technician',
       icon: <Edit />,
     });
   }
-  if (breakdown.status === 'SCHEDULED') {
+  if (breakdown.status === 'NEW') {
     actions.push({ action: 'cancel', label: 'Cancel', icon: <Edit /> });
   }
-  if (breakdown.status === 'IN_PROGRESS') {
-    actions.push({ action: 'close', label: 'Close', icon: <Edit /> });
-  }
+
   return actions;
 };
 
-const BreakdownListRow = ({ row, onRowClick, onAssignTechnician, onBreakdownView, callbck }) => {
-  const dispatch = useDispatch();
-
+const BreakdownListRow = ({ row, onRowClick, onAssignTechnician, onBreakdownView, onCancelBreakdown }) => {
   const onBreakdownMenuClick = menu => {
     if (menu.action === 'view') {
       onBreakdownView(row);
     } else if (menu.action === 'technician') {
       onAssignTechnician(row);
-    } else if (menu.action === 'disable') {
-      dispatch(updateBreakdownStatus({ username: row.email, status: 'false' }, callbck));
-    } else if (menu.action === 'enable') {
-      dispatch(updateBreakdownStatus({ username: row.email, status: 'true' }, callbck));
+    } else if (menu.action === 'cancel') {
+      onCancelBreakdown(row);
     }
   };
 

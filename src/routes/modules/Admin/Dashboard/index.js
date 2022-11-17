@@ -174,14 +174,14 @@ const DashboardModule = () => {
                     </Typography>
 
                     <NavLink className={classes.navLink} to="/maintainances">
-                      <MessageIcon className={classes.iconRoot} /> {`${upCommingMaintainacesCount} Up coming Maintainances`}
+                      <MessageIcon className={classes.iconRoot} /> {`${upCommingMaintainacesCount} Up coming Maintenances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
                       <MailOutlineIcon className={classes.iconRoot} /> {`${pendingBreakdownCount} Pending Breakdowns`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/maintainances">
                       <CheckCircleIcon className={classes.iconRoot} />{' '}
-                      {`${inProgressMaintainanceCount} in progress Maintainances`}
+                      {`${inProgressMaintainanceCount} in progress Maintenances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
                       <NotificationsIcon className={classes.iconRoot} />{' '}
@@ -297,7 +297,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/projectIcon.svg'}
                 number={maintainancesCount}
-                label="Maintainances"
+                label="Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}
@@ -321,7 +321,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/teamsIcon.svg'}
                 number={inProgressCount}
-                label="In progress Breakdowns & Maintainances"
+                label="In progress Breakdowns & Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}

@@ -201,6 +201,25 @@ export const acceptBreakdown = (id, callbackFun) => {
   };
 };
 
+export const cancelBreakdown = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/breakdowns/${id}/cancel`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch(getBreakdowns([], '', callbackFun, 0, 10));
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const breakdownNotes = (id, notes, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());

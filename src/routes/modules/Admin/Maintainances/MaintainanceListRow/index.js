@@ -7,29 +7,31 @@ import { useDispatch } from 'react-redux';
 import { updateMaintainanceStatus } from '../../../../../redux/actions/Maintainances';
 
 const getMaintainanceActions = maintainance => {
-  const actions = [
-    { action: 'view', label: 'View', icon: <Visibility /> },
-    { action: 'reschedule', label: 'Reschedule', icon: <Visibility /> },
-  ];
-  if (!maintainance.technicianName) {
+  const actions = [{ action: 'view', label: 'View', icon: <Visibility /> }];
+  if (maintainance.status === 'SCHEDULED' && !maintainance.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Assign Technician',
       icon: <Edit />,
     });
   }
-  if (maintainance.technicianName) {
+  if (maintainance.status !== 'COMPLETED' && maintainance.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Reassign Technician',
       icon: <Edit />,
     });
   }
-  if (maintainance.status === 'SCHEDULED') {
-    actions.push({ action: 'cancel', label: 'Cancel', icon: <Edit /> });
+
+  if (maintainance.status !== 'COMPLETED') {
+    actions.push({
+      action: 'reschedule',
+      label: 'Reschedule',
+      icon: <Visibility />,
+    });
   }
-  if (maintainance.status === 'IN_PROGRESS') {
-    actions.push({ action: 'close', label: 'Close', icon: <Edit /> });
+  if (maintainance.status === 'SCHEDULED') {
+    actions.push({ action: 'skip', label: 'Skip', icon: <Edit /> });
   }
   return actions;
 };
