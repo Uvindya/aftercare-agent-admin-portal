@@ -49,10 +49,10 @@ const JWTAuth = {
             }
           })
           .catch(function(error) {
-            dispatch(fetchError(error.message));
+            dispatch(fetchError('Invalid Username or Password'));
           });
       } catch (error) {
-        dispatch(fetchError(error.message));
+        dispatch(fetchError('Invalid Username or Password'));
       }
     };
   },

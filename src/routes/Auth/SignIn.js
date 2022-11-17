@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-import IntlMessages from '../../../utils/IntlMessages';
+import IntlMessages from '../../@jumbo/utils/IntlMessages';
 import { useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Box } from '@material-ui/core';
-import { AuhMethods } from '../../../../services/auth';
-import ContentLoader from '../../ContentLoader';
+import { AuhMethods } from '../../services/auth';
+import ContentLoader from '../../@jumbo/components/ContentLoader';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import CmtImage from '../../../../@coremat/CmtImage';
-import { CurrentAuthMethod } from '../../../constants/AppConstants';
+import CmtImage from '../../@coremat/CmtImage';
+import { CurrentAuthMethod } from '../../@jumbo/constants/AppConstants';
 import { NavLink } from 'react-router-dom';
-import AuthWrapper from './AuthWrapper';
+import AuthWrapper from '../../@jumbo/components/Common/authComponents/AuthWrapper';
 
 const useStyles = makeStyles(theme => ({
   authThumb: {

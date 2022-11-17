@@ -1,5 +1,5 @@
 import React from 'react';
-import SignIn from '../../@jumbo/components/Common/authComponents/SignIn';
+import SignIn from './SignIn';
 
 const Login = () => <SignIn variant="standard" wrapperVariant="bgColor" />;
 
