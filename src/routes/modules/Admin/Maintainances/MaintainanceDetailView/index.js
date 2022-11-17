@@ -24,6 +24,7 @@ const MaintainanceDetailView = ({ open, onCloseDialog }) => {
     reportedAt,
     scheduledDate,
     status,
+    technician,
   } = detailedCurrentMaintainance;
 
   return (
@@ -101,6 +102,32 @@ const MaintainanceDetailView = ({ open, onCloseDialog }) => {
           </Box>
         </Box>
       </Box>
+
+      {technician && (
+        <Box px={6} py={5}>
+          <Box mb={5} component="p" color="common.dark">
+            Technician Detail
+          </Box>
+          <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+            <EmailIcon />
+            <Box ml={5} color="primary.main" component="p">
+              {`${technician.firstName} ${technician.lastName} - ${technician.erpId}`}
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 7 }}>
+            <EmailIcon />
+            <Box ml={5} color="primary.main" component="p">
+              {technician.email}
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center" mb={{ xs: 4, sm: 5 }}>
+            <PhoneIcon />
+            <Box ml={5}>
+              <Box color="text.secondary">{technician.primaryPhoneNo}</Box>
+            </Box>
+          </Box>
+        </Box>
+      )}
     </Dialog>
   );
 };
