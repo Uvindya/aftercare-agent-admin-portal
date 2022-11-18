@@ -1,42 +1,45 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Edit, MoreHoriz, Visibility } from '@material-ui/icons';
+import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
 import { useDispatch } from 'react-redux';
-import { updateMaintainanceStatus } from '../../../../../redux/actions/Maintainances';
 
 const getMaintainanceActions = maintainance => {
-  const actions = [{ action: 'view', label: 'View', icon: <Visibility /> }];
+  const actions = [{ action: 'view', label: 'View' }];
   if (maintainance.status === 'SCHEDULED' && !maintainance.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Assign Technician',
-      icon: <Edit />,
     });
   }
   if (maintainance.status !== 'COMPLETED' && maintainance.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Reassign Technician',
-      icon: <Edit />,
     });
   }
 
-  if (maintainance.status !== 'COMPLETED') {
+  if (maintainance.status !== 'COMPLETED' && maintainance.status !== 'SKIPPED') {
     actions.push({
       action: 'reschedule',
       label: 'Reschedule',
-      icon: <Visibility />,
     });
   }
   if (maintainance.status === 'SCHEDULED') {
-    actions.push({ action: 'skip', label: 'Skip', icon: <Edit /> });
+    actions.push({ action: 'skip', label: 'Skip' });
   }
   return actions;
 };
 
-const MaintainanceListRow = ({ row, onRowClick, onAssignTechnician, onMaintainanceView, callbck }) => {
+const MaintainanceListRow = ({
+  row,
+  onRowClick,
+  onAssignTechnician,
+  onMaintainanceView,
+  onMaintainanceReschedule,
+  onMaintainanceSkip,
+}) => {
   const dispatch = useDispatch();
 
   const onMaintainanceMenuClick = menu => {
@@ -44,10 +47,10 @@ const MaintainanceListRow = ({ row, onRowClick, onAssignTechnician, onMaintainan
       onMaintainanceView(row);
     } else if (menu.action === 'technician') {
       onAssignTechnician(row);
-    } else if (menu.action === 'disable') {
-      dispatch(updateMaintainanceStatus({ username: row.email, status: 'false' }, callbck));
-    } else if (menu.action === 'enable') {
-      dispatch(updateMaintainanceStatus({ username: row.email, status: 'true' }, callbck));
+    } else if (menu.action === 'reschedule') {
+      onMaintainanceReschedule(row);
+    } else if (menu.action === 'skip') {
+      onMaintainanceSkip(row);
     }
   };
   const maintainanceActions = getMaintainanceActions(row);

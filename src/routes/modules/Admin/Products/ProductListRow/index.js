@@ -1,13 +1,13 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Edit, MoreHoriz, Visibility } from '@material-ui/icons';
+import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
 
 const getProductActions = product => {
   return [
-    { action: 'view', label: 'View', icon: <Visibility /> },
-    { action: 'edit', label: 'Edit', icon: <Edit /> },
+    { action: 'view', label: 'View' },
+    { action: 'edit', label: 'Edit' },
   ];
 };
 

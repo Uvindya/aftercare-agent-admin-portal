@@ -1,23 +1,22 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Block, CheckCircleOutline, Edit, MoreHoriz, Visibility } from '@material-ui/icons';
+import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
 import { useDispatch } from 'react-redux';
 import { updateTechnicianStatus } from '../../../../../redux/actions/Technicians';
 
 const getTechnicianActions = technician => {
   const actions = [
-    { action: 'view', label: 'View', icon: <Visibility /> },
-    { action: 'edit', label: 'Edit', icon: <Edit /> },
+    { action: 'view', label: 'View' },
+    { action: 'edit', label: 'Edit' },
   ];
   if (technician.status) {
-    actions.push({ action: 'disable', label: 'Disable', icon: <Block /> });
+    actions.push({ action: 'disable', label: 'Disable' });
   } else {
     actions.push({
       action: 'enable',
       label: 'Enable',
-      icon: <CheckCircleOutline />,
     });
   }
   return actions;

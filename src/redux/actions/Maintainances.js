@@ -226,6 +226,25 @@ export const acceptMaintainance = (id, callbackFun) => {
   };
 };
 
+export const skipMaintainance = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/skip`)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch(getMaintainances([], '', callbackFun, 0, 10));
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
 export const maintainanceNotes = (id, notes, callbackFun) => {
   return dispatch => {
     dispatch(fetchStart());
@@ -272,6 +291,25 @@ export const assignTechnicianToMaintainnance = (assignTechInfo, callbackFun) => 
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('Assign technician to maintainance was successfull.'));
+          dispatch(getMaintainances([], '', callbackFun, 0, 10));
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
+
+export const rescheduleMaintainnance = (id, rescheduleInfo, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/tasks/maintainances/${id}/reschedule`, rescheduleInfo)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess('Maintenance was rescheduled successfull.'));
           dispatch(getMaintainances([], '', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));

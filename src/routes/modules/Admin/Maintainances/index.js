@@ -11,10 +11,13 @@ import {
   setCurrentMaintainance,
   getDetailedCurrentMaintainance,
   setDetailedCurrentMaintainance,
+  skipMaintainance,
 } from '../../../../redux/actions/Maintainances';
 import AddEditMaintainance from './AddEditMaintainance';
 import AssignTechnician from './AssignTechnician';
+import RescheduleMaintainance from './RescheduleMaintainance';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
+import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import useStyles from './index.style';
 import MaintainanceDetailView from './MaintainanceDetailView';
 import NoRecordFound from './NoRecordFound';
@@ -63,6 +66,7 @@ const MaintainancesModule = () => {
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openMaintainanceDialog, setOpenMaintainanceDialog] = useState(false);
   const [openAssignTechnicianDialog, setOpenAssignTechnicianDialog] = useState(false);
+  const [openRescheduleDialog, setOpenRescheduleDialog] = useState(false);
   const [maintainancesFetched, setMaintainancesFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
   const [filterOptions, setFilterOptions] = React.useState([]);
@@ -70,6 +74,8 @@ const MaintainancesModule = () => {
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openImportMaintainanceDialog, setOpenImportMaintainanceDialog] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [selectedMaintainanaceId, setSelectedMaintainanceId] = useState('');
 
   const dispatch = useDispatch();
 
@@ -100,6 +106,11 @@ const MaintainancesModule = () => {
 
   const handleCloseAssignTechnicianDialog = () => {
     setOpenAssignTechnicianDialog(false);
+    dispatch(setCurrentMaintainance(null));
+  };
+
+  const handleCloseRescheduleDialog = () => {
+    setOpenRescheduleDialog(false);
     dispatch(setCurrentMaintainance(null));
   };
 
@@ -137,6 +148,10 @@ const MaintainancesModule = () => {
     dispatch(getDetailedCurrentMaintainance(maintainance.id, () => setOpenAssignTechnicianDialog(true)));
   };
 
+  const handleReschedule = maintainance => {
+    dispatch(getDetailedCurrentMaintainance(maintainance.id, () => setOpenRescheduleDialog(true)));
+  };
+
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
     dispatch(setDetailedCurrentMaintainance(null));
@@ -150,6 +165,20 @@ const MaintainancesModule = () => {
   const handleCloseImportMaintainanceDialog = () => {
     setOpenImportMaintainanceDialog(false);
     //dispatch(setCurrentClient(null));
+  };
+
+  const handleSkipMaintainance = maintainance => {
+    setOpenConfirmDialog(true);
+    setSelectedMaintainanceId(maintainance.id);
+  };
+
+  const handleConfirm = () => {
+    setOpenConfirmDialog(false);
+    dispatch(skipMaintainance(selectedMaintainanaceId, data => updateMaintainanceTableInfoCallBack(data)));
+  };
+
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
   };
 
   const isSelected = id => selected.indexOf(id) !== -1;
@@ -178,8 +207,9 @@ const MaintainancesModule = () => {
                     onMaintainanceEdit={handleMaintainanceEdit}
                     onMaintainanceView={handleMaintainanceView}
                     onAssignTechnician={handleAssignTechnician}
+                    onMaintainanceReschedule={handleReschedule}
                     isSelected={isSelected}
-                    callbck={updateMaintainanceTableInfoCallBack}
+                    onMaintainanceSkip={handleSkipMaintainance}
                   />
                 ))
               ) : (
@@ -209,6 +239,14 @@ const MaintainancesModule = () => {
         />
       </Paper>
 
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Confirm Maintenance Skip'"
+        content="Are you sure you want to skip this Maintenance ? "
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+      />
+
       {openImportMaintainanceDialog && (
         <ImportMaintainance
           open={openImportMaintainanceDialog}
@@ -228,6 +266,13 @@ const MaintainancesModule = () => {
         <AssignTechnician
           open={openAssignTechnicianDialog}
           onCloseDialog={handleCloseAssignTechnicianDialog}
+          callbck={updateMaintainanceTableInfoCallBack}
+        />
+      )}
+      {openRescheduleDialog && (
+        <RescheduleMaintainance
+          open={openRescheduleDialog}
+          onCloseDialog={handleCloseRescheduleDialog}
           callbck={updateMaintainanceTableInfoCallBack}
         />
       )}

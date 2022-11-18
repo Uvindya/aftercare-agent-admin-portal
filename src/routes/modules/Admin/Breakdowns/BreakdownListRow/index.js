@@ -1,27 +1,25 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Edit, MoreHoriz, Visibility } from '@material-ui/icons';
+import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
 
 const getBreakdownActions = breakdown => {
-  const actions = [{ action: 'view', label: 'View', icon: <Visibility /> }];
+  const actions = [{ action: 'view', label: 'View' }];
   if (breakdown.status === 'NEW' && !breakdown.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Assign Technician',
-      icon: <Edit />,
     });
   }
   if (breakdown.status !== 'COMPLETED' && breakdown.technicianName) {
     actions.push({
       action: 'technician',
       label: 'Reassign Technician',
-      icon: <Edit />,
     });
   }
   if (breakdown.status === 'NEW') {
-    actions.push({ action: 'cancel', label: 'Cancel', icon: <Edit /> });
+    actions.push({ action: 'cancel', label: 'Cancel' });
   }
 
   return actions;

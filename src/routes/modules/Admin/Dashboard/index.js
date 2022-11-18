@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
 
 const statusSummary = [
   { label: 'Not Started', value: 89, color: 'orange' },
-  { label: 'In Progress', value: 56, color: 'blue' },
+  { label: 'Inprogress', value: 56, color: 'blue' },
   { label: 'Completed', value: 12, color: 'green' },
 ];
 
@@ -174,14 +174,14 @@ const DashboardModule = () => {
                     </Typography>
 
                     <NavLink className={classes.navLink} to="/maintainances">
-                      <MessageIcon className={classes.iconRoot} /> {`${upCommingMaintainacesCount} Up coming Maintenances`}
+                      <MessageIcon className={classes.iconRoot} /> {`${upCommingMaintainacesCount} Upcoming Maintenances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
                       <MailOutlineIcon className={classes.iconRoot} /> {`${pendingBreakdownCount} Pending Breakdowns`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/maintainances">
                       <CheckCircleIcon className={classes.iconRoot} />{' '}
-                      {`${inProgressMaintainanceCount} in progress Maintenances`}
+                      {`${inProgressMaintainanceCount} inprogress Maintenances`}
                     </NavLink>
                     <NavLink className={classes.navLink} to="/breakdowns">
                       <NotificationsIcon className={classes.iconRoot} />{' '}
@@ -321,7 +321,7 @@ const DashboardModule = () => {
               <CounterCard
                 icon={'/images/dashboard/teamsIcon.svg'}
                 number={inProgressCount}
-                label="In progress Breakdowns & Maintenances"
+                label="Inprogress Breakdowns & Maintenances"
                 labelProps={{
                   fontSize: 16,
                 }}
