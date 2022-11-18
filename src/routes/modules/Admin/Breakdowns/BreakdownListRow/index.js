@@ -18,21 +18,16 @@ const getBreakdownActions = breakdown => {
       label: 'Reassign Technician',
     });
   }
-  if (breakdown.status === 'NEW') {
-    actions.push({ action: 'cancel', label: 'Cancel' });
-  }
 
   return actions;
 };
 
-const BreakdownListRow = ({ row, onRowClick, onAssignTechnician, onBreakdownView, onCancelBreakdown }) => {
+const BreakdownListRow = ({ row, onRowClick, onAssignTechnician, onBreakdownView }) => {
   const onBreakdownMenuClick = menu => {
     if (menu.action === 'view') {
       onBreakdownView(row);
     } else if (menu.action === 'technician') {
       onAssignTechnician(row);
-    } else if (menu.action === 'cancel') {
-      onCancelBreakdown(row);
     }
   };
 

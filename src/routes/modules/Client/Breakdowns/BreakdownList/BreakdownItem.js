@@ -120,6 +120,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(63, 81, 181, 0.1)',
     marginRight: '10px',
   },
+  brownIcon: {
+    color: 'brown',
+    backgroundColor: 'rgba(63, 81, 181, 0.1)',
+    marginRight: '10px',
+  },
   redIcon: {
     color: '#f50057',
     backgroundColor: 'rgba(63, 81, 181, 0.1)',
@@ -219,6 +224,12 @@ const BreakdownItem = ({ item, onBreakdownClick }) => {
 
       {item.status === 'NEEDS_CLIENTS_ACCEPTENCE' && (
         <IconButton aria-label="Accept" className={classes.greenIcon} onClick={() => onBreakdownClick('ACCEPT_M', item)}>
+          <AcceptenceIcon />
+        </IconButton>
+      )}
+
+      {item.status === 'NEW' && (
+        <IconButton aria-label="Cancel" className={classes.brownIcon} onClick={() => onBreakdownClick('CANCEL_M', item)}>
           <AcceptenceIcon />
         </IconButton>
       )}

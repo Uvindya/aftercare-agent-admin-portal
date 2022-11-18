@@ -10,6 +10,7 @@ import {
   getDetailedCurrentMaintainance,
   appoveMaintainance,
   acceptMaintainance,
+  skipMaintainance,
 } from '../../../../redux/actions/Maintainances';
 
 const MaintainanceListing = () => {
@@ -42,7 +43,9 @@ const MaintainanceListing = () => {
     }
 
     if (tabValue === 'COMPLETED') {
-      setCategoryData(myMaintainances.filter(item => item.status === 'COMPLETED').slice(0, page * 5));
+      setCategoryData(
+        myMaintainances.filter(item => item.status === 'COMPLETED' || item.status === 'SKIPPED').slice(0, page * 5),
+      );
       return;
     } else if (tabValue === 'UP_COMMING') {
       setCategoryData(
@@ -75,6 +78,13 @@ const MaintainanceListing = () => {
     } else if (type == 'ACCEPT_M') {
       dispatch(
         acceptMaintainance(selectedMaintainanceId, () => {
+          dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
+          setTabValue('COMPLETED');
+        }),
+      );
+    } else if (type == 'SKIP_M') {
+      dispatch(
+        skipMaintainance(selectedMaintainanceId, () => {
           dispatch(getMyOwnsMaintainances(() => filterMaintainnances()));
           setTabValue('COMPLETED');
         }),
@@ -136,6 +146,12 @@ const MaintainanceListing = () => {
     } else if (type == 'ACCEPT_M') {
       setConfirmationTitle('Confirm Maintenance Acceptance');
       setConfirmationBody('Are you sure you want to accept this Maintenance as a completed ? ');
+      setOpenConfirmDialog(true);
+      setSelectedMaintainanceId(maintainance.id);
+      setType(type);
+    } else if (type == 'SKIP_M') {
+      setConfirmationTitle('Confirm Maintenance Skip');
+      setConfirmationBody('Are you sure you want to skip this Maintenance ? ');
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);

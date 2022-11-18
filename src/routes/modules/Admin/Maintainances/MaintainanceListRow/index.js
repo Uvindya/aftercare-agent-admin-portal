@@ -3,7 +3,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
-import { useDispatch } from 'react-redux';
 
 const getMaintainanceActions = maintainance => {
   const actions = [{ action: 'view', label: 'View' }];
@@ -26,22 +25,10 @@ const getMaintainanceActions = maintainance => {
       label: 'Reschedule',
     });
   }
-  if (maintainance.status === 'SCHEDULED') {
-    actions.push({ action: 'skip', label: 'Skip' });
-  }
   return actions;
 };
 
-const MaintainanceListRow = ({
-  row,
-  onRowClick,
-  onAssignTechnician,
-  onMaintainanceView,
-  onMaintainanceReschedule,
-  onMaintainanceSkip,
-}) => {
-  const dispatch = useDispatch();
-
+const MaintainanceListRow = ({ row, onRowClick, onAssignTechnician, onMaintainanceView, onMaintainanceReschedule }) => {
   const onMaintainanceMenuClick = menu => {
     if (menu.action === 'view') {
       onMaintainanceView(row);
@@ -49,8 +36,6 @@ const MaintainanceListRow = ({
       onAssignTechnician(row);
     } else if (menu.action === 'reschedule') {
       onMaintainanceReschedule(row);
-    } else if (menu.action === 'skip') {
-      onMaintainanceSkip(row);
     }
   };
   const maintainanceActions = getMaintainanceActions(row);

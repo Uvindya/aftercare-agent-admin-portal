@@ -11,51 +11,15 @@ import {
   setCurrentMaintainance,
   getDetailedCurrentMaintainance,
   setDetailedCurrentMaintainance,
-  skipMaintainance,
 } from '../../../../redux/actions/Maintainances';
 import AddEditMaintainance from './AddEditMaintainance';
 import AssignTechnician from './AssignTechnician';
 import RescheduleMaintainance from './RescheduleMaintainance';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import useStyles from './index.style';
 import MaintainanceDetailView from './MaintainanceDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportMaintainance from './ImportMaintainance';
-
-const headers = [
-  {
-    id: 'id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-  {
-    id: 'productName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Product Name',
-  },
-  {
-    id: 'scheduledDate',
-    numeric: false,
-    disablePadding: false,
-    label: 'Scheduled Date',
-  },
-  {
-    id: 'clientName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Client Name',
-  },
-  {
-    id: 'technicianId',
-    numeric: false,
-    disablePadding: false,
-    label: 'Technician Assigned',
-  },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-];
 
 const MaintainancesModule = () => {
   const classes = useStyles();
@@ -74,8 +38,6 @@ const MaintainancesModule = () => {
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openImportMaintainanceDialog, setOpenImportMaintainanceDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedMaintainanaceId, setSelectedMaintainanceId] = useState('');
 
   const dispatch = useDispatch();
 
@@ -167,20 +129,6 @@ const MaintainancesModule = () => {
     //dispatch(setCurrentClient(null));
   };
 
-  const handleSkipMaintainance = maintainance => {
-    setOpenConfirmDialog(true);
-    setSelectedMaintainanceId(maintainance.id);
-  };
-
-  const handleConfirm = () => {
-    setOpenConfirmDialog(false);
-    dispatch(skipMaintainance(selectedMaintainanaceId, data => updateMaintainanceTableInfoCallBack(data)));
-  };
-
-  const handleCancel = () => {
-    setOpenConfirmDialog(false);
-  };
-
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -196,7 +144,7 @@ const MaintainancesModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <MaintainanceTableHead headers={headers} />
+            <MaintainanceTableHead />
             <TableBody>
               {!!maintainances.length ? (
                 maintainances.map((row, index) => (
@@ -209,7 +157,6 @@ const MaintainancesModule = () => {
                     onAssignTechnician={handleAssignTechnician}
                     onMaintainanceReschedule={handleReschedule}
                     isSelected={isSelected}
-                    onMaintainanceSkip={handleSkipMaintainance}
                   />
                 ))
               ) : (
@@ -238,14 +185,6 @@ const MaintainancesModule = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
         />
       </Paper>
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title="Confirm Maintenance Skip'"
-        content="Are you sure you want to skip this Maintenance ? "
-        onClose={handleCancel}
-        onConfirm={handleConfirm}
-      />
 
       {openImportMaintainanceDialog && (
         <ImportMaintainance

@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import AcceptenceIcon from '@material-ui/icons/CheckCircle';
 import ApproveIcon from '@material-ui/icons/CheckCircleOutline';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles(theme => ({
   mediaObjectRoot: {
@@ -121,6 +122,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(63, 81, 181, 0.1)',
     marginRight: '10px',
   },
+  brownIcon: {
+    color: 'brown',
+    backgroundColor: 'rgba(63, 81, 181, 0.1)',
+    marginRight: '10px',
+  },
   redIcon: {
     color: '#f50057',
     backgroundColor: 'rgba(63, 81, 181, 0.1)',
@@ -205,6 +211,12 @@ const MaintainanceItem = ({ item, onMaintainanceClick }) => {
           className={classes.greenIcon}
           onClick={() => onMaintainanceClick('APPROVE_M', item)}>
           <ApproveIcon />
+        </IconButton>
+      )}
+
+      {item.status === 'SCHEDULED' && (
+        <IconButton aria-label="Skip" className={classes.brownIcon} onClick={() => onMaintainanceClick('SKIP_M', item)}>
+          <WarningIcon />
         </IconButton>
       )}
 

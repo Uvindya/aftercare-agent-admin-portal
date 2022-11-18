@@ -234,7 +234,7 @@ export const skipMaintainance = (id, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
-          dispatch(getMaintainances([], '', callbackFun, 0, 10));
+          if (callbackFun) callbackFun();
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

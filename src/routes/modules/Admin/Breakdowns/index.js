@@ -11,56 +11,14 @@ import {
   setCurrentBreakdown,
   getDetailedCurrentBreakdown,
   setDetailedCurrentBreakdown,
-  cancelBreakdown,
 } from '../../../../redux/actions/Breakdowns';
 import AddEditBreakdown from './AddEditBreakdown';
 import AssignTechnician from './AssignTechnician';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
-import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 import useStyles from './index.style';
 import BreakdownDetailView from './BreakdownDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportBreakdowns from './ImportBreakdown';
-
-const headers = [
-  {
-    id: 'id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-  {
-    id: 'productName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Product Name',
-  },
-  {
-    id: 'clientName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Client Name',
-  },
-  {
-    id: 'technicianId',
-    numeric: false,
-    disablePadding: false,
-    label: 'Technician Assigned',
-  },
-  {
-    id: 'breakdownType',
-    numeric: false,
-    disablePadding: false,
-    label: 'Breakdown Type',
-  },
-  {
-    id: 'risk',
-    numeric: false,
-    disablePadding: false,
-    label: 'Risk',
-  },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-];
 
 const BreakdownsModule = () => {
   const classes = useStyles();
@@ -78,8 +36,6 @@ const BreakdownsModule = () => {
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openImportBreakdownDialog, setOpenImportBreakdownDialog] = useState(false);
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [selectedBreakdownId, setSelectedBreakdownId] = useState('');
 
   const dispatch = useDispatch();
 
@@ -152,26 +108,12 @@ const BreakdownsModule = () => {
     dispatch(getDetailedCurrentBreakdown(breakdown.id, () => setOpenAssignTechnicianDialog(true)));
   };
 
-  const handleCancelBreakdown = breakdown => {
-    setOpenConfirmDialog(true);
-    setSelectedBreakdownId(breakdown.id);
-  };
-
   const handleCloseViewDialog = () => {
     setOpenViewDialog(false);
     dispatch(setDetailedCurrentBreakdown(null));
   };
 
   const isSelected = id => selected.indexOf(id) !== -1;
-
-  const handleConfirm = () => {
-    setOpenConfirmDialog(false);
-    dispatch(cancelBreakdown(selectedBreakdownId, data => updateBreakdownTableInfoCallBack(data)));
-  };
-
-  const handleCancel = () => {
-    setOpenConfirmDialog(false);
-  };
 
   return (
     <div className={classes.root}>
@@ -186,7 +128,7 @@ const BreakdownsModule = () => {
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <BreakdownTableHead headers={headers} />
+            <BreakdownTableHead />
             <TableBody>
               {!!breakdowns.length ? (
                 breakdowns.map((row, index) => (
@@ -196,7 +138,6 @@ const BreakdownsModule = () => {
                     onRowClick={handleRowClick}
                     onBreakdownView={handleBreakdownView}
                     onAssignTechnician={handleAssignTechnician}
-                    onCancelBreakdown={handleCancelBreakdown}
                     isSelected={isSelected}
                   />
                 ))
@@ -234,14 +175,6 @@ const BreakdownsModule = () => {
           callbck={updateBreakdownTableInfoCallBack}
         />
       )}
-
-      <ConfirmDialog
-        open={openConfirmDialog}
-        title="Confirm Breakdown Cancellation'"
-        content="Are you sure you want to cancel this Breakdown ? "
-        onClose={handleCancel}
-        onConfirm={handleConfirm}
-      />
 
       {openBreakdownDialog && (
         <AddEditBreakdown

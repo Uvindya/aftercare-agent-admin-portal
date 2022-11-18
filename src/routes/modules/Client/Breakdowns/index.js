@@ -6,7 +6,12 @@ import PropertiesList from './BreakdownList';
 import Collapse from '@material-ui/core/Collapse';
 import { useDispatch, useSelector } from 'react-redux';
 import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
-import { getMyOwnsBreakdowns, getDetailedCurrentBreakdown, acceptBreakdown } from '../../../../redux/actions/Breakdowns';
+import {
+  getMyOwnsBreakdowns,
+  getDetailedCurrentBreakdown,
+  acceptBreakdown,
+  cancelBreakdown,
+} from '../../../../redux/actions/Breakdowns';
 import { getMyProducts } from '../../../../redux/actions/Products';
 
 const BreakdownListing = () => {
@@ -43,7 +48,9 @@ const BreakdownListing = () => {
     }
 
     if (tabValue === 'COMPLETED') {
-      setCategoryData(myBreakdowns.filter(item => item.status === 'COMPLETED').slice(0, page * 5));
+      setCategoryData(
+        myBreakdowns.filter(item => item.status === 'COMPLETED' || item.status === 'CANCELLED').slice(0, page * 5),
+      );
       return;
     } else if (tabValue === 'PENDING') {
       setCategoryData(
@@ -65,6 +72,13 @@ const BreakdownListing = () => {
     if (type == 'ACCEPT_M') {
       dispatch(
         acceptBreakdown(selectedBreakdownId, () => {
+          dispatch(getMyOwnsBreakdowns(() => filterMaintainnances()));
+          setTabValue('COMPLETED');
+        }),
+      );
+    } else if (type == 'CANCEL_M') {
+      dispatch(
+        cancelBreakdown(selectedBreakdownId, () => {
           dispatch(getMyOwnsBreakdowns(() => filterMaintainnances()));
           setTabValue('COMPLETED');
         }),
@@ -125,6 +139,12 @@ const BreakdownListing = () => {
     } else if (type == 'ACCEPT_M') {
       setConfirmationTitle('Confirm Breakdown Acceptance');
       setConfirmationBody('Are you sure you want to accept this Breakdown as a completed ? ');
+      setOpenConfirmDialog(true);
+      setSelectedBreakdownId(breakdown.id);
+      setType(type);
+    } else if (type == 'CANCEL_M') {
+      setConfirmationTitle('Confirm Breakdown Cancellation');
+      setConfirmationBody('Are you sure you want to cancel this Breakdown ? ');
       setOpenConfirmDialog(true);
       setSelectedBreakdownId(breakdown.id);
       setType(type);

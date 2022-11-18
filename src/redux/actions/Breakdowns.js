@@ -209,7 +209,7 @@ export const cancelBreakdown = (id, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess());
-          dispatch(getBreakdowns([], '', callbackFun, 0, 10));
+          if (callbackFun) callbackFun();
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

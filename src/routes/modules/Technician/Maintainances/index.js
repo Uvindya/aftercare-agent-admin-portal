@@ -182,20 +182,6 @@ const MaintainanceListing = () => {
         onClose={handleCancel}
         onConfirm={handleConfirm}
       />
-
-      {/*{selectedMaintainance ? (
-        <MaintainanceDetail selectedMaintainance={selectedMaintainance} showMaintainanceList={showMaintainanceList} />
-      ) : (
-        <PropertiesList
-          onMaintainanceClick={handleMaintainanceClick}
-          tabValue={tabValue}
-          onChangeTab={onChangeTab}
-          data={data}
-          searchText={searchText}
-          handleSearchTextChange={handleSearchTextChange}
-          handlePageChange={handlePageChange}
-        />
-      )}*/}
     </React.Fragment>
   );
 };

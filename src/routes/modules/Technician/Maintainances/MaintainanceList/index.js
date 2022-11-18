@@ -68,15 +68,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const actions = [
-  {
-    label: 'More Detail',
-  },
-  {
-    label: 'Close',
-  },
-];
-
 const MaintainancesList = ({
   onMaintainanceClick,
   tabValue,
@@ -98,9 +89,7 @@ const MaintainancesList = ({
             </Typography>
             <MaintainanceTabs tabValue={tabValue} onChangeTab={onChangeTab} />
           </Box>
-        }
-        actionsPos="top-corner"
-        actions={actions}>
+        }>
         <Box className={classes.searchAction}>
           <Box className={classes.searchActionBar}>
             <CmtSearch onlyIcon border={false} value={searchText} onChange={handleSearchTextChange} />
