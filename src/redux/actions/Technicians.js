@@ -10,7 +10,7 @@ import {
   GET_ALL_TECHNICIANS,
 } from '../../@jumbo/constants/ActionTypes';
 
-export const getTechnicians = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
+export const getTechnicians = (searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
     axios

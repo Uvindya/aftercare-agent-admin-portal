@@ -4,14 +4,13 @@ import {
   GET_ALL_PRODUCTS,
   DELETE_BULK_PRODUCTS,
   DELETE_PRODUCT,
-  EDIT_PRODUCT,
   GET_PRODUCTS,
   SET_PRODUCT_DETAILS,
   SET_FULL_PRODUCT_DETAILS,
   GET_MY_PRODUCTS,
 } from '../../@jumbo/constants/ActionTypes';
 
-export const getProducts = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
+export const getProducts = (searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
     axios

@@ -19,40 +19,6 @@ import ProductDetailView from './ProductDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportProducts from './ImportProducts';
 
-const headers = [
-  {
-    id: 'id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Name',
-  },
-  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
-  {
-    id: 'warrentyPeriod',
-    numeric: false,
-    disablePadding: false,
-    label: 'Warrenty Period',
-  },
-  {
-    id: 'clientName',
-    numeric: false,
-    disablePadding: false,
-    label: 'Client Name',
-  },
-  {
-    id: 'serialNumber',
-    numeric: false,
-    disablePadding: false,
-    label: 'Serial Number',
-  },
-];
-
 const ProductsModule = () => {
   const classes = useStyles();
   const { products } = useSelector(({ productsReducer }) => productsReducer);
@@ -63,7 +29,6 @@ const ProductsModule = () => {
   const [openProductDialog, setOpenProductDialog] = useState(false);
   const [productsFetched, setProductsFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
-  const [filterOptions, setFilterOptions] = React.useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -74,10 +39,9 @@ const ProductsModule = () => {
   useEffect(() => {
     dispatch(
       getProducts(
-        filterOptions,
         debouncedSearchTerm,
         data => {
-          setFilterApplied(!!filterOptions.length || !!debouncedSearchTerm);
+          setFilterApplied(!!debouncedSearchTerm);
           setProductsFetched(true);
           setTotalElements(data.totalElements);
         },
@@ -85,7 +49,7 @@ const ProductsModule = () => {
         rowsPerPage,
       ),
     );
-  }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
+  }, [dispatch, debouncedSearchTerm, page, rowsPerPage]);
 
   const updateProductTableInfoCallBack = data => {
     setTotalElements(data.totalElements);
@@ -149,15 +113,13 @@ const ProductsModule = () => {
       <Paper className={classes.paper}>
         <ProductTableToolbar
           onProductAdd={setOpenProductDialog}
-          filterOptions={filterOptions}
-          setFilterOptions={setFilterOptions}
           onProductImport={setOpenImportProductDialog}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <ProductTableHead headers={headers} />
+            <ProductTableHead />
             <TableBody>
               {!!products.length ? (
                 products.map((row, index) => (

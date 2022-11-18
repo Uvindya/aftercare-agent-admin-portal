@@ -19,30 +19,6 @@ import useStyles from './index.style';
 import ClientDetailView from './ClientDetailView';
 import NoRecordFound from './NoRecordFound';
 
-const headers = [
-  {
-    id: 'id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Name',
-  },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
-  {
-    id: 'primaryPhoneNo',
-    numeric: false,
-    disablePadding: false,
-    label: 'Primary Phone No',
-  },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-];
-
 const ClientsModule = () => {
   const classes = useStyles();
   const { clients } = useSelector(({ clientsReducer }) => clientsReducer);
@@ -54,7 +30,6 @@ const ClientsModule = () => {
   const [openImportClientDialog, setOpenImportClientDialog] = useState(false);
   const [clientsFetched, setClientsFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
-  const [filterOptions, setFilterOptions] = React.useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -64,10 +39,9 @@ const ClientsModule = () => {
   useEffect(() => {
     dispatch(
       getClients(
-        filterOptions,
         debouncedSearchTerm,
         data => {
-          setFilterApplied(!!filterOptions.length || !!debouncedSearchTerm);
+          setFilterApplied(!!debouncedSearchTerm);
           setClientsFetched(true);
           setTotalElements(data.totalElements);
         },
@@ -75,7 +49,7 @@ const ClientsModule = () => {
         rowsPerPage,
       ),
     );
-  }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
+  }, [dispatch, debouncedSearchTerm, page, rowsPerPage]);
 
   const updateClientTableInfoCallBack = data => {
     setTotalElements(data.totalElements);
@@ -140,14 +114,12 @@ const ClientsModule = () => {
         <ClientTableToolbar
           onClientAdd={setOpenClientDialog}
           onClientImport={setOpenImportClientDialog}
-          filterOptions={filterOptions}
-          setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <ClientTableHead headers={headers} />
+            <ClientTableHead />
             <TableBody>
               {!!clients.length ? (
                 clients.map((row, index) => (

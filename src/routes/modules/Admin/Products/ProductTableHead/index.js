@@ -4,7 +4,41 @@ import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function ProductTableHead({ headers }) {
+const headers = [
+  {
+    id: 'id',
+    numeric: false,
+    disablePadding: false,
+    label: 'ID',
+  },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: false,
+    label: 'Name',
+  },
+  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
+  {
+    id: 'warrentyPeriod',
+    numeric: false,
+    disablePadding: false,
+    label: 'Warrenty Period',
+  },
+  {
+    id: 'clientName',
+    numeric: false,
+    disablePadding: false,
+    label: 'Client Name',
+  },
+  {
+    id: 'serialNumber',
+    numeric: false,
+    disablePadding: false,
+    label: 'Serial Number',
+  },
+];
+
+function ProductTableHead() {
   return (
     <TableHead>
       <TableRow>
@@ -18,9 +52,4 @@ function ProductTableHead({ headers }) {
     </TableHead>
   );
 }
-
-ProductTableHead.propTypes = {
-  headers: PropTypes.array.isRequired,
-};
-
 export default React.memo(ProductTableHead);

@@ -4,13 +4,12 @@ import {
   GET_ALL_CLIENTS,
   DELETE_BULK_CLIENTS,
   DELETE_CLIENT,
-  EDIT_CLIENT,
   GET_CLIENTS,
   SET_CLIENT_DETAILS,
   SET_FULL_CLIENT_DETAILS,
 } from '../../@jumbo/constants/ActionTypes';
 
-export const getClients = (filterOptions = [], searchTerm = '', callbackFun, page, size) => {
+export const getClients = (searchTerm = '', callbackFun, page, size) => {
   return dispatch => {
     dispatch(fetchStart());
     axios

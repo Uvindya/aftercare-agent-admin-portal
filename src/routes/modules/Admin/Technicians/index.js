@@ -19,30 +19,6 @@ import TechnicianDetailView from './TechnicianDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportTechnician from './ImportTechnician';
 
-const headCells = [
-  {
-    id: 'id',
-    numeric: false,
-    disablePadding: false,
-    label: 'ID',
-  },
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Name',
-  },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'erpId', numeric: false, disablePadding: false, label: 'ERP ID' },
-  {
-    id: 'primaryPhoneNo',
-    numeric: false,
-    disablePadding: false,
-    label: 'Primary Phone No',
-  },
-  { id: 'status', numeric: false, disablePadding: false, label: 'Status' },
-];
-
 const TechniciansModule = () => {
   const classes = useStyles();
   const { technicians } = useSelector(({ technicianReducer }) => technicianReducer);
@@ -53,7 +29,6 @@ const TechniciansModule = () => {
   const [openTechnicianDialog, setOpenTechnicianDialog] = useState(false);
   const [techniciansFetched, setTechniciansFetched] = useState(false);
   const [isFilterApplied, setFilterApplied] = useState(false);
-  const [filterOptions, setFilterOptions] = React.useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
@@ -65,10 +40,9 @@ const TechniciansModule = () => {
   useEffect(() => {
     dispatch(
       getTechnicians(
-        filterOptions,
         debouncedSearchTerm,
         data => {
-          setFilterApplied(!!filterOptions.length || !!debouncedSearchTerm);
+          setFilterApplied(!!debouncedSearchTerm);
           setTechniciansFetched(true);
           setTotalElements(data.totalElements);
         },
@@ -76,7 +50,7 @@ const TechniciansModule = () => {
         rowsPerPage,
       ),
     );
-  }, [dispatch, filterOptions, debouncedSearchTerm, page, rowsPerPage]);
+  }, [dispatch, debouncedSearchTerm, page, rowsPerPage]);
 
   const updateTechnicianTableInfoCallBack = data => {
     setTotalElements(data.totalElements);
@@ -141,14 +115,12 @@ const TechniciansModule = () => {
         <TechniciansTableToolbar
           onTechnicianAdd={setOpenTechnicianDialog}
           onTechnicianImport={setOpenImportTechnicianDialog}
-          filterOptions={filterOptions}
-          setFilterOptions={setFilterOptions}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
         <TableContainer className={classes.container}>
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
-            <TechnicianTableHead headers={headCells} />
+            <TechnicianTableHead />
             <TableBody>
               {!!technicians.length ? (
                 technicians.map((row, index) => (
