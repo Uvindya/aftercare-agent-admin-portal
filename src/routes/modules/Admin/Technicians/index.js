@@ -11,6 +11,7 @@ import {
   setCurrentTechnician,
   getDetailedCurrentTechnician,
   setDetailedCurrentTechnician,
+  updateTechnicianStatus,
 } from '../../../../redux/actions/Technicians';
 import AddEditTechnician from './AddEditTechnician';
 import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
@@ -18,6 +19,7 @@ import useStyles from './index.style';
 import TechnicianDetailView from './TechnicianDetailView';
 import NoRecordFound from './NoRecordFound';
 import ImportTechnician from './ImportTechnician';
+import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 
 const TechniciansModule = () => {
   const classes = useStyles();
@@ -32,6 +34,8 @@ const TechniciansModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [selectedTechnicianInfo, setSelectedTechnicianInfo] = useState('');
 
   const [openImportTechnicianDialog, setOpenImportTechnicianDialog] = useState(false);
 
@@ -107,6 +111,20 @@ const TechniciansModule = () => {
     //dispatch(setCurrentClient(null));
   };
 
+  const handleEnableDisable = techInfo => {
+    setOpenConfirmDialog(true);
+    setSelectedTechnicianInfo(techInfo);
+  };
+
+  const handleConfirm = () => {
+    setOpenConfirmDialog(false);
+    dispatch(updateTechnicianStatus(selectedTechnicianInfo, data => updateTechnicianTableInfoCallBack(data)));
+  };
+
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
+  };
+
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -131,7 +149,7 @@ const TechniciansModule = () => {
                     onTechnicianEdit={handleTechnicianEdit}
                     onTechnicianView={handleTechnicianView}
                     isSelected={isSelected}
-                    callbck={updateTechnicianTableInfoCallBack}
+                    onStatusChange={handleEnableDisable}
                   />
                 ))
               ) : (
@@ -176,6 +194,18 @@ const TechniciansModule = () => {
           callbck={updateTechnicianTableInfoCallBack}
         />
       )}
+
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Confirm Action"
+        content={`Are you sure you want to ${selectedTechnicianInfo.status ? 'Enable' : 'Disable'} this Technician ? ${
+          !selectedTechnicianInfo.status
+            ? 'Once you performed this action, Technician cannot access the system'
+            : 'Once you performed this action, Technician can access the system'
+        }`}
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+      />
     </div>
   );
 };

@@ -3,8 +3,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
-import { useDispatch } from 'react-redux';
-import { updateTechnicianStatus } from '../../../../../redux/actions/Technicians';
 
 const getTechnicianActions = technician => {
   const actions = [
@@ -22,18 +20,16 @@ const getTechnicianActions = technician => {
   return actions;
 };
 
-const TechnicianListRow = ({ row, onRowClick, onTechnicianEdit, onTechnicianView, callbck }) => {
-  const dispatch = useDispatch();
-
+const TechnicianListRow = ({ row, onRowClick, onTechnicianEdit, onTechnicianView, onStatusChange }) => {
   const onTechnicianMenuClick = menu => {
     if (menu.action === 'view') {
       onTechnicianView(row);
     } else if (menu.action === 'edit') {
       onTechnicianEdit(row);
     } else if (menu.action === 'disable') {
-      dispatch(updateTechnicianStatus({ username: row.email, status: 'false' }, callbck));
+      onStatusChange({ username: row.email, status: false });
     } else if (menu.action === 'enable') {
-      dispatch(updateTechnicianStatus({ username: row.email, status: 'true' }, callbck));
+      onStatusChange({ username: row.email, status: true });
     }
   };
 

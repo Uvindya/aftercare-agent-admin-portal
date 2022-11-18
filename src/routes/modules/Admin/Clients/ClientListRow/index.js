@@ -3,8 +3,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { MoreHoriz } from '@material-ui/icons';
 import CmtDropdownMenu from '../../../../../@coremat/CmtDropdownMenu';
-import { useDispatch } from 'react-redux';
-import { updateClientStatus } from '../../../../../redux/actions/Clients';
 
 const getClientActions = client => {
   const actions = [
@@ -22,18 +20,16 @@ const getClientActions = client => {
   return actions;
 };
 
-const ClientListRow = ({ row, onRowClick, onClientEdit, onClientView, callbck }) => {
-  const dispatch = useDispatch();
-
+const ClientListRow = ({ row, onRowClick, onClientEdit, onClientView, onStatusChange }) => {
   const onClientMenuClick = menu => {
     if (menu.action === 'view') {
       onClientView(row);
     } else if (menu.action === 'edit') {
       onClientEdit(row);
     } else if (menu.action === 'disable') {
-      dispatch(updateClientStatus({ username: row.email, status: 'false' }, callbck));
+      onStatusChange({ username: row.email, status: false });
     } else if (menu.action === 'enable') {
-      dispatch(updateClientStatus({ username: row.email, status: 'true' }, callbck));
+      onStatusChange({ username: row.email, status: true });
     }
   };
   const clientActions = getClientActions(row);

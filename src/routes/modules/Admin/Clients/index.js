@@ -11,6 +11,7 @@ import {
   setCurrentClient,
   getDetailedCurrentClient,
   setDetailedCurrentClient,
+  updateClientStatus,
 } from '../../../../redux/actions/Clients';
 import AddEditClient from './AddEditClient';
 import ImportClient from './ImportClient';
@@ -18,6 +19,7 @@ import { useDebounce } from '../../../../@jumbo/utils/commonHelper';
 import useStyles from './index.style';
 import ClientDetailView from './ClientDetailView';
 import NoRecordFound from './NoRecordFound';
+import ConfirmDialog from '../../../../@jumbo/components/Common/ConfirmDialog';
 
 const ClientsModule = () => {
   const classes = useStyles();
@@ -33,6 +35,8 @@ const ClientsModule = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [selectedClientInfo, setSelectedClientInfo] = useState('');
 
   const dispatch = useDispatch();
 
@@ -106,6 +110,19 @@ const ClientsModule = () => {
     dispatch(getDetailedCurrentClient(client.id));
   };
 
+  const handleEnableDisable = techInfo => {
+    setOpenConfirmDialog(true);
+    setSelectedClientInfo(techInfo);
+  };
+
+  const handleConfirm = () => {
+    setOpenConfirmDialog(false);
+    dispatch(updateClientStatus(selectedClientInfo, data => updateClientTableInfoCallBack(data)));
+  };
+
+  const handleCancel = () => {
+    setOpenConfirmDialog(false);
+  };
   const isSelected = id => selected.indexOf(id) !== -1;
 
   return (
@@ -130,7 +147,7 @@ const ClientsModule = () => {
                     onClientEdit={handleClientEdit}
                     onClientView={handleClientView}
                     isSelected={isSelected}
-                    callbck={updateClientTableInfoCallBack}
+                    onStatusChange={handleEnableDisable}
                   />
                 ))
               ) : (
@@ -173,6 +190,17 @@ const ClientsModule = () => {
         />
       )}
       {openViewDialog && <ClientDetailView open={openViewDialog} onCloseDialog={handleCloseViewDialog} />}
+      <ConfirmDialog
+        open={openConfirmDialog}
+        title="Confirm Action"
+        content={`Are you sure you want to ${selectedClientInfo.status ? 'Enable' : 'Disable'} this Client ? ${
+          !selectedClientInfo.status
+            ? 'Once you performed this action, Client cannot access the system'
+            : 'Once you performed this action, Client can access the system'
+        }`}
+        onClose={handleCancel}
+        onConfirm={handleConfirm}
+      />
     </div>
   );
 };
