@@ -17,7 +17,7 @@ import MessageIcon from '@material-ui/icons/Message';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, Bar, BarChart } from 'recharts';
 import { getDashboardSummary } from '../../../../redux/actions/Reports';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -153,6 +153,20 @@ const DashboardModule = () => {
     return number < 10 ? '0' + number : number;
   };
 
+  const getFirstMonthFromMonthlySummary = () => {
+    if (monthlySummary && monthlySummary.length > 0) {
+      return monthlySummary[0].name;
+    }
+    return '';
+  };
+
+  const getLastMonthFromMonthlySummary = () => {
+    if (monthlySummary && monthlySummary.length > 0) {
+      return monthlySummary[monthlySummary.length - 1].name;
+    }
+    return '';
+  };
+
   return (
     <PageContainer>
       <GridContainer>
@@ -206,10 +220,10 @@ const DashboardModule = () => {
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} className={classes.order2}>
                   <Typography component="div" variant="h5" className={classes.titleSpace}>
-                    Monthly Summary
+                    Monthly Summary {`(${getFirstMonthFromMonthlySummary()} - ${getLastMonthFromMonthlySummary()})`}
                   </Typography>
                   <ResponsiveContainer width="100%" height={120}>
-                    <AreaChart data={monthlySummary} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                    <BarChart data={monthlySummary} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                       <Tooltip
                         labelStyle={{ color: 'black' }}
                         itemStyle={{ color: '#0795F4' }}
@@ -219,24 +233,10 @@ const DashboardModule = () => {
                         cursor={false}
                       />
 
-                      <XAxis dataKey="name" hide />
-                      <Area
-                        type="monotone"
-                        dataKey="breakdowns"
-                        stackId="1"
-                        stroke="#0795F4"
-                        fillOpacity={1}
-                        fill="#0795F4"
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="maintainances"
-                        stackId="1"
-                        stroke="#9BE7FD"
-                        fillOpacity={1}
-                        fill="#9BE7FD"
-                      />
-                    </AreaChart>
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tickFormatter={d => d.substring(5)} />
+                      <Bar dataKey="breakdowns" stackId="a" fill="#0795F4" barSize={8} />
+                      <Bar dataKey="maintainances" stackId="a" fill="#9BE7FD" barSize={8} />
+                    </BarChart>
                   </ResponsiveContainer>
                 </Grid>
               </GridContainer>
