@@ -132,6 +132,8 @@ const BreakdownListing = () => {
       setOpenConfirmDialog(true);
       setSelectedBreakdownId(breakdown.id);
       setType(type);
+    } else if (type == 'REFRESH') {
+      dispatch(getMyBreakdowns(() => filterMaintainnances()));
     }
   };
 

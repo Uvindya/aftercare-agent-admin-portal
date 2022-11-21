@@ -140,6 +140,8 @@ const MaintainanceListing = () => {
       setOpenConfirmDialog(true);
       setSelectedMaintainanceId(maintainance.id);
       setType(type);
+    } else if (type == 'REFRESH') {
+      dispatch(getMyMaintainances(() => filterMaintainnances()));
     }
   };
 
