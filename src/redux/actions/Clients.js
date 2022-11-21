@@ -90,7 +90,7 @@ export const addNewClient = (client, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New client was added successfully.'));
-          dispatch(getClients([], '', callbackFun, 0, 10));
+          dispatch(getClients('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -115,7 +115,7 @@ export const importClients = (clientFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported clients were added successfully.'));
-          dispatch(getClients([], '', callbackFun, 0, 10));
+          dispatch(getClients('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -140,7 +140,7 @@ export const updateClient = (id, client, callbackFun) => {
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected client was updated successfully.'));
-          dispatch(getClients([], '', callbackFun, 0, 10));
+          dispatch(getClients('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -159,7 +159,7 @@ export const updateClientStatus = (data, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('client status was updated successfully.'));
-          dispatch(getClients([], '', callbackFun, 0, 10));
+          dispatch(getClients('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

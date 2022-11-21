@@ -97,7 +97,7 @@ export const importTechnicians = (technicianFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported technicians were added successfully.'));
-          dispatch(getTechnicians([], '', callbackFun, 0, 10));
+          dispatch(getTechnicians('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -116,7 +116,7 @@ export const addNewTechnician = (technician, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New technician was added successfully.'));
-          dispatch(getTechnicians([], '', callbackFun, 0, 10));
+          dispatch(getTechnicians('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -141,7 +141,7 @@ export const updateTechnician = (id, technician, callbackFun) => {
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected technician was updated successfully.'));
-          dispatch(getTechnicians([], '', callbackFun, 0, 10));
+          dispatch(getTechnicians('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -160,7 +160,7 @@ export const updateTechnicianStatus = (data, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('Technician status was updated successfully.'));
-          dispatch(getTechnicians([], '', callbackFun, 0, 10));
+          dispatch(getTechnicians('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }

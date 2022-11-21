@@ -111,7 +111,7 @@ export const addNewProduct = (product, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('New product was added successfully.'));
-          dispatch(getProducts([], '', callbackFun, 0, 10));
+          dispatch(getProducts('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -136,7 +136,7 @@ export const updateProduct = (id, product, callbackFun) => {
       .then(data => {
         if (data.status === 200) {
           dispatch(fetchSuccess('Selected product was updated successfully.'));
-          dispatch(getProducts([], '', callbackFun, 0, 10));
+          dispatch(getProducts('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -155,7 +155,7 @@ export const updateProductStatus = (data, callbackFun) => {
       .then(response => {
         if (response.status === 200) {
           dispatch(fetchSuccess('product status was updated successfully.'));
-          dispatch(getProducts([], '', callbackFun, 0, 10));
+          dispatch(getProducts('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
@@ -220,7 +220,7 @@ export const importProducts = (productFile, callbackFun) => {
       .then(response => {
         if (response.status === 201) {
           dispatch(fetchSuccess('Imported products were added successfully.'));
-          dispatch(getProducts([], '', callbackFun, 0, 10));
+          dispatch(getProducts('', callbackFun, 0, 10));
         } else {
           dispatch(fetchError('There was something issue in responding server.'));
         }
