@@ -112,11 +112,6 @@ const SignIn = ({ method = CurrentAuthMethod, variant = 'default', wrapperVarian
             <Button id="signin-btn" onClick={onSubmit} variant="contained" color="primary">
               <IntlMessages id="appModule.signIn" />
             </Button>
-            <Box component="p" fontSize={{ xs: 12, sm: 16 }}>
-              <NavLink to="/forgot-password">
-                <IntlMessages id="appModule.forgotPassword" />
-              </NavLink>
-            </Box>
           </Box>
         </form>
 

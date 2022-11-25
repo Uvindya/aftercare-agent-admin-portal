@@ -5,17 +5,17 @@ import IntlMessages from '../../../utils/IntlMessages';
 export const sidebarNavs = {
   ADMIN: [
     {
-      name: <IntlMessages id={'sidebar.dashboard.main'} />,
+      name: 'Home',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.dashboard.sub1'} />,
+          name: 'Dashboard',
           type: 'item',
           icon: <PostAdd />,
           link: '/dashboard',
         },
         {
-          name: <IntlMessages id={'sidebar.dashboard.sub2'} />,
+          name: 'Reports',
           type: 'item',
           icon: <PostAdd />,
           link: '/reports',
@@ -23,11 +23,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.products.main'} />,
+      name: 'Products',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.products.sub'} />,
+          name: 'Manage Products',
           type: 'item',
           icon: <PostAdd />,
           link: '/products',
@@ -35,11 +35,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.maintainance.main'} />,
+      name: 'Maintenances',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.maintainance.sub'} />,
+          name: 'Manage Maintenances',
           type: 'item',
           icon: <PostAdd />,
           link: '/maintainances',
@@ -47,11 +47,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.breakdown.main'} />,
+      name: 'Breakdowns',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.breakdown.sub'} />,
+          name: 'Manage Breakdowns',
           type: 'item',
           icon: <PostAdd />,
           link: '/breakdowns',
@@ -59,11 +59,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.client.main'} />,
+      name: 'Clients',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.client.sub'} />,
+          name: 'Manage Clients',
           type: 'item',
           icon: <PostAdd />,
           link: '/clients',
@@ -71,11 +71,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.technician.main'} />,
+      name: 'Technicians',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.technician.sub'} />,
+          name: 'Manage Technicians',
           type: 'item',
           icon: <PostAdd />,
           link: '/technicians',
@@ -85,11 +85,11 @@ export const sidebarNavs = {
   ],
   TECHNICIAN: [
     {
-      name: <IntlMessages id={'sidebar.dashboard.main'} />,
+      name: 'Home',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.dashboard.sub1'} />,
+          name: 'Dashboard',
           type: 'item',
           icon: <PostAdd />,
           link: '/technician/dashboard',
@@ -97,11 +97,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.maintainance.main'} />,
+      name: 'Maintenaces',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.maintainance.sub'} />,
+          name: 'Manage Maintenaces',
           type: 'item',
           icon: <PostAdd />,
           link: '/technician/maintainances',
@@ -109,11 +109,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.breakdown.main'} />,
+      name: 'Breakdowns',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.breakdown.sub'} />,
+          name: 'Manage Breakdowns',
           type: 'item',
           icon: <PostAdd />,
           link: '/technician/breakdowns',
@@ -123,11 +123,11 @@ export const sidebarNavs = {
   ],
   CLIENT: [
     {
-      name: <IntlMessages id={'sidebar.dashboard.main'} />,
+      name: 'Home',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.dashboard.sub1'} />,
+          name: 'Dashboard',
           type: 'item',
           icon: <PostAdd />,
           link: '/client/dashboard',
@@ -135,11 +135,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.maintainance.main'} />,
+      name: 'Maintenaces',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.maintainance.sub'} />,
+          name: 'Manage Maintenaces',
           type: 'item',
           icon: <PostAdd />,
           link: '/client/maintainances',
@@ -147,11 +147,11 @@ export const sidebarNavs = {
       ],
     },
     {
-      name: <IntlMessages id={'sidebar.breakdown.main'} />,
+      name: 'Breakdowns',
       type: 'section',
       children: [
         {
-          name: <IntlMessages id={'sidebar.breakdown.sub'} />,
+          name: 'Manage Breakdowns',
           type: 'item',
           icon: <PostAdd />,
           link: '/client/breakdowns',

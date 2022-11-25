@@ -15,7 +15,7 @@ export const getMaintainances = (filterOptions = [], searchTerm = '', callbackFu
     dispatch(fetchStart());
     axios
       .get('/tasks/maintainances', {
-        params: { page, size, searchTerm, sort: 'modifiedAt,desc' },
+        params: { page, size, searchTerm, sort: 'modified_at,desc' },
       })
       .then(response => {
         if (response.status === 200) {

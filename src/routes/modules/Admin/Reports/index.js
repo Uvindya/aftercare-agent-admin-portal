@@ -101,26 +101,22 @@ const ReportListing = () => {
     {
       name: 'Breakdown Report',
       type: 'BR',
-      description:
-        'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
+      description: 'Using this, You can generate a Breakdown Report for seleted date range',
     },
     {
       name: 'Maintenance Report',
       type: 'MR',
-      description:
-        'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
+      description: 'Using this, You can generate a Maintenance Report for seleted date range',
     },
     {
       name: 'Technician Worksheet',
       type: 'TWS',
-      description:
-        'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
+      description: 'Using this, You can generate a technician Worksheet for seleted date range',
     },
     {
       name: 'Upcomming Maintenance Report',
       type: 'UMR',
-      description:
-        'Some description about the card. This widget could be used to describe a project, a product, users profile or may be more.',
+      description: 'Using this, You can generate Upcoming Maintenance Report for seleted date range',
     },
   ];
 

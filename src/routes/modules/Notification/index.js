@@ -66,7 +66,7 @@ const HeaderNotifications = () => {
     if (notifications.length === 0) {
       dispatch(getNotificationCount());
       setInterval(() => {
-        dispatch(getNotificationCount());
+        if (!window.location.pathname.includes('signin')) dispatch(getNotificationCount());
       }, 10000);
     }
   }, [dispatch, notifications, notificationCount]);
