@@ -170,6 +170,19 @@ export const sidebarNavs = {
         },
       ],
     },
+
+    /*{
+      name: 'ClientProducts',
+      type: 'section',
+      children: [
+        {
+          name: 'Client Products',
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/client/products',
+        },
+      ],
+    },*/
   ],
 };
 

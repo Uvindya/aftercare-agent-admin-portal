@@ -19,6 +19,7 @@ import Error404 from './Pages/404';
 import Login from './Auth/Login';
 import ForgotPasswordPage from './Auth/ForgotPassword';
 import TechnicianMyProfile from './modules/Technician/MyProfile';
+import ClientProductModule from './modules/Client/ClientProducts';
 
 const RestrictedRoute = ({ component: Component, permission, ...rest }) => {
   const { authUser } = useSelector(({ auth }) => auth);
@@ -82,6 +83,7 @@ const Routes = () => {
         <RestrictedRoute path="/client/maintainances" component={ClientMaintainanceModule} permission="CLIENT" />
         <RestrictedRoute path="/client/breakdowns" component={ClientBreakdownModule} permission="CLIENT" />
         <RestrictedRoute path="/client/dashboard" component={ClientDashboardModule} permission="CLIENT" />
+        <RestrictedRoute path="/client/products" component={ClientProductModule} permission="CLIENT" />
         <Route path="/signin" component={Login} />
         <Route path="/forgot-password" component={ForgotPasswordPage} />
         <Route component={Error404} />

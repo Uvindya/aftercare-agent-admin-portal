@@ -16,6 +16,7 @@ const INIT_STATE = {
   myProducts: [],
   currentProduct: null,
   detailedCurrentProduct: null,
+  allMyProducts: [],
 };
 
 export default (state = INIT_STATE, action) => {
@@ -35,6 +36,7 @@ export default (state = INIT_STATE, action) => {
     case GET_MY_PRODUCTS: {
       return {
         ...state,
+        allMyProducts: action.payload,
         myProducts: action.payload.map(p => {
           return { id: p.id, key: `${p.name} - ${p.erpId}` };
         }),
