@@ -170,6 +170,18 @@ export const sidebarNavs = {
         },
       ],
     },
+    /*{
+      name: 'ResetPassWord',
+      type: 'section',
+      children: [
+        {
+          name: 'Reset Password',
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/client/resetpassword',
+        },
+      ],
+    },*/
 
     /*{
       name: 'ClientProducts',

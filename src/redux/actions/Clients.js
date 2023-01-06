@@ -209,3 +209,22 @@ export const deleteClient = (clientId, callbackFun) => {
       });
   };
 };
+
+export const changePassword = (data, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/users/clients/resetpassword`, data)
+      .then(data => {
+        if (data.status === 200) {
+          dispatch(fetchSuccess('Password was updated successfully.'));
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};
