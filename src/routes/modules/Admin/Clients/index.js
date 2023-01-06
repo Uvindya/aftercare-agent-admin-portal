@@ -12,6 +12,7 @@ import {
   getDetailedCurrentClient,
   setDetailedCurrentClient,
   updateClientStatus,
+  resetPassword,
 } from '../../../../redux/actions/Clients';
 import AddEditClient from './AddEditClient';
 import ImportClient from './ImportClient';
@@ -36,6 +37,8 @@ const ClientsModule = () => {
   const [totalElements, setTotalElements] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  // 4. add reset confirmation state true/false
+  const [openResetConfirmDialog, setOpenResetConfirmDialog] = useState(false);
   const [selectedClientInfo, setSelectedClientInfo] = useState('');
 
   const dispatch = useDispatch();
@@ -115,13 +118,30 @@ const ClientsModule = () => {
     setSelectedClientInfo(techInfo);
   };
 
+  // 5. add reset function for dot 3 param
+  const handleReset = clientInfo => {
+    setOpenResetConfirmDialog(true);
+    setSelectedClientInfo(clientInfo);
+  };
+
   const handleConfirm = () => {
     setOpenConfirmDialog(false);
     dispatch(updateClientStatus(selectedClientInfo, data => updateClientTableInfoCallBack(data)));
   };
 
+  // 8 add confirm function for confirmation
+  const handleConfirmReset = () => {
+    setOpenResetConfirmDialog(false);
+    dispatch(resetPassword(selectedClientInfo.id));
+  };
+
   const handleCancel = () => {
     setOpenConfirmDialog(false);
+  };
+
+  // 9 add cancel function for confirmation
+  const handleCancelReset = () => {
+    setOpenResetConfirmDialog(false);
   };
   const isSelected = id => selected.indexOf(id) !== -1;
 
@@ -138,7 +158,8 @@ const ClientsModule = () => {
           <Table stickyHeader className={classes.table} aria-labelledby="tableTitle" aria-label="sticky enhanced table">
             <ClientTableHead />
             <TableBody>
-              {!!clients.length ? (
+              {// 6. onPasswordReset param with value of 5 function
+              !!clients.length ? (
                 clients.map((row, index) => (
                   <ClientListRow
                     key={index}
@@ -148,6 +169,7 @@ const ClientsModule = () => {
                     onClientView={handleClientView}
                     isSelected={isSelected}
                     onStatusChange={handleEnableDisable}
+                    onPasswordReset={handleReset}
                   />
                 ))
               ) : (
@@ -200,6 +222,16 @@ const ClientsModule = () => {
         }`}
         onClose={handleCancel}
         onConfirm={handleConfirm}
+      />
+      {
+        // 7 add confirmation with step 4 param
+      }
+      <ConfirmDialog
+        open={openResetConfirmDialog}
+        title="Confirm Action"
+        content={'Are you sure you want to Reset Password for this Client ?'}
+        onClose={handleCancelReset}
+        onConfirm={handleConfirmReset}
       />
     </div>
   );

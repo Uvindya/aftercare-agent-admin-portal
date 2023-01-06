@@ -228,3 +228,23 @@ export const changePassword = (data, callbackFun) => {
       });
   };
 };
+
+// 10 reset pass action
+export const resetPassword = (id, callbackFun) => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .put(`/users/clients/resetpassword/${id}`)
+      .then(data => {
+        if (data.status === 200) {
+          dispatch(fetchSuccess('Password was reset successfully.'));
+          if (callbackFun) callbackFun();
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};

@@ -8,6 +8,8 @@ const getClientActions = client => {
   const actions = [
     { action: 'view', label: 'View' },
     { action: 'edit', label: 'Edit' },
+    //1. add reset action to 3 dots
+    //{ action: 'reset', label: 'Reset Password'  },
   ];
   if (client.status) {
     actions.push({ action: 'disable', label: 'Disable' });
@@ -20,7 +22,8 @@ const getClientActions = client => {
   return actions;
 };
 
-const ClientListRow = ({ row, onRowClick, onClientEdit, onClientView, onStatusChange }) => {
+// 2. add onPasswordReset param
+const ClientListRow = ({ row, onRowClick, onClientEdit, onClientView, onStatusChange, onPasswordReset }) => {
   const onClientMenuClick = menu => {
     if (menu.action === 'view') {
       onClientView(row);
@@ -30,6 +33,9 @@ const ClientListRow = ({ row, onRowClick, onClientEdit, onClientView, onStatusCh
       onStatusChange({ username: row.email, status: false });
     } else if (menu.action === 'enable') {
       onStatusChange({ username: row.email, status: true });
+    } else if (menu.action === 'reset') {
+      // 3. add reset action
+      onPasswordReset(row);
     }
   };
   const clientActions = getClientActions(row);
