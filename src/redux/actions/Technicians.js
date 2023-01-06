@@ -210,3 +210,22 @@ export const deleteTechnician = (technicianId, callbackFun) => {
       });
   };
 };
+export const getMyProfile = callbackFun => {
+  return dispatch => {
+    dispatch(fetchStart());
+    axios
+      .get('/users/technicians/profile')
+      .then(response => {
+        if (response.status === 200) {
+          dispatch(fetchSuccess());
+          dispatch({ type: 'GET_MY_PROFILE', payload: response.data });
+          if (callbackFun) callbackFun(response.data);
+        } else {
+          dispatch(fetchError('There was something issue in responding server.'));
+        }
+      })
+      .catch(error => {
+        dispatch(fetchError('There was something issue in responding server'));
+      });
+  };
+};

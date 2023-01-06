@@ -120,6 +120,18 @@ export const sidebarNavs = {
         },
       ],
     },
+    /* {
+      name: 'MyProfile',
+      type: 'section',
+      children: [
+        {
+          name: 'My Profile',
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/technician/profile',
+        },
+      ],
+    },*/
   ],
   CLIENT: [
     {

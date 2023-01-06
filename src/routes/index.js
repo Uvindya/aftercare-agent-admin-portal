@@ -18,6 +18,7 @@ import ClientBreakdownModule from './modules/Client/Breakdowns';
 import Error404 from './Pages/404';
 import Login from './Auth/Login';
 import ForgotPasswordPage from './Auth/ForgotPassword';
+import TechnicianMyProfile from './modules/Technician/MyProfile';
 
 const RestrictedRoute = ({ component: Component, permission, ...rest }) => {
   const { authUser } = useSelector(({ auth }) => auth);
@@ -77,6 +78,7 @@ const Routes = () => {
         <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/breakdowns" component={TechBreakdownModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/dashboard" component={TechnicianDashboardModule} permission="TECHNICIAN" />
+        <RestrictedRoute path="/technician/profile" component={TechnicianMyProfile} permission="TECHNICIAN" />
         <RestrictedRoute path="/client/maintainances" component={ClientMaintainanceModule} permission="CLIENT" />
         <RestrictedRoute path="/client/breakdowns" component={ClientBreakdownModule} permission="CLIENT" />
         <RestrictedRoute path="/client/dashboard" component={ClientDashboardModule} permission="CLIENT" />
