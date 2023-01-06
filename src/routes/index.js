@@ -21,6 +21,7 @@ import ForgotPasswordPage from './Auth/ForgotPassword';
 import TechnicianMyProfile from './modules/Technician/MyProfile';
 import ClientProductModule from './modules/Client/ClientProducts';
 import ResetPassWord from './modules/Client/ResetPassword';
+import ClientDropDown from './modules/Admin/ClientDropDown';
 
 const RestrictedRoute = ({ component: Component, permission, ...rest }) => {
   const { authUser } = useSelector(({ auth }) => auth);
@@ -77,6 +78,7 @@ const Routes = () => {
         <RestrictedRoute path="/reports" component={ReportModule} permission="ADMIN" />
         <RestrictedRoute path="/technicians" component={TechnicianModule} permission="ADMIN" />
         <RestrictedRoute path="/products" component={ProductModule} permission="ADMIN" />
+        <RestrictedRoute path="/dropdown" component={ClientDropDown} permission="ADMIN" />
         <RestrictedRoute path="/technician/maintainances" component={TechMaintainanceModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/breakdowns" component={TechBreakdownModule} permission="TECHNICIAN" />
         <RestrictedRoute path="/technician/dashboard" component={TechnicianDashboardModule} permission="TECHNICIAN" />

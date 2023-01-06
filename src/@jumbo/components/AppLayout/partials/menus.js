@@ -68,6 +68,12 @@ export const sidebarNavs = {
           icon: <PostAdd />,
           link: '/clients',
         },
+        /*{
+          name: 'Dropdown Clients',
+          type: 'item',
+          icon: <PostAdd />,
+          link: '/dropdown',
+        },*/
       ],
     },
     {
